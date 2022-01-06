@@ -37,5 +37,5 @@ git sparse-checkout set ketch-plugin/ketch-custom-consent-plugin
 
 7. Pull folders
 ```
-git pull origin master
+git pull origin main
 ```
