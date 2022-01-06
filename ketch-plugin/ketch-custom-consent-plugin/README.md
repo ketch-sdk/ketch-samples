@@ -128,6 +128,8 @@ git clone <repo>
 npm install
 ```
 
+- Replace the Ketch Smart Tag within `index.html` with your tag.
+
 - Run the app
 ```
 npm run dev
