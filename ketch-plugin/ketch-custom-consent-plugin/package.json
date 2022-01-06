@@ -1,0 +1,26 @@
+{
+  "name": "ketch-custom-ui-sample",
+  "version": "1.0.0",
+  "description": "",
+  "source": "src/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rimraf dist",
+    "tsc": "tsc",
+    "dev": "parcel serve -p 8000",
+    "start": "parcel -p 8000"
+  },
+  "author": "Ryan Overton",
+  "license": "ISC",
+  "dependencies": {
+    "@ketch-sdk/ketch-tag": "^1.0.3",
+    "rimraf": "^3.0.2"
+  },
+  "devDependencies": {
+    "@parcel/transformer-typescript-tsc": "^2.0.1",
+    "@tsconfig/recommended": "^1.0.1",
+    "@types/typescript": "^2.0.0",
+    "parcel": "^2.0.1",
+    "typescript": "^4.5.4"
+  }
+}
