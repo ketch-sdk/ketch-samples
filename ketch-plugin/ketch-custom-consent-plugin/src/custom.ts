@@ -13,34 +13,34 @@ const OptOutPlugin: Plugin = {
         host.getConsent().then(consent => { 
             _consents = consent; 
             UpdateOptOutCheckBox(); 
-        });
+        }).catch(err => console.log(err));
         
         // Add event listener to opt-out button
-        let elem = document.getElementById('opt-out-button');
+        const elem = document.getElementById('opt-out-button');
         if (elem) {        
-            elem.addEventListener('click', async () => {
-                UpdateConsent();
-            })
+            elem.addEventListener('click', () => {
+                UpdateConsent().catch(err => console.log(err));
+            });
         }
     }
 }
 
 // Update opt-out checkbox based on consent
 const UpdateOptOutCheckBox = () => {
-    let purposeKeys = Object.keys(_consents.purposes);
-    let elem = <HTMLInputElement> document.getElementById('opt-out-choice');
+    const purposeKeys = Object.keys(_consents.purposes);
+    const elem = <HTMLInputElement> document.getElementById('opt-out-choice');
     if (elem) {
         elem.checked = !_consents.purposes[purposeKeys[0]];
     }
 }
 
 // Update consent based on opt-out checkbox
-const UpdateConsent = () => {
-    let elem = <HTMLInputElement> document.getElementById('opt-out-choice');
-    for (let p of Object.keys(_consents.purposes)) {
+const UpdateConsent = async () => {
+    const elem = <HTMLInputElement> document.getElementById('opt-out-choice');
+    for (const p of Object.keys(_consents.purposes)) {
         _consents.purposes[p] = !elem.checked;
     }
-    _host.changeConsent(_consents);    
+    await _host.changeConsent(_consents);    
     console.log('Update consent fired');
 }
 
@@ -49,7 +49,7 @@ const UpdateConsent = () => {
 // Register the custom plugin with Ketch
 declare global {
     interface Window {
-      semaphore: any[]
+      semaphore: unknown[]
     }
 }
 
