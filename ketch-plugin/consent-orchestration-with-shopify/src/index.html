@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <!--Mock Shopify library because this is not a REAL Shopify site-->
+        <script>
+            window.Shopify = {
+                'loadFeatures': function(features, callback) {
+                    console.log('Mock Shopify loadFeatures method called');
+                    if (callback) {
+                        callback();
+                    }
+                },
+                'customerPrivacy' : {
+                    'setTrackingConsent': function(consent) {
+                        console.log('Mock Shopify set tracking consent to ' + consent);
+                    }
+                }
+            }
+        </script>
+        
+        <!-- Load Ketch Smart Tag-->
+        <script>(function () {var a=document.createElement("script");a.type="text/javascript",a.src="https://global.ketchcdn.com/web/v1/config/organization_code/property_code/boot.js",a.defer=a.async=!0,document.getElementsByTagName("head")[0].appendChild(a),window.semaphore=window.semaphore||[];})();
+        </script>
+
+        <!-- Add consent orchestration with shopify logic -->
+        <script type="text/javascript" src="./consent-orchestration-with-shopify.js"></script>
+    </head>
+    <body>
+        <h1>If only I was a Shopify site 😜</h1>        
+    </body>
+    <footer><a href="#" onclick="window.semaphore.push(['showPreferences'])">Privacy Settings</a></footer>
+</html>
