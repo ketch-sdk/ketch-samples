@@ -1,3 +1,4 @@
 # Ketch iOS Samples
 
-## Future home of samples showing how to use the Ketch iOS SDK
+- [Using the Ketch Smart Tag within a storyboard based Swift project](./iOS%20Ketch%20Pref%20Center%20using%20Storyboard/)
+- [Using the Ketch Smart Tag within a SwiftUI based Swift project](./iOS%20Ketch%20Pref%20Center%20using%20SwiftUI/)
