@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.webkit.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -53,7 +52,6 @@ class KetchPrefCenter : AppCompatActivity() {
         //receive console messages from the WebView
         myWebView.webChromeClient = object: WebChromeClient() {
             override fun onConsoleMessage(consoleMessage: ConsoleMessage): Boolean {
-                Log.i("WebViewConsole", consoleMessage.message())
                 return true
             }
         }

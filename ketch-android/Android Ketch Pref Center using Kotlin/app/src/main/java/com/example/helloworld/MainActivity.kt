@@ -3,10 +3,7 @@ package com.example.helloworld
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.Button
-import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -23,10 +20,8 @@ class MainActivity : AppCompatActivity() {
         val startForResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    Log.i("result",result.toString());
                     val intent = result.data
                     consent = (intent?.getSerializableExtra("consent") as? Consent)
-                    Log.i("Main:analytics", consent?.purposes?.analytics.toString())
 
                 }
             }
