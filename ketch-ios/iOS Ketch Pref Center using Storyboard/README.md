@@ -1,6 +1,6 @@
 # Using the Ketch Smart Tag within a Storyboard based Swift project
 
-This example demonstrates how you can use the Ketch Smart Tag within a SwiftUI based iOS application to display the preferences view. It also shows how to pass in an identity and add it to the dataLayer to be picked up by the Ketch Smart Tag.
+This example demonstrates how you can use the Ketch Smart Tag within a storyboard based iOS application to display the preferences view. It also shows how to pass in an identity and add it to the dataLayer to be picked up by the Ketch Smart Tag.
 
 The example utilizes an HTML page embedded into the application, but can easily be substituted to display a similar page hosted on a website. To display the page in the iOS app, it utilizes the WebKit WebView from the WebKit framework.
 
