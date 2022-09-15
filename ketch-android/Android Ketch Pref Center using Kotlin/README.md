@@ -73,7 +73,7 @@ Traditionally, the Ketch Smart Tag will be [exported from the Ketch Property pag
 
         // Add Ketch Smart Tag
         // Replace the org_code below with your organization code.
-        var orgCode = 'thatconf22_demo';
+        var orgCode = 'your_org_code_here';
 
         // Get organization code from query parameters
         //let propertyName = params.get("orgCode");
@@ -386,7 +386,7 @@ class MainActivity : AppCompatActivity() {
         buttonClick.setOnClickListener {
             val intent = Intent(this, KetchPrefCenter::class.java)
             intent.putExtra("property", "web")
-            intent.putExtra("orgCode", "thatconf22_demo")
+            intent.putExtra("orgCode", "your_org_code_here")
         }
     }
 }
