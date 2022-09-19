@@ -3,11 +3,12 @@ package com.example.helloworld
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.widget.Button
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
 
 
 class MainActivity : AppCompatActivity() {
@@ -42,5 +43,5 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-class Identity(val code: String, val value: String) : Serializable {
-}
+@Parcelize
+data class Identity(val code: String, val value: String): Parcelable

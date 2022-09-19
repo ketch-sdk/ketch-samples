@@ -1,6 +1,8 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--
         <script>
             // Get query parameters
             let params = (new URL(document.location)).searchParams;
@@ -8,7 +10,7 @@
             // Get property name from query parameters
             let propertyName = params.get("propertyName") || "web";
             // Get organization code from query parameters
-            //let propertyName = params.get("orgCode");
+            let orgCode = params.get("orgCode");
 
             // Get identities from query string
             let encodedIdentities = params.get("encodedIdentities")
@@ -18,10 +20,6 @@
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push(decodedIdentities);
 
-            // Add Ketch Smart Tag
-            // Replace the org_code below with your organization code.
-            var orgCode = 'your_org_code_here';
-
             var e=document.createElement("script");
             e.type="text/javascript";
             e.src=`https://global.ketchcdn.com/web/v1/config/${orgCode}/${propertyName}/boot.js`;
@@ -29,6 +27,9 @@
             document.getElementsByTagName("head")[0].appendChild(e);
             window.semaphore=window.semaphore||[];
         </script>
+        -->
+
+        <script>!function(){var e=document.createElement("script");e.type="text/javascript",e.src="https://global.ketchcdn.com/web/v2/config/transcenda/website_smart_tag/boot.js",e.defer=e.async=!0,document.getElementsByTagName("head")[0].appendChild(e),window.semaphore=window.semaphore||[]}();</script>
 
         <script>
             // Show the preference center experience
@@ -37,16 +38,15 @@
             // Custom plugin to listen for the closing of the preference center experience
             var custom_plugin = {
                 'init': function(host) {
-                    console.log('plugin initialized');
-                    androidListener.receiveMessage('custom plugin initialized');
+                    androidListener.pluginInitialized();
                 },
                 'experienceHidden': function(host, config, reason) {
                     if ((reason.constructor.name === 'String' && reason === 'setConsent') || reason.constructor.name === 'MouseEvent') {
-                        androidListener.receiveMessage('PreferenceCenterClosed');
+                        androidListener.experienceHidden();
                     }
                 },
                 'consentChanged': function(host, config, consent) {
-                    consentListener.receiveMessage(JSON.stringify(consent));
+                    androidListener.consentChanged(JSON.stringify(consent));
                 }
             }
 
