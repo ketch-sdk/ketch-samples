@@ -11,16 +11,20 @@ import WebKit
 
 struct ContentView: View {
     @State private var showingPopover = false
-    @State private var ids = [Identity(code: "visitorId", value: "user@test.com")]
-    
+
     var body: some View {
-        Text("Hello world!")
-            .padding()
-        Button("Show Preference Center") {
-            showingPopover = true
-        }
-        .popover(isPresented: $showingPopover) {
-            PreferenceView(isPresented: $showingPopover, identities: $ids)
+        VStack(spacing: 10) {
+            Text("Hello world!")
+            Button("Show Preference Center") { showingPopover = true }
+            .sheet(isPresented: $showingPopover) {
+                ConsentView(
+                    config: .init(
+                        propertyName: "website_smart_tag",
+                        orgCode: "transcenda",
+                        identities: [ConsentView.Identity(code: "visitorId", value: "user@test.com")]
+                    )
+                )
+            }
         }
     }
 }
