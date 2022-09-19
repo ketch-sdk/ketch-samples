@@ -1,23 +1,28 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script>
-            // Get query parameters
-            let params = (new URL(document.location)).searchParams;
-            let visitorIdValue = params.get("visitorId");
-            
-            // Add identities to dataLayer
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({visitorId: visitorIdValue});
-            
-            // Add multiple identities
-            //params.foreach((value, key) => {
-            //    window.dataLayer.push({key: value});
-            //}
-        </script>
-        
-        <!-- Insert Ketch Smart Tag here -->
-        <script>!function(){var e=document.createElement("script");e.type="text/javascript",e.src="https://global.ketchcdn.com/web/v1/config/thatconf22_demo/web/boot.js",e.defer=e.async=!0,document.getElementsByTagName("head")[0].appendChild(e),window.semaphore=window.semaphore||[]}();</script>
+            <script>
+                // Get query parameters
+                let params = (new URL(document.location)).searchParams;
+                // Get property name from query parameters
+                let propertyName = params.get("propertyName") || "web";
+                // Get organization code from query parameters
+                let orgCode = params.get("orgCode");
+                // Get identities from query string
+                let visitorIdValue = params.get("visitorId");
+                // Add identities to dataLayer
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({visitorId: visitorIdValue});
+
+                var e=document.createElement("script");
+                e.type="text/javascript";
+                e.src=`https://global.ketchcdn.com/web/v2/config/${orgCode}/${propertyName}/boot.js`;
+                e.defer=e.async=!0;
+                document.getElementsByTagName("head")[0].appendChild(e);
+                window.semaphore=window.semaphore||[];
+            </script>
+
+<!--        <script>!function(){var e=document.createElement("script");e.type="text/javascript",e.src="https://global.ketchcdn.com/web/v1/config/thatconf22_demo/web/boot.js",e.defer=e.async=!0,document.getElementsByTagName("head")[0].appendChild(e),window.semaphore=window.semaphore||[]}();</script>-->
         
         <script>
             // Show the preference center experience
@@ -26,12 +31,15 @@
             // Custom plugin to listen for the closing of the preference center experience
             var custom_plugin = {
                 'init': function(host) {
-                    window.webkit.messageHandlers.iosListener.postMessage('custom plugin initialized');
+                    window.webkit.messageHandlers.iosListener.postMessage({event : 'init'});
                 },
                 'experienceHidden': function(host, config, reason) {
                     if ((reason.constructor.name === 'String' && reason === 'setConsent') || reason.constructor.name === 'MouseEvent') {
-                        window.webkit.messageHandlers.iosListener.postMessage('PreferenceCenterClosed');
+                        window.webkit.messageHandlers.iosListener.postMessage({event : 'PreferenceCenterClosed'});
                     }
+                },
+                'consentChanged': function(host, config, consent) {
+                    window.webkit.messageHandlers.iosListener.postMessage({event : 'consentChanged', consent: consent});
                 }
             }
             

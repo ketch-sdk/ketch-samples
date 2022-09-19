@@ -37,18 +37,28 @@ struct WebView: UIViewRepresentable {
         for identity in identities {
             url = url.appending(identity.code, value: identity.value)
         }
+
+        url = url.appending("propertyName", value: "website_smart_tag")
+        url = url.appending("orgCode", value: "transcenda")
+
         wv?.load(URLRequest(url: url))
     }
     
     class MessageHandler: NSObject, WKScriptMessageHandler {
         @Binding var isPresented: Bool
+
         init(isPresented: Binding<Bool>) {
             self._isPresented = isPresented
         }
+
         func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-            print(message.body)
-            if (message.body as! String == "PreferenceCenterClosed") {
-                isPresented = false;
+            if let payload = message.body as? [String: Any],
+               let event = payload["event"] as? String {
+                switch event {
+                case "PreferenceCenterClosed": isPresented = false
+                case "consentChanged": print(payload["consent"])
+                default: break
+                }
             }
         }
     }
