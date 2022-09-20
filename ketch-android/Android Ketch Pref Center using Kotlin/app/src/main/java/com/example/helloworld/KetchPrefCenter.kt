@@ -61,6 +61,7 @@ class KetchPrefCenter : AppCompatActivity() {
         //receive console messages from the WebView
         myWebView.webChromeClient = object : WebChromeClient() {
             override fun onConsoleMessage(consoleMessage: ConsoleMessage): Boolean {
+                Log.d(TAG, consoleMessage.message())
                 return true
             }
         }
@@ -85,7 +86,7 @@ class KetchPrefCenter : AppCompatActivity() {
         @JavascriptInterface
         fun experienceHidden() {
             val intent = Intent()
-            intent.putExtra("consent", prefCenter.consent)
+            intent.putExtra(CONSENT_KEY, prefCenter.consent)
             prefCenter.setResult(RESULT_OK, intent)
             prefCenter.finish()
         }
@@ -98,5 +99,7 @@ class KetchPrefCenter : AppCompatActivity() {
 
     companion object {
         private val TAG = KetchPrefCenter::class.java.simpleName
+
+        const val CONSENT_KEY = "consent"
     }
 }

@@ -2,13 +2,12 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!--
         <script>
             // Get query parameters
             let params = (new URL(document.location)).searchParams;
 
             // Get property name from query parameters
-            let propertyName = params.get("propertyName") || "web";
+            let propertyName = params.get("propertyName");
             // Get organization code from query parameters
             let orgCode = params.get("orgCode");
 
@@ -27,9 +26,6 @@
             document.getElementsByTagName("head")[0].appendChild(e);
             window.semaphore=window.semaphore||[];
         </script>
-        -->
-
-        <script>!function(){var e=document.createElement("script");e.type="text/javascript",e.src="https://global.ketchcdn.com/web/v2/config/transcenda/website_smart_tag/boot.js",e.defer=e.async=!0,document.getElementsByTagName("head")[0].appendChild(e),window.semaphore=window.semaphore||[]}();</script>
 
         <script>
             // Show the preference center experience
@@ -38,14 +34,17 @@
             // Custom plugin to listen for the closing of the preference center experience
             var custom_plugin = {
                 'init': function(host) {
+                    console.log('pluginInitialized');
                     androidListener.pluginInitialized();
                 },
                 'experienceHidden': function(host, config, reason) {
-                    if ((reason.constructor.name === 'String' && reason === 'setConsent') || reason.constructor.name === 'MouseEvent') {
+                    console.log('experienceHidden, reason = ' + reason);
+                    if ((reason.constructor.name === 'String' && reason === 'setConsent') || reason.constructor.name === 'PointerEvent') {
                         androidListener.experienceHidden();
                     }
                 },
                 'consentChanged': function(host, config, consent) {
+                    console.log('consentChanged, consent: ' + JSON.stringify(consent));
                     androidListener.consentChanged(JSON.stringify(consent));
                 }
             }

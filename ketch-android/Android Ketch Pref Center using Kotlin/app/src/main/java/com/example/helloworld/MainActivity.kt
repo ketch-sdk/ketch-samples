@@ -3,16 +3,15 @@ package com.example.helloworld
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
+import android.util.Log
 import android.widget.Button
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.parcel.Parcelize
 
 
 class MainActivity : AppCompatActivity() {
-    var consent:Consent? = null
+    var consent: Consent? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -22,8 +21,11 @@ class MainActivity : AppCompatActivity() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     val intent = result.data
-                    consent = (intent?.getSerializableExtra("consent") as? Consent)
-
+                    consent = intent?.getParcelableExtra(KetchPrefCenter.CONSENT_KEY)
+                    Log.d(TAG, "Consent: ")
+                    consent?.purposes?.forEach {
+                        Log.d(TAG, " ${it.key} = ${it.value}")
+                    }
                 }
             }
 
@@ -32,16 +34,22 @@ class MainActivity : AppCompatActivity() {
 
             // identities to be passed to the WebView displaying the Ketch Preference Center
             val identities = ArrayList<Identity>()
-            identities.add(Identity("visitorId", "android@test.com"))
+            identities.add(Identity(VISITOR_ID_KEY, "android@test.com"))
 
             val intent = Intent(this, KetchPrefCenter::class.java)
-            intent.putExtra("identities", identities)
-            intent.putExtra("property", "web")
-            intent.putExtra("orgCode", "thatconf22_demo")
-            startForResult.launch(intent);
+            intent.putExtra(IDENTITIES_KEY, identities)
+            intent.putExtra(ORG_CODE_KEY, "transcenda")
+            intent.putExtra(PROPERTY_KEY, "website_smart_tag")
+            startForResult.launch(intent)
         }
     }
-}
 
-@Parcelize
-data class Identity(val code: String, val value: String): Parcelable
+    companion object {
+        private val TAG = KetchPrefCenter::class.java.simpleName
+
+        const val VISITOR_ID_KEY = "visitorId"
+        const val IDENTITIES_KEY = "identities"
+        const val ORG_CODE_KEY = "orgCode"
+        const val PROPERTY_KEY = "property"
+    }
+}
