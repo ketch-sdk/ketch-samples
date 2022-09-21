@@ -11,7 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 
 
 class MainActivity : AppCompatActivity() {
-    var consent: Consent? = null
+    private val userEmail = "android@test.com"
+
+    private val consentSharedPreferences: ConsentSharedPreferences by lazy {
+        ConsentSharedPreferences(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,10 +26,13 @@ class MainActivity : AppCompatActivity() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     val intent = result.data
-                    consent = intent?.getParcelableExtra(KetchPrefCenter.CONSENT_KEY)
-                    Log.d(TAG, "Consent: ")
-                    consent?.purposes?.forEach {
-                        Log.d(TAG, " ${it.key} = ${it.value}")
+                    intent?.getParcelableExtra<Consent>(KetchPrefCenter.CONSENT_KEY)?.let {
+                        Log.d(TAG, "Consent: ")
+                        it.purposes.forEach {
+                            Log.d(TAG, " ${it.key} = ${it.value}")
+                        }
+
+                        consentSharedPreferences.put(userEmail, it)
                     }
                 }
             }
@@ -34,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
             // identities to be passed to the WebView displaying the Ketch Preference Center
             val identities = ArrayList<Identity>()
-            identities.add(Identity(VISITOR_ID_KEY, "android@test.com"))
+            identities.add(Identity(VISITOR_ID_KEY, userEmail))
 
             val intent = Intent(this, KetchPrefCenter::class.java)
             intent.putExtra(IDENTITIES_KEY, identities)
