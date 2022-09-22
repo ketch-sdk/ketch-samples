@@ -1,4 +1,4 @@
-package com.example.helloworld
+package com.ketch.sample.prefcenter
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

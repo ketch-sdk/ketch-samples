@@ -1,4 +1,4 @@
-package com.example.helloworld
+package com.ketch.sample.prefcenter
 
 import android.content.Context
 import android.content.SharedPreferences

@@ -1,17 +1,23 @@
-package com.example.helloworld
+package com.ketch.sample.prefcenter
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.ads.identifier.AdvertisingIdClient
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
-    private val userEmail = "android@test.com"
+    private var advertisingId: String? = null
 
     private val consentSharedPreferences: ConsentSharedPreferences by lazy {
         ConsentSharedPreferences(this)
@@ -21,6 +27,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
+
+        loadAdvertisingId()
 
         val startForResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -32,17 +40,22 @@ class MainActivity : AppCompatActivity() {
                             Log.d(TAG, " ${it.key} = ${it.value}")
                         }
 
-                        consentSharedPreferences.put(userEmail, it)
+                        consentSharedPreferences.put("consent", it)
                     }
                 }
             }
 
         val buttonClick = findViewById<Button>(R.id.button)
         buttonClick.setOnClickListener {
+            if (advertisingId.isNullOrEmpty()) {
+                Toast.makeText(this, R.string.cannot_get_advertising_id_toast, Toast.LENGTH_LONG)
+                    .show()
+                return@setOnClickListener
+            }
 
             // identities to be passed to the WebView displaying the Ketch Preference Center
             val identities = ArrayList<Identity>()
-            identities.add(Identity(VISITOR_ID_KEY, userEmail))
+            identities.add(Identity(ADVERTISING_ID_KEY, advertisingId!!))
 
             val intent = Intent(this, KetchPrefCenter::class.java)
             intent.putExtra(IDENTITIES_KEY, identities)
@@ -52,10 +65,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun loadAdvertisingId() {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                advertisingId = AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     companion object {
         private val TAG = KetchPrefCenter::class.java.simpleName
 
-        const val VISITOR_ID_KEY = "visitorId"
+        const val ADVERTISING_ID_KEY = "aaid"
         const val IDENTITIES_KEY = "identities"
         const val ORG_CODE_KEY = "orgCode"
         const val PROPERTY_KEY = "property"
