@@ -5,9 +5,9 @@
             let params = (new URL(document.location)).searchParams;
             let propertyName = params.get("propertyName") || "web";
             let orgCode = params.get("orgCode");
-            let visitorIdValue = params.get("visitorId");
+            let advertisingId = params.get("ios_advertising_id");
             window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({visitorId: visitorIdValue});
+            window.dataLayer.push({ios_advertising_id: advertisingId});
 
             var e=document.createElement("script");
             e.type="text/javascript";
@@ -25,8 +25,10 @@
                     window.webkit.messageHandlers.iosListener.postMessage({event : 'init'});
                 },
                 'experienceHidden': function(host, config, reason) {
-                    if ((reason.constructor.name === 'String' && reason === 'setConsent') || reason.constructor.name === 'MouseEvent') {
-                        window.webkit.messageHandlers.iosListener.postMessage({event : 'PreferenceCenterClosed'});
+                    if (reason.constructor.name === 'String' && reason === 'setConsent') {
+                        window.webkit.messageHandlers.iosListener.postMessage({event : 'PreferenceCenterSubmit'});
+                    } else if (reason.constructor.name === 'MouseEvent') {
+                        window.webkit.messageHandlers.iosListener.postMessage({event : 'PreferenceCenterExit'});
                     }
                 },
                 'consentChanged': function(host, config, consent) {

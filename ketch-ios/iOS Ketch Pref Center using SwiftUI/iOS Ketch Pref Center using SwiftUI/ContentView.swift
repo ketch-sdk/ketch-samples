@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
-import UIKit
-import WebKit
+import AdSupport
+import AppTrackingTransparency
+
+private var advertisingId: UUID?
 
 struct ContentView: View {
     @State private var showingPopover = false
@@ -15,16 +17,23 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 10) {
             Text("Hello world!")
-            Button("Show Preference Center") { showingPopover = true }
-            .sheet(isPresented: $showingPopover) {
-                ConsentView(
-                    config: .init(
-                        propertyName: "website_smart_tag",
-                        orgCode: "transcenda",
-                        identities: [ConsentView.Identity(code: "visitorId", value: "user@test.com")]
-                    )
-                )
+            Button("Show Preference Center") {
+                ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
+                    if case .authorized = authorizationStatus {
+                        advertisingId = ASIdentifierManager.shared().advertisingIdentifier
+                        showingPopover = true
+                    }
+                }
             }
+        }
+        .sheet(isPresented: $showingPopover) {
+            ConsentView(
+                config: .init(
+                    propertyName: "website_smart_tag",
+                    orgCode: "transcenda",
+                    identities: [.advertisingIdentifier(advertisingId!)]
+                )
+            )
         }
     }
 }

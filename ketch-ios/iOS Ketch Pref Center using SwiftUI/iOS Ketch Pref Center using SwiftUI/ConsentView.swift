@@ -1,8 +1,6 @@
 //
-//  PreferenceView.swift
+//  ConsentView.swift
 //  iOS Ketch Pref Center using SwiftUI
-//
-//  Created by Ryan Overton on 8/31/22.
 //
 
 import SwiftUI
@@ -11,7 +9,7 @@ import WebKit
 struct ConsentView: UIViewRepresentable {
     let config: Config
     @Environment(\.presentationMode) private var presentationMode
-    
+
     func makeUIView(context: Context) -> some UIView {
         let preferences = WKWebpagePreferences()
         preferences.allowsContentJavaScript = true
@@ -74,15 +72,30 @@ extension ConsentView {
         }
     }
 
-    struct Identity {
-        let code: String
-        let value: String
+    enum Identity {
+        case advertisingIdentifier(UUID)
+        case custom(code: String, value: String)
+
+        var code: String {
+            switch self {
+            case .advertisingIdentifier: return "ios_advertising_id"
+            case .custom(let code, _): return code
+            }
+        }
+
+        var value: String {
+            switch self {
+            case .advertisingIdentifier(let value): return value.uuidString
+            case .custom(_, let value): return value
+            }
+        }
     }
 }
 
 private class ConsentHandler: NSObject, WKScriptMessageHandler {
     var onClose: () -> Void
     private let userDefaults: UserDefaults
+    private var consent: [String: Any]?
 
     init(userDefaults: UserDefaults, onClose: @escaping () -> Void) {
         self.onClose = onClose
@@ -94,8 +107,16 @@ private class ConsentHandler: NSObject, WKScriptMessageHandler {
         if let payload = message.body as? [String: Any],
            let event = payload["event"] as? String {
             switch event {
-            case "PreferenceCenterClosed": onClose()
-            case "consentChanged": handleEvent(consent: payload["consent"] as? [String: Any] ?? [:])
+            case "PreferenceCenterSubmit":
+                handleEvent(consent: consent ?? [:])
+                onClose()
+
+            case "PreferenceCenterExit":
+                onClose()
+
+            case "consentChanged":
+                consent = payload["consent"] as? [String : Any]
+
             default: break
             }
         }
@@ -118,7 +139,8 @@ enum TCF_Key {
         "analytics": "analytics_TCF_KEY",
         "behavioral_advertising": "behavioral_advertising_TCF_KEY",
         "email_marketing": "email_marketing_TCF_KEY",
-        "essential_services": "essential_services_TCF_KEY"
+        "essential_services": "essential_services_TCF_KEY",
+        "somepurpose_key": "somepurpose_key_TCF_KEY"
     ]
 
     static func userDefaultsKey(forValue value: String) -> String? {

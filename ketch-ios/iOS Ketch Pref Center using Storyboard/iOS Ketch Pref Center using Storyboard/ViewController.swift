@@ -2,10 +2,12 @@
 //  ViewController.swift
 //  iOS Ketch Pref Center using Storyboard
 //
-//  Created by Ryan Overton on 8/26/22.
-//
 
 import UIKit
+import AdSupport
+import AppTrackingTransparency
+
+private var advertisingId: UUID?
 
 class ViewController: UIViewController {
 
@@ -26,44 +28,28 @@ class ViewController: UIViewController {
     }
     
     @objc private func didTapButton() {
-        
-        // Get URL for index.html page
-        guard let url = Bundle.main.url(forResource: "index", withExtension: "html") else {
-            return
+        ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
+            if case .authorized = authorizationStatus {
+                advertisingId = ASIdentifierManager.shared().advertisingIdentifier
+
+                DispatchQueue.main.async { [weak self] in
+                    self?.showConsent()
+                }
+            }
         }
-        
-        // Add identities to URL
-        let finalUrl = url.appending("visitorId", value: "ryan@test.com")
-        
-        // Create instance of WebViewController
-        let vc = WebViewViewController(url: finalUrl, title: "Preference Center")
-        
-        // Navigate to Preference Center
-        let navVC = UINavigationController(rootViewController: vc)
-        present(navVC, animated: true)
     }
-}
 
-extension URL {
+    private func showConsent() {
+        let vc = ConsentViewController(
+            config: .init(
+                propertyName: "website_smart_tag",
+                orgCode: "transcenda",
+                identities: [.advertisingIdentifier(advertisingId!)]
+            )
+        )
 
-    func appending(_ queryItem: String, value: String?) -> URL {
-
-        guard var urlComponents = URLComponents(string: absoluteString) else { return absoluteURL }
-
-        // Create array of existing query items
-        var queryItems: [URLQueryItem] = urlComponents.queryItems ??  []
-
-        // Create query item
-        let queryItem = URLQueryItem(name: queryItem, value: value)
-
-        // Append the new query item in the existing query items array
-        queryItems.append(queryItem)
-
-        // Append updated query items array in the url component object
-        urlComponents.queryItems = queryItems
-
-        // Returns the url from new url components
-        return urlComponents.url!
+        let navVC = UINavigationController(rootViewController: vc)
+        self.present(navVC, animated: true)
     }
 }
 
