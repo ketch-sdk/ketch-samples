@@ -1,40 +1,209 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <script>
+            // Global variables
+            let tcfApplies = false
+            let ccpaApplies = false
+
+            let currentCCPAString = null;
+            let currentTCFString = null;
+
             // Get query parameters
             let params = (new URL(document.location)).searchParams;
-            let visitorIdValue = params.get("visitorId");
             
+            // Get property name from query parameters
+            let propertyName = params.get("propertyName");
+            // Get organization code from query parameters
+            let orgCode = params.get("orgCode");
+
+            // Get identities from query string
+            let encodedIdentities = params.get("encodedIdentities")
+            let decodedIdentities = atob(encodedIdentities)
+
             // Add identities to dataLayer
             window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({visitorId: visitorIdValue});
-            
-            // Add multiple identities
-            //params.foreach((value, key) => {
-            //    window.dataLayer.push({key: value});
-            //}
-        </script>
-        
-        <!-- Insert Ketch Smart Tag here -->
-        <script>!function(){var e=document.createElement("script");e.type="text/javascript",e.src="https://global.ketchcdn.com/web/v1/config/org_code/property_code/boot.js",e.defer=e.async=!0,document.getElementsByTagName("head")[0].appendChild(e),window.semaphore=window.semaphore||[]}();</script>
-        
-        <script>
+            window.dataLayer.push(decodedIdentities);
+
+            var e=document.createElement("script");
+            e.type="text/javascript";
+            e.src=`https://global.ketchcdn.com/web/v1/config/${orgCode}/${propertyName}/boot.js`;
+            e.defer=e.async=!0;
+            document.getElementsByTagName("head")[0].appendChild(e);
+            window.semaphore=window.semaphore||[];
+
             // Show the preference center experience
             window.semaphore.push(['showPreferences'])
-            
-            // Custom plugin to listen for the closing of the preference center experience
-            var custom_plugin = {
-                'init': function(host) {
-                    window.webkit.messageHandlers.iosListener.postMessage('custom plugin initialized');
-                },
-                'experienceHidden': function(host, config, reason) {
-                    if ((reason.constructor.name === 'String' && reason === 'setConsent') || reason.constructor.name === 'MouseEvent') {
-                        window.webkit.messageHandlers.iosListener.postMessage('PreferenceCenterClosed');
+
+            // helper functions
+            function postNativeMessage(messageName, params) {
+                if (window.androidListener) { // we run on Android
+                    if (messageName in androidListener) {
+                        androidListener[messageName](params);
+                    } else {
+                        console.error("Can't pass message to native code. " + messageName + " handler is not registerred");
+                    }
+                }
+                if (window.webkit && window.webkit.messageHandlers) {  // we run on iOS
+                    if (messageName in window.webkit.messageHandlers) {
+                        window.webkit.messageHandlers[messageName].postMessage(params)
+                    } else {
+                        console.error("Can't pass message to native code. " + messageName + " handler is not registerred");
                     }
                 }
             }
-            
+
+            function isTCF_Active() {
+                return !!window.__tcf__;
+            }
+
+            function isCCPA_Active() {
+                return !!window.__ccpa__;
+            }
+
+            function isTCF_Applies(regulations) {
+                for (const regulation of regulations) {
+                    if (regulation === 'gdpreu') {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            function isCCPA_Applies(regulations) {
+                for (const regulation of regulations) {
+                    if (regulation === 'ccpaca') {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            function buildCCPAString(host, config, consent) {
+                const defaultValue = "1---";
+
+                // early return for some negative cases
+                if (!ccpaApplies) {
+                    return defaultValue;
+                }
+                const canonicalPurposes = config && config.canonicalPurposes
+                if (!canonicalPurposes) {
+                    return defaultValue;
+                }
+
+                // helpers
+                const getOptOutCount = (purpose) => {
+                    let optOutCount = 0
+                    if(!consent.purposes[purpose]) {
+                        optOutCount += 1
+                    }
+                    return optOutCount
+                }
+
+                let isAnalyticsDisabled = false;
+                let isBehavioralAdvertisingDisabled = false;
+                let isDataBrokingDisabled = false;
+
+                // consts
+                let analyticsPurposeCodes = canonicalPurposes['analytics']?.purposeCodes;
+                let behavioralAdvertisingPurposeCodes = canonicalPurposes['behavioral_advertising']?.purposeCodes;
+                let dataBrokingPurposeCodes = canonicalPurposes['data_broking']?.purposeCodes;
+
+                // permit logic
+                analyticsPurposeCodes && analyticsPurposeCodes.map((purpose) => {
+                    let optOutCount = getOptOutCount(purpose)
+                    if(optOutCount === analyticsPurposeCodes?.length) {
+                        isAnalyticsDisabled = true
+                    }
+                })
+                behavioralAdvertisingPurposeCodes && behavioralAdvertisingPurposeCodes.map((purpose) => {
+                    let optOutCount = getOptOutCount(purpose)
+                    if(optOutCount === behavioralAdvertisingPurposeCodes?.length) {
+                        isBehavioralAdvertisingDisabled = true
+                    }
+                })
+
+                dataBrokingPurposeCodes && dataBrokingPurposeCodes.map((purpose) => {
+                    let optOutCount = getOptOutCount(purpose)
+                    if(optOutCount === dataBrokingPurposeCodes?.length) {
+                        isDataBrokingDisabled = true
+                    }
+                })
+
+                const API_VERSION = "1";
+                const LSPA = "N"; // TODO: hardocded for now, need to figure out the proper value
+                const notice = true;
+                const optedOut = isAnalyticsDisabled || isBehavioralAdvertisingDisabled || isDataBrokingDisabled;
+
+                // return uspString
+                // v = version (int)
+                // n = Notice Given (char)
+                // o = OptedOut (char)
+                // l = Lspact (char)
+                return `${API_VERSION}${notice ? 'Y' : 'N'}${optedOut ? 'Y' : 'N'}${LSPA}`
+            }
+
+            function buildTCFString(callback) {
+                const defaultValue = null;
+
+                // early return for some negative cases
+                if (!tcfApplies) {
+                    return callback(defaultValue);
+                }
+                __tcfapi('getInAppTCData', 2, (inAppTCData, success) => {
+                    if(success) {
+                        return callback(inAppTCData['tcString']);
+                    } else {
+                        // TODO: figure out when error state could happen and whether we need to handle this somehow
+                        return callback(defaultValue);
+                    }
+                })
+            }
+
+            // Custom plugin to listen for the closing of the preference center experience
+            var custom_plugin = {
+                'init': function(host, config) {
+                    if (config.regulations) {
+                        if (isCCPA_Active()) { // CCPA init
+                            ccpaApplies = isCCPA_Applies(config.regulations)
+                        }
+                        if (isTCF_Active()) { // TCF init
+                            tcfApplies = isTCF_Applies(config.regulations)
+                        }
+                    }
+                    console.log('onInit');
+                    postNativeMessage('onInit');
+                },
+                'consentChanged': function(host, config, consent) {
+                    if (isCCPA_Active()) {
+                        currentCCPAString = buildCCPAString(host, config, consent);
+                    }
+                    if (isTCF_Active()) {
+                        buildTCFString(value => {
+                            currentTCFString = value
+
+                            let result = {}
+                            if (isCCPA_Active()) {
+                                result["IABUSPrivacy_String"] = currentCCPAString;
+                            }
+                            if (isTCF_Active()) {
+                                result["IABTCF_TCString"] = currentTCFString;
+                            }
+
+                            console.log('onUpdate, consent: ' + JSON.stringify(result));
+                            postNativeMessage('onUpdate', JSON.stringify(result));
+                        });
+                    }
+                },
+                'experienceHidden': function(host, config, reason) {
+                    console.log('onClose, reason = ' + reason);
+                    if ((reason.constructor.name === 'String' && reason === 'setConsent') || reason.constructor.name === 'PointerEvent') {
+                        postNativeMessage('onClose');
+                    }
+                }
+            }
+
             // Register the custom plugin with the Ketch Smart Tag
             window.semaphore = window.semaphore || [];
             window.semaphore.push(['registerPlugin', custom_plugin]);
@@ -43,4 +212,3 @@
     <body>
     </body>
 </html>
-

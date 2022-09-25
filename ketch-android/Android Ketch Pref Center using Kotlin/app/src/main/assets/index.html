@@ -36,7 +36,24 @@
             // Show the preference center experience
             window.semaphore.push(['showPreferences'])
 
-            // helpers
+            // helper functions
+            function postNativeMessage(messageName, params) {
+                if (window.androidListener) { // we run on Android
+                    if (messageName in androidListener) {
+                        androidListener[messageName](params);
+                    } else {
+                        console.error("Can't pass message to native code. " + messageName + " handler is not registerred");
+                    }
+                }
+                if (window.webkit && window.webkit.messageHandlers) {  // we run on iOS
+                    if (messageName in window.webkit.messageHandlers) {
+                        window.webkit.messageHandlers[messageName].postMessage(params)
+                    } else {
+                        console.error("Can't pass message to native code. " + messageName + " handler is not registerred");
+                    }
+                }
+            }
+
             function isTCF_Active() {
                 return !!window.__tcf__;
             }
@@ -138,7 +155,7 @@
                     if(success) {
                         return callback(inAppTCData['tcString']);
                     } else {
-                        // TODO: figure out when error state could happen and where we need to handle this somehow
+                        // TODO: figure out when error state could happen and whether we need to handle this somehow
                         return callback(defaultValue);
                     }
                 })
@@ -155,8 +172,8 @@
                             tcfApplies = isTCF_Applies(config.regulations)
                         }
                     }
-                    console.log('pluginInitialized');
-                    androidListener.pluginInitialized();
+                    console.log('init');
+                    postNativeMessage('init');
                 },
                 'consentChanged': function(host, config, consent) {
                     if (isCCPA_Active()) {
@@ -174,15 +191,15 @@
                                 result["IABTCF_TCString"] = currentTCFString;
                             }
 
-                            console.log('consentChanged, consent: ' + JSON.stringify(result));
-                            androidListener.consentChanged(JSON.stringify(result));
+                            console.log('onUpdate, consent: ' + JSON.stringify(result));
+                            postNativeMessage('onUpdate', JSON.stringify(result));
                         });
                     }
                 },
                 'experienceHidden': function(host, config, reason) {
-                    console.log('experienceHidden, reason = ' + reason);
+                    console.log('onClose, reason = ' + reason);
                     if ((reason.constructor.name === 'String' && reason === 'setConsent') || reason.constructor.name === 'PointerEvent') {
-                        androidListener.experienceHidden();
+                        postNativeMessage('onClose');
                     }
                 }
             }

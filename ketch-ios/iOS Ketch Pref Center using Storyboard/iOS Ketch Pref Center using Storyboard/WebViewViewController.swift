@@ -30,7 +30,9 @@ class WebViewViewController: UIViewController {
         configuration.defaultWebpagePreferences = preferences
         
         let userContentController = WKUserContentController()
-        userContentController.add(self, name: "iosListener")
+        userContentController.add(self, name: "onInit")
+        userContentController.add(self, name: "onUpdate")
+        userContentController.add(self, name: "onClose")
         
         configuration.userContentController = userContentController
         
@@ -73,9 +75,15 @@ extension WebViewViewController: WKScriptMessageHandler {
     // will be parsed as a 0 for false and 1 for true in the message's body. See WebKit documentation:
     // https://developer.apple.com/documentation/webkit/wkscriptmessage/1417901-body.
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        print("message:" + (message.body as! String))
-        if (message.body as? String == "PreferenceCenterClosed") {
-                dismiss(animated: true, completion: nil)
+        if message.name == "onInit" {
+            print(message.name)
+        }
+        if message.name == "onUpdate", let messageBody = message.body as? String {
+            print(message.name)
+            print(messageBody)
+        }
+        if message.name == "onClose" {
+            dismiss(animated: true, completion: nil)
         }
     }
 }

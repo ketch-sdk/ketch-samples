@@ -86,21 +86,21 @@ class KetchPrefCenter : AppCompatActivity() {
 
     private class PreferenceCenterJavascriptInterface(private val prefCenter: KetchPrefCenter) {
         @JavascriptInterface
-        fun pluginInitialized() {
+        fun onInit() {
             Log.d(TAG, "plugin initialized")
         }
 
         @JavascriptInterface
-        fun experienceHidden() {
+        fun onUpdate(json: String) {
+            prefCenter.consent = Gson().fromJson(json, Consent::class.java)
+        }
+
+        @JavascriptInterface
+        fun onClose() {
             val intent = Intent()
             intent.putExtra(CONSENT_KEY, prefCenter.consent)
             prefCenter.setResult(RESULT_OK, intent)
             prefCenter.finish()
-        }
-
-        @JavascriptInterface
-        fun consentChanged(json: String) {
-            prefCenter.consent = Gson().fromJson(json, Consent::class.java)
         }
     }
 
