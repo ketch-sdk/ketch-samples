@@ -172,8 +172,8 @@
                             tcfApplies = isTCF_Applies(config.regulations)
                         }
                     }
-                    console.log('init');
-                    postNativeMessage('init');
+                    console.log('onInit');
+                    postNativeMessage('onInit');
                 },
                 'consentChanged': function(host, config, consent) {
                     if (isCCPA_Active()) {
