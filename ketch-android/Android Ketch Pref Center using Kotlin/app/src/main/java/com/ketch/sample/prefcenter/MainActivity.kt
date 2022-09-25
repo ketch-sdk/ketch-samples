@@ -38,17 +38,28 @@ class MainActivity : AppCompatActivity() {
                     intent?.getParcelableExtra<Consent>(KetchPrefCenter.CONSENT_KEY)?.let {
                         Log.d(TAG, " IABUSPrivacy_String = ${it.IABUSPrivacy_String}")
                         Log.d(TAG, " IABTCF_TCString = ${it.IABTCF_TCString}")
+                        Log.d(TAG, " IABTCF_gdprApplies = ${it.IABTCF_gdprApplies}")
+
                         with (sharedPreferences.edit()) {
+
                             if (it.IABUSPrivacy_String !== null) {
                                 putString(SHARED_PREFERENCES_CCPA_KEY, it.IABUSPrivacy_String)
+                            } else {
+                                remove(SHARED_PREFERENCES_CCPA_KEY)
                             }
+
                             if (it.IABTCF_TCString !== null) {
                                 putString(SHARED_PREFERENCES_TCF_KEY, it.IABTCF_TCString)
-                                putString(SHARED_PREFERENCES_TCF_GDPR_KEY, "1")
                             } else {
                                 remove(SHARED_PREFERENCES_TCF_KEY)
-                                putString(SHARED_PREFERENCES_TCF_GDPR_KEY, "0")
                             }
+
+                            if (it.IABTCF_gdprApplies !== null) {
+                                putString(SHARED_PREFERENCES_TCF_GDPR_KEY, it.IABTCF_gdprApplies)
+                            } else {
+                                remove(SHARED_PREFERENCES_TCF_GDPR_KEY)
+                            }
+
                             apply()
                         }
                     }

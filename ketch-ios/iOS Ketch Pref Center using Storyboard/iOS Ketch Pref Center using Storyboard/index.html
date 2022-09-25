@@ -1,8 +1,8 @@
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <script>
+    <script>
             // Global variables
             let tcfApplies = false
             let ccpaApplies = false
@@ -12,7 +12,7 @@
 
             // Get query parameters
             let params = (new URL(document.location)).searchParams;
-            
+
             // Get property name from query parameters
             let propertyName = params.get("propertyName");
             // Get organization code from query parameters
@@ -40,7 +40,11 @@
             function postNativeMessage(messageName, params) {
                 if (window.androidListener) { // we run on Android
                     if (messageName in androidListener) {
-                        androidListener[messageName](params);
+                        if (params) {
+                            androidListener[messageName](params);
+                        } else {
+                            androidListener[messageName]();
+                        }
                     } else {
                         console.error("Can't pass message to native code. " + messageName + " handler is not registerred");
                     }
@@ -52,6 +56,18 @@
                         console.error("Can't pass message to native code. " + messageName + " handler is not registerred");
                     }
                 }
+            }
+
+            function getCurrentPolicyStrings() {
+                let result = {}
+                if (isCCPA_Active()) {
+                    result["IABUSPrivacy_String"] = currentCCPAString;
+                }
+                if (isTCF_Active()) {
+                    result["IABTCF_TCString"] = currentTCFString;
+                    result["IABTCF_gdprApplies"] = tcfApplies ? 1 : 0;
+                }
+                return result;
             }
 
             function isTCF_Active() {
@@ -182,24 +198,23 @@
                     if (isTCF_Active()) {
                         buildTCFString(value => {
                             currentTCFString = value
-
-                            let result = {}
-                            if (isCCPA_Active()) {
-                                result["IABUSPrivacy_String"] = currentCCPAString;
-                            }
-                            if (isTCF_Active()) {
-                                result["IABTCF_TCString"] = currentTCFString;
-                            }
-
-                            console.log('onUpdate, consent: ' + JSON.stringify(result));
-                            postNativeMessage('onUpdate', JSON.stringify(result));
+                            let result = JSON.stringify(getCurrentPolicyStrings())
+                            console.log('onUpdate, consent: ' + result);
+                            postNativeMessage('onUpdate', result);
                         });
                     }
                 },
                 'experienceHidden': function(host, config, reason) {
                     console.log('onClose, reason = ' + reason);
-                    if ((reason.constructor.name === 'String' && reason === 'setConsent') || reason.constructor.name === 'PointerEvent') {
-                        postNativeMessage('onClose');
+                    if ((reason.constructor.name === 'String' && reason === 'setConsent')) { // Save
+                        let result = JSON.stringify(getCurrentPolicyStrings())
+                        console.log('onClose, data: ' + result);
+                        postNativeMessage('onClose', result);
+                    }
+                    if (reason.constructor.name && ['MouseEvent', 'PointerEvent'].includes(reason.constructor.name)) { // Exit
+                        let result = JSON.stringify(getCurrentPolicyStrings())
+                        console.log('onClose, data: ' + result);
+                        postNativeMessage('onClose', result);
                     }
                 }
             }
@@ -208,7 +223,7 @@
             window.semaphore = window.semaphore || [];
             window.semaphore.push(['registerPlugin', custom_plugin]);
         </script>
-    </head>
-    <body>
-    </body>
+</head>
+<body>
+</body>
 </html>

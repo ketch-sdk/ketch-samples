@@ -61,7 +61,7 @@ class KetchPrefCenter : AppCompatActivity() {
         // url = "$url&swb_region=US-CA&swb_show"
 
         // Uncomment this like to force the GDPR regulations for Germany
-        // url = "$url&swb_region=DE"
+        url = "$url&swb_region=DE"
 
         myWebView.loadUrl(url)
 
@@ -96,9 +96,10 @@ class KetchPrefCenter : AppCompatActivity() {
         }
 
         @JavascriptInterface
-        fun onClose() {
+        fun onClose(json: String) {
             val intent = Intent()
             intent.putExtra(CONSENT_KEY, prefCenter.consent)
+            prefCenter.consent = Gson().fromJson(json, Consent::class.java)
             prefCenter.setResult(RESULT_OK, intent)
             prefCenter.finish()
         }
