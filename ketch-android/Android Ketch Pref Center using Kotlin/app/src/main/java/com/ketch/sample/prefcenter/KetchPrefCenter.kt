@@ -36,6 +36,7 @@ class KetchPrefCenter : AppCompatActivity() {
             .addPathHandler("/res/", WebViewAssetLoader.ResourcesPathHandler(this))
             .build()
         myWebView.webViewClient = LocalContentWebViewClient(assetLoader)
+        WebView.setWebContentsDebuggingEnabled(true);
         myWebView.addJavascriptInterface(
             PreferenceCenterJavascriptInterface(this),
             "androidListener"
@@ -55,6 +56,12 @@ class KetchPrefCenter : AppCompatActivity() {
         val encodedIdentities =
             Base64.encodeToString(identitiesJSON.toString().toByteArray(), Base64.DEFAULT)
         url = "$url&encodedIdentities=$encodedIdentities"
+
+        // Uncomment this like to force the CCPA regulations for California
+        // url = "$url&swb_region=US-CA&swb_show"
+
+        // Uncomment this like to force the GDPR regulations for Germany
+        // url = "$url&swb_region=DE"
 
         myWebView.loadUrl(url)
 

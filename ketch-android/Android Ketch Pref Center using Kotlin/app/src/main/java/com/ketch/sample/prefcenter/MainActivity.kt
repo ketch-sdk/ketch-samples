@@ -1,7 +1,9 @@
 package com.ketch.sample.prefcenter
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -18,15 +20,14 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private var advertisingId: String? = null
-
-    private val consentSharedPreferences: ConsentSharedPreferences by lazy {
-        ConsentSharedPreferences(this)
-    }
+    // private  sharedPreferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
+
+        val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
 
         loadAdvertisingId()
 
@@ -35,12 +36,21 @@ class MainActivity : AppCompatActivity() {
                 if (result.resultCode == Activity.RESULT_OK) {
                     val intent = result.data
                     intent?.getParcelableExtra<Consent>(KetchPrefCenter.CONSENT_KEY)?.let {
-                        Log.d(TAG, "Consent: ")
-                        it.purposes.forEach {
-                            Log.d(TAG, " ${it.key} = ${it.value}")
+                        Log.d(TAG, " IABUSPrivacy_String = ${it.IABUSPrivacy_String}")
+                        Log.d(TAG, " IABTCF_TCString = ${it.IABTCF_TCString}")
+                        with (sharedPreferences.edit()) {
+                            if (it.IABUSPrivacy_String !== null) {
+                                putString(SHARED_PREFERENCES_CCPA_KEY, it.IABUSPrivacy_String)
+                            }
+                            if (it.IABTCF_TCString !== null) {
+                                putString(SHARED_PREFERENCES_TCF_KEY, it.IABTCF_TCString)
+                                putString(SHARED_PREFERENCES_TCF_GDPR_KEY, "1")
+                            } else {
+                                remove(SHARED_PREFERENCES_TCF_KEY)
+                                putString(SHARED_PREFERENCES_TCF_GDPR_KEY, "0")
+                            }
+                            apply()
                         }
-
-                        consentSharedPreferences.put("consent", it)
                     }
                 }
             }
@@ -78,7 +88,9 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private val TAG = KetchPrefCenter::class.java.simpleName
-
+        const val SHARED_PREFERENCES_CCPA_KEY = "IABUSPrivacy_String"
+        const val SHARED_PREFERENCES_TCF_KEY = "IABTCF_TCString"
+        const val SHARED_PREFERENCES_TCF_GDPR_KEY = "IABTCF_gdprApplies"
         const val ADVERTISING_ID_KEY = "aaid"
         const val IDENTITIES_KEY = "identities"
         const val ORG_CODE_KEY = "orgCode"
