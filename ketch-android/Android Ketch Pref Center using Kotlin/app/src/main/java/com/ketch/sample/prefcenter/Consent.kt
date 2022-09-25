@@ -13,5 +13,5 @@ data class Consent(
     val IABTCF_TCString: String?,
 
     @SerializedName("IABTCF_gdprApplies")
-    val IABTCF_gdprApplies: String?
+    val IABTCF_gdprApplies: Int?
 ): Parcelable

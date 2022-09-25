@@ -70,19 +70,67 @@ class WebViewViewController: UIViewController {
     }
 }
 
+class MessageJSONModel: Codable {
+    let IABUSPrivacy_String: String
+    let IABTCF_TCString: String
+    let IABTCF_gdprApplies: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case IABUSPrivacy_String
+        case IABTCF_TCString
+        case IABTCF_gdprApplies
+    }
+}
+
 extension WebViewViewController: WKScriptMessageHandler {
     // Capture postMessage() calls inside loaded JavaScript from the webpage. Note that a Boolean
     // will be parsed as a 0 for false and 1 for true in the message's body. See WebKit documentation:
     // https://developer.apple.com/documentation/webkit/wkscriptmessage/1417901-body.
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if message.name == "onInit" {
+            let defaults = UserDefaults.standard
+            let IABUSPrivacy_String = defaults.string(forKey: "IABUSPrivacy_String")
+            let IABTCF_TCString = defaults.string(forKey: "IABTCF_TCString")
+            let IABTCF_gdprApplies = defaults.integer(forKey: "IABTCF_gdprApplies")
+            print(IABUSPrivacy_String)
+            print(IABTCF_TCString)
+            print(IABTCF_gdprApplies)
             print(message.name)
         }
         if message.name == "onUpdate", let messageBody = message.body as? String {
             print(message.name)
             print(messageBody)
         }
-        if message.name == "onClose" {
+        if message.name == "onClose", let messageBody = message.body as? String {
+            print(message.name)
+            print(messageBody)
+            let jsonData = messageBody.data(using: .utf8)
+
+            let jsonDecode = try! JSONDecoder().decode(MessageJSONModel.self, from: jsonData!)
+            let IABUSPrivacy_String = jsonDecode.IABUSPrivacy_String
+            let IABTCF_TCString = jsonDecode.IABTCF_TCString
+            let IABTCF_gdprApplies = jsonDecode.IABTCF_gdprApplies
+            
+            let defaults = UserDefaults.standard
+
+            if (!IABUSPrivacy_String.isEmpty) {
+                defaults.set(IABUSPrivacy_String, forKey: "IABUSPrivacy_String")
+            } else {
+                defaults.removeObject(forKey: "IABUSPrivacy_String")
+            }
+            
+            if (!IABTCF_TCString.isEmpty) {
+                defaults.set(IABTCF_TCString, forKey: "IABTCF_TCString")
+            } else {
+                defaults.removeObject(forKey: "IABTCF_TCString")
+            }
+            
+            if (IABTCF_gdprApplies != nil) {
+                defaults.set(IABTCF_gdprApplies, forKey: "IABTCF_gdprApplies")
+            } else {
+                defaults.removeObject(forKey: "IABTCF_gdprApplies")
+            }
+            
             dismiss(animated: true, completion: nil)
         }
     }

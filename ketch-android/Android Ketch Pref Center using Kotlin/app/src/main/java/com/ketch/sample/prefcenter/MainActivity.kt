@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                             }
 
                             if (it.IABTCF_gdprApplies !== null) {
-                                putString(SHARED_PREFERENCES_TCF_GDPR_KEY, it.IABTCF_gdprApplies)
+                                putInt(SHARED_PREFERENCES_TCF_GDPR_KEY, it.IABTCF_gdprApplies as Int)
                             } else {
                                 remove(SHARED_PREFERENCES_TCF_GDPR_KEY)
                             }
