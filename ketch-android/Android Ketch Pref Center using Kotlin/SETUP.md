@@ -1,8 +1,13 @@
 # Ketch Smart Tag for the Android app
 
-This documentation demonstrates the Ketch Smart Tag usage for the Kotlin based Android application.
+This document demonstrates the Ketch Smart Tag usage for the Kotlin based native Android application.
 
-## Prerequisites
+It covers the storage of the corresponding policy strngs to NSUserDefaults (iOS) and SharedPreferences(Android), 
+as per standards requirements: 
+- [IAB Europe Transparency & Consent Framework](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details)
+- [CCPA Compliance Mechanism](https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/USP%20API.md#in-app-support)
+
+### Prerequisites
 - Registered [Ketch organization account](https://app.ketch.com/settings/organization) 
 - Configured [application property](https://app.ketch.com/deployment/applications) record
 - [Custom identity space](https://docs.ketch.com/hc/en-us/articles/360063594173-Managing-Properties#configuring-data-layer-setup-0-9)
@@ -12,27 +17,81 @@ This documentation demonstrates the Ketch Smart Tag usage for the Kotlin based A
 
 To integrate the Ketch Smart Tag into your Kotlin based Android project follow these steps:
 
-### 1. Copy the integration bridge into an app  
+### Step 1. Copy the integration bridge into an app  
 
 Create `[module]/app/src/main/assets` folder and put the [index.html](./app/src/main/assets/index.html) file there.
 
 The `index.html` file makes use of Android `WebView` and `JavascriptInterface` to 
 communicate back and forth with the native runtime of the Android application.
 
-### 2. Create the Ketch Preferences Center activity with the webview
+### Step 2. Create the activity with the webview
 
-In your application in Android Studio, copy the following files to your package:
+In your application in Android Studio, copy the following files to your module package:
 - [KetchPrefCenter](./app/src/main/java/com/ketch/sample/prefcenter/KetchPrefCenterActivity.kt)
 - [KetchSharedPreferences](./app/src/main/java/com/ketch/sample/prefcenter/KetchSharedPreferences.kt)
 - [Consent](./app/src/main/java/com/ketch/sample/prefcenter/Consent.kt)
 - [Identity](./app/src/main/java/com/ketch/sample/prefcenter/Identity.kt)
 
 The activity and helper classes cover the communication with the JavaScript SDK 
-running inside the webview and storage of the corresponding policy strings as per []() 
+running inside the webview and storage of the corresponding policy strings.
+
+### Step 3. Initialize the activity and helper classes
+
+Initialize the KetchSharedPreferences instance and private member for advertising Id.
+
+Note that you could have 
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+    
+    ...
+    
+    private val sharedPreferences: KetchSharedPreferences by lazy {
+        KetchSharedPreferences(this)
+    }
+
+    private var advertisingId: String? = null
+    ...
+}
+```
+
+Create the activity result handler and add a trigger for the webview with"onCreate()"
+
+The preferences activity is triggered on the button click in this example, but it could also be 
+triggered automatically on application start.
+
+```kotlin
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+
+    ...
+
+    val startForResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    Log.d(TAG, "***** RESULT *****")
+                    Log.d(TAG, "IABUSPrivacy_String: ${sharedPreferences.getUSPrivacyString()}")
+                    Log.d(TAG, "IABTCF_TCString: ${sharedPreferences.getTCFTcString()}")
+                    Log.d(TAG, "IABTCF_gdprApplies: ${sharedPreferences.getTCFGdprApplies()}")
+                }
+            }
+
+    val buttonClick = findViewById<Button>(R.id.button)
+    buttonClick.setOnClickListener {
+        createKetchPrefCenterIntent()?.let { intent ->
+            startForResult.launch(intent)
+        }
+    }
+
+    ...
+}
+```
+
+To keep the activity as configurable as the Ketch Smart Tag on the HTML page, 
+it expects an organization code and property code to be passed in to it. 
+Retrieve these parameters and construct the url for the HTML page created earlier.
 
 
-
-- To keep the activity as configurable as the Ketch Smart Tag on the HTML page, it expects an organization code and property code to be passed in to it. Retrieve these parameters and construct the url for the HTML page created earlier.
 ```kotlin
 class KetchPrefCenter: AppCompatActivity() {
     override fun onCreate(savedInstance: Bundle?) {

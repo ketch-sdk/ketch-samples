@@ -10,7 +10,6 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
-import com.ketch.sample.prefcenter.KetchPrefCenterActivity.Companion.ADVERTISING_ID_KEY
 import com.ketch.sample.prefcenter.KetchPrefCenterActivity.Companion.IDENTITIES_KEY
 import com.ketch.sample.prefcenter.KetchPrefCenterActivity.Companion.ORG_CODE_KEY
 import com.ketch.sample.prefcenter.KetchPrefCenterActivity.Companion.PROPERTY_KEY
