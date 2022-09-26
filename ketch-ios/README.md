@@ -53,6 +53,7 @@ ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
 - Retrieve `advertisingIdentifier` from `AdSupport.ASIdentifierManager`:
 ```swift
 import AppTrackingTransparency
+import AdSupport
 
 ...
 
@@ -68,6 +69,7 @@ ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
 - Present Consent View, don't forget to run it in main thread:
 ```swift
 import AppTrackingTransparency
+import AdSupport
 
 ...
 
@@ -103,6 +105,7 @@ ConsentConfig(
 - Full integration code with config:
 ```swift
 import AppTrackingTransparency
+import AdSupport
 
 ...
 
