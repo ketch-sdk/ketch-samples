@@ -53,9 +53,11 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-Add the loading routines and private member for storing the advertising ID.
+Add the private member for storing the advertising ID and loading routines.
 
-The AAID is suitable for anonymous users and we use  in this example for the sake of simplicity.
+[AAID](https://developer.android.com/training/articles/ad-id) is the suitable way to identify anonymous users,
+and we use it in this example for the sake of simplicity.
+
 There are other [ways to provide the user's identity information](https://docs.ketch.com/hc/en-us/articles/1500003453742-About-Identity-Spaces#field-descriptions-0-1).
 
 ```kotlin
