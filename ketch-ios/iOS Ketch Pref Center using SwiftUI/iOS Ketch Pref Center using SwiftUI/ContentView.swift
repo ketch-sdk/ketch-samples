@@ -13,6 +13,7 @@ private var advertisingId: UUID?
 
 struct ContentView: View {
     @State private var showingPopover = false
+    @State private var showAuthorizationDenied = false
 
     var body: some View {
         VStack {
@@ -21,6 +22,8 @@ struct ContentView: View {
                     if case .authorized = authorizationStatus {
                         advertisingId = ASIdentifierManager.shared().advertisingIdentifier
                         showingPopover = true
+                    } else if case .denied = authorizationStatus {
+                        showAuthorizationDenied = true
                     }
                 }
             }
@@ -31,6 +34,21 @@ struct ContentView: View {
                     propertyName: "website_smart_tag",
                     orgCode: "transcenda",
                     advertisingIdentifier: advertisingId!
+                )
+            )
+        }
+        .alert(isPresented: $showAuthorizationDenied) {
+            Alert(
+                title: Text("Tracking Authorization Denied by app settings"),
+                message: Text("Please allow tracking in Settings -> Privacy -> Tracking"),
+                primaryButton: .cancel(Text("Cancel")),
+                secondaryButton: .default(
+                    Text("Edit preferences"),
+                    action: {
+                        if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                            UIApplication.shared.open(settingsURL)
+                        }
+                    }
                 )
             )
         }
