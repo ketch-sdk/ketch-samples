@@ -62,15 +62,15 @@
 		31D8FDFA28B93EA8009E57F4 /* iOS Ketch Pref Center using Storyboard */ = {
 			isa = PBXGroup;
 			children = (
+				31D8FE0928B93EAD009E57F4 /* Info.plist */,
 				31D8FDFB28B93EA8009E57F4 /* AppDelegate.swift */,
 				31D8FDFD28B93EA8009E57F4 /* SceneDelegate.swift */,
 				31D8FDFF28B93EA8009E57F4 /* ViewController.swift */,
 				31D8FE0128B93EA8009E57F4 /* Main.storyboard */,
 				31D8FE0428B93EAD009E57F4 /* Assets.xcassets */,
 				31D8FE0628B93EAD009E57F4 /* LaunchScreen.storyboard */,
-				31D8FE0928B93EAD009E57F4 /* Info.plist */,
-				31D8FE0F28B94172009E57F4 /* ConsentViewController.swift */,
 				31D8FE1128B94620009E57F4 /* index.html */,
+				31D8FE0F28B94172009E57F4 /* ConsentViewController.swift */,
 				3A18974228E1EC7B00FE6518 /* ConsentConfig.swift */,
 			);
 			path = "iOS Ketch Pref Center using Storyboard";

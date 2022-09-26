@@ -7,8 +7,6 @@ import UIKit
 import AdSupport
 import AppTrackingTransparency
 
-private var advertisingId: UUID?
-
 class ViewController: UIViewController {
 
     private let button: UIButton = {
@@ -30,21 +28,21 @@ class ViewController: UIViewController {
     @objc private func didTapButton() {
         ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
             if case .authorized = authorizationStatus {
-                advertisingId = ASIdentifierManager.shared().advertisingIdentifier
+                let advertisingId = ASIdentifierManager.shared().advertisingIdentifier
 
                 DispatchQueue.main.async { [weak self] in
-                    self?.showConsent()
+                    self?.showConsent(advertisingId: advertisingId)
                 }
             }
         }
     }
 
-    private func showConsent() {
+    private func showConsent(advertisingId: UUID) {
         let vc = ConsentViewController(
             config: .init(
                 propertyName: "website_smart_tag",
                 orgCode: "transcenda",
-                advertisingIdentifier: advertisingId!
+                advertisingIdentifier: advertisingId
             )
         )
 
