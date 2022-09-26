@@ -2,7 +2,8 @@
 
 This document demonstrates the Ketch Smart Tag usage for the Kotlin based native Android application.
 
-It covers the storage of the corresponding policy strngs to NSUserDefaults (iOS) and SharedPreferences(Android), 
+It covers the storage of the corresponding policy strings to SharedPreferences,
+
 as per standards requirements: 
 - [IAB Europe Transparency & Consent Framework](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details)
 - [CCPA Compliance Mechanism](https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/USP%20API.md#in-app-support)
@@ -37,9 +38,7 @@ running inside the webview and storage of the corresponding policy strings.
 
 ### Step 3. Initialize the activity and helper classes
 
-Initialize the KetchSharedPreferences instance and private member for advertising Id.
-
-Note that you could have 
+Initialize the KetchSharedPreferences instance
 
 ```kotlin
 class MainActivity : AppCompatActivity() {
@@ -50,285 +49,120 @@ class MainActivity : AppCompatActivity() {
         KetchSharedPreferences(this)
     }
 
-    private var advertisingId: String? = null
     ...
 }
 ```
 
-Create the activity result handler and add a trigger for the webview with"onCreate()"
+Add the loading routines and private member for storing the advertising ID.
 
-The preferences activity is triggered on the button click in this example, but it could also be 
+The AAID is suitable for anonymous users and we use  in this example for the sake of simplicity.
+There are other [ways to provide the user's identity information](https://docs.ketch.com/hc/en-us/articles/1500003453742-About-Identity-Spaces#field-descriptions-0-1).
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+
+    ...
+
+    private var advertisingId: String? = null
+    
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun loadAdvertisingId() {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                advertisingId = AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    ...
+
+}
+```
+
+### Step 3. Setup the intent with the Ketch JS SDK configuration
+
+Construct the Intent to keep the activity configurable similar to The Ketch Smart Tag 
+on the HTML page that expects an organization code and app property code to be passed in to it.
+
+Organization code `ORG_CODE` could be found on the [Organization Settings](https://app.ketch.com/settings/organization)
+
+App property code `PROPERTY` could be found on the [Properties Management](https://app.ketch.com/deployment/applications)
+
+Advertising ID key `ADVERTISING_ID_KEY` is available on the [Identity Spaces](https://app.ketch.com/settings/identity-spaces)
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+
+    ...
+
+    private fun createKetchPrefCenterIntent(): Intent? {
+        if (advertisingId.isNullOrEmpty()) {
+            Toast.makeText(this, R.string.cannot_get_advertising_id_toast, Toast.LENGTH_LONG)
+                    .show()
+            return null
+        }
+
+        // identities to be passed to the WebView displaying the Ketch Preference Center
+        val identities = ArrayList<Identity>()
+        identities.add(Identity(ADVERTISING_ID_KEY, advertisingId!!))
+
+        return Intent(this, KetchPrefCenterActivity::class.java).apply {
+            putExtra(ORG_CODE_KEY, ORG_CODE)
+            putExtra(PROPERTY_KEY, PROPERTY)
+            putExtra(IDENTITIES_KEY, identities)
+        }
+    }
+
+    companion object {
+        private val TAG = MainActivity::class.java.simpleName
+
+        private const val ORG_CODE = "transcenda"
+        private const val PROPERTY = "website_smart_tag"
+        private const val ADVERTISING_ID_KEY = "aaid"
+    }
+}
+
+```
+
+### Step 4. Finally, launch the activity and trigger preferences popup
+
+Create the activity result handler and add the trigger for the webview.
+
+The preferences activity is triggered on the button click in this example, but it could also be
 triggered automatically on application start.
 
 ```kotlin
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-
-    ...
-
-    val startForResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    Log.d(TAG, "***** RESULT *****")
-                    Log.d(TAG, "IABUSPrivacy_String: ${sharedPreferences.getUSPrivacyString()}")
-                    Log.d(TAG, "IABTCF_TCString: ${sharedPreferences.getTCFTcString()}")
-                    Log.d(TAG, "IABTCF_gdprApplies: ${sharedPreferences.getTCFGdprApplies()}")
-                }
-            }
-
-    val buttonClick = findViewById<Button>(R.id.button)
-    buttonClick.setOnClickListener {
-        createKetchPrefCenterIntent()?.let { intent ->
-            startForResult.launch(intent)
-        }
-    }
-
-    ...
-}
-```
-
-To keep the activity as configurable as the Ketch Smart Tag on the HTML page, 
-it expects an organization code and property code to be passed in to it. 
-Retrieve these parameters and construct the url for the HTML page created earlier.
-
-
-```kotlin
-class KetchPrefCenter: AppCompatActivity() {
-    override fun onCreate(savedInstance: Bundle?) {
-
-        ...
-
-        //pass in the property code and  to be used with the Ketch Smart Tag
-        var ketchProperty = intent.getStringExtra("property")
-        var ketchOrgCode = intent.getStringExtra("orgCode")
-        var url = "https://appassets.androidplatform.net/assets/index.html?orgCode=$ketchOrgCode&propertyName=$ketchProperty"
-        
-    }
-}
-```
-
-- In addition to passing in the organization code and property code, the activity will take in a list of identites for the current apps user. Retrieve the list of identities, encode them, and attach them to the url.
-```kotlin
-class KetchPrefCenter: AppCompatActivity() {
-    override fun onCreate(savedInstance: Bundle?) {
-
-        ...
-
-        var identitiesJSON = JSONObject()
-        if (identities != null) {
-            for(identity in identities){
-                identitiesJSON.put(identity.code, identity.value)
-            }
-        }
-
-        var encodedIdentities = Base64.encodeToString(identitiesJSON.toString().toByteArray(), Base64.DEFAULT);
-        url = "$url&encodedIdentities=$encodedIdentities"
-        
-    }
-}
-```
-
-- With the url now complete, load it into the web view.
-```kotlin
-class KetchPrefCenter: AppCompatActivity() {
-    override fun onCreate(savedInstance: Bundle?) {
-
-        ...
-
-        myWebView.loadUrl(url)
-        
-    }
-}
-
-```
-
-- To know when the Ketch Preference Center has been closed, the HTML page will send a message to a JavaScript interface. Create a new class and annotate it to allow exposing methods to JavaScript. Check if the `PreferenceCenterClosed` message has been received and close the activity if it has. 
-```kotlin
-class PreferenceCenterJavascriptInterface(private val context: Context) {
-    @JavascriptInterface
-    fun receiveMessage(message: String) {
-        if (message == "PreferenceCenterClosed") {
-            (context as? KetchPrefCenter)?.finish()
-        }
-    }
-}
-```
-
-- Add the Preference Center JavaScript Interface to web view
-```kotlin
-class KetchPrefCenter: AppCompatActivity() {
-    override fun onCreate(savedInstance: Bundle?) {
-
-        ...
-
-        myWebView.addJavascriptInterface(PreferenceCenterJavascriptInterface(this), "androidListener")
-        
-    }
-}
-```
-
-- In addition to sending back when the Ketch Preference Center is closed, the HTML page created above also sends back the consent preferences for the user. To handle this information, create a class to deserialize the data passed back from the HTML page and a JavaScript interface to receive the message.
-```kotlin
-class KetchPrefCenter : AppCompatActivity() {
-    var consent:Consent? = null
-
-    ...
-
-}
-
-class UserConsentJavascriptInterface(private val context: Context) {
-    @JavascriptInterface
-    fun receiveMessage(message: String) {
-        (context as? KetchPrefCenter)?.consent = Consent(message)
-    }
-}
-
-class Consent(json: String) : JSONObject(json), Serializable {
-    val purposes = Purposes(this.getString("purposes"))
-}
-
-class Purposes(json: String) : JSONObject(json), Serializable {
-    val analytics: Boolean = this.optBoolean("analytics")
-}
-```
-
-## Launching Ketch Preference Center activity
-
-Now that we've got the Ketch Preference Center activity created, let's see how to use it.
-
-- Inside your Android app, add a new button to navigate to the Ketch Preference Center activity. 
-
-- In the `onCreate` function, wire get a reference to the button and add an on-click listener.
-```kotlin
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        
+        super.onCreate(savedInstanceState)
+
         ...
+
+        val startForResult =
+                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                    if (result.resultCode == Activity.RESULT_OK) {
+                        Log.d(TAG, "***** RESULT *****")
+                        Log.d(TAG, "IABUSPrivacy_String: ${sharedPreferences.getUSPrivacyString()}")
+                        Log.d(TAG, "IABTCF_TCString: ${sharedPreferences.getTCFTcString()}")
+                        Log.d(TAG, "IABTCF_gdprApplies: ${sharedPreferences.getTCFGdprApplies()}")
+                    }
+                }
 
         val buttonClick = findViewById<Button>(R.id.button)
         buttonClick.setOnClickListener {
-
-        }
-    }
-}
-```
-
-- Because we expect to receive the users consent preferences back from the activity, create a a way to register to receive a result from the.
-```kotlin
-class MainActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        
-        ...
-
-        val startForResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                { 
-                    ...
-                }
+            createKetchPrefCenterIntent()?.let { intent ->
+                startForResult.launch(intent)
             }
-            
-            ...
-
-    }
-}
-``` 
-
-- Next, add a place to store the consent and retrieve it from the result.
-```kotlin
-class MainActivity : AppCompatActivity() {
-    var consent:Consent? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        
-        ...
-
-        val startForResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val intent = result.data
-                    consent = (intent?.getSerializableExtra("consent") as? Consent)
-                }
-            }
-
         }
-            
+
         ...
 
-    }
-}
-``` 
-
-- Now it's time to start the Ketch Preference Center activity. Inside the button click listener, create the intent to start the activity, passing in the organization code and property code.
-```kotlin
-class MainActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        
-        ...
-
-        buttonClick.setOnClickListener {
-            val intent = Intent(this, KetchPrefCenter::class.java)
-            intent.putExtra("property", "web")
-            intent.putExtra("orgCode", "your_org_code_here")
-        }
     }
 }
 ```
 
-To ensure the customer's consent choices move with them no matter what device they use to interact with your brand, we can send identity information already present in the app to the Ketch Smart Tag running on the HTML page.
-
-The HTML page we created earlier is already expecting and checking for identity information in query parameters of the URL. So, now all we need to do is append these to our URL.
-
-- Start by creating and `Identity` class ensuring it is marked as serializable so they can be added to the intent and passed to the activity.
-```kotlin
-class Identity(val code: String, val value: String) : Serializable {
-}
-```
-
-- Using the new identities class, create an array to store as many identifiers you may have for the user. In the example, we'll hard code an email address, but a device identifier, account identifier, and/or any other identifier can be added and used to identify a store a users consent preferences against. 
-```kotlin
-class MainActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        
-        ...
-
-        buttonClick.setOnClickListener {
-            val identities = ArrayList<Identity>()
-            identities.add(Identity("visitorId", "android@test.com"))
-
-            val intent = Intent(this, KetchPrefCenter::class.java)
-            intent.putExtra("identities", identities)
-
-            ...
-
-        }
-    }
-}
-```
-
-- Finally, launch the activity.
-```kotlin
-class MainActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        
-        ...
-
-        buttonClick.setOnClickListener {
-            
-            ...
-
-            val intent = Intent(this, KetchPrefCenter::class.java)
-
-            ...
-
-            startForResult.launch(intent);
-        }
-    }
-}
-```
-
-Now when you test your application and have set a consent state, you will be able to search the Ketch Audit Logs by the identity your passing through to the `dataLayer` within the HTML page.
+Now when you run your application and have set a consent state, 
+you will see the corresponding policy strings added to your default SharedPreferences.
