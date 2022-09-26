@@ -148,7 +148,10 @@
                 })
 
                 const API_VERSION = "1";
-                const LSPA = "N"; // TODO: hardocded for now, need to figure out the proper value
+
+                // we expect the user to set the LSPA variable on their page if they are using that framework for CCPA compliance
+                const LSPA = window.LSPA || 'N';
+
                 const notice = true;
                 const optedOut = isAnalyticsDisabled || isBehavioralAdvertisingDisabled || isDataBrokingDisabled;
 
