@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-### Step 3. Setup the intent with the Ketch JS SDK configuration
+### Step 4. Setup the intent with the Ketch JS SDK configuration
 
 Construct the Intent to keep the activity configurable similar to The Ketch Smart Tag 
 on the HTML page that expects an organization code and app property code to be passed in to it.
@@ -126,7 +126,7 @@ class MainActivity : AppCompatActivity() {
 
 ```
 
-### Step 4. Finally, launch the activity and trigger preferences popup
+### Step 5. Finally, launch the activity and trigger preferences popup
 
 Create the activity result handler and add the trigger for the webview.
 
