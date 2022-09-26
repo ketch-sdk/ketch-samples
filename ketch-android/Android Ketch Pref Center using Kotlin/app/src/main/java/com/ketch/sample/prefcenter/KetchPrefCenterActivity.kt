@@ -1,7 +1,6 @@
 package com.ketch.sample.prefcenter
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
@@ -15,10 +14,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.webkit.WebViewAssetLoader
 import androidx.webkit.WebViewClientCompat
 import com.google.gson.Gson
+import com.google.gson.JsonParseException
 import org.json.JSONObject
 
-class KetchPrefCenter : AppCompatActivity() {
-    var consent: Consent? = null
+class KetchPrefCenterActivity : AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,24 +26,26 @@ class KetchPrefCenter : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        val identities = intent.getParcelableArrayListExtra<Identity>("identities")
-        val myWebView: WebView = findViewById(R.id.webView)
-        val webSettings = myWebView.settings
+        val ketchOrgCode = intent.getStringExtra(ORG_CODE_KEY)
+        val ketchProperty = intent.getStringExtra(PROPERTY_KEY)
+        val identities = intent.getParcelableArrayListExtra<Identity>(IDENTITIES_KEY)
+
+        val webView: WebView = findViewById(R.id.webView)
+        val webSettings = webView.settings
         webSettings.javaScriptEnabled = true
         val assetLoader = WebViewAssetLoader.Builder()
             .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(this))
             .addPathHandler("/res/", WebViewAssetLoader.ResourcesPathHandler(this))
             .build()
-        myWebView.webViewClient = LocalContentWebViewClient(assetLoader)
-        WebView.setWebContentsDebuggingEnabled(true);
-        myWebView.addJavascriptInterface(
+        webView.webViewClient = LocalContentWebViewClient(assetLoader)
+        WebView.setWebContentsDebuggingEnabled(true)
+
+        webView.addJavascriptInterface(
             PreferenceCenterJavascriptInterface(this),
             "androidListener"
         )
 
         //pass in the property code and  to be used with the Ketch Smart Tag
-        val ketchProperty = intent.getStringExtra("property")
-        val ketchOrgCode = intent.getStringExtra("orgCode")
         var url =
             "https://appassets.androidplatform.net/assets/index.html?orgCode=$ketchOrgCode&propertyName=$ketchProperty"
 
@@ -63,10 +64,10 @@ class KetchPrefCenter : AppCompatActivity() {
         // Uncomment this like to force the GDPR regulations for Germany
         url = "$url&swb_region=DE"
 
-        myWebView.loadUrl(url)
+        webView.loadUrl(url)
 
         //receive console messages from the WebView
-        myWebView.webChromeClient = object : WebChromeClient() {
+        webView.webChromeClient = object : WebChromeClient() {
             override fun onConsoleMessage(consoleMessage: ConsoleMessage): Boolean {
                 Log.d(TAG, consoleMessage.message())
                 return true
@@ -84,7 +85,9 @@ class KetchPrefCenter : AppCompatActivity() {
         }
     }
 
-    private class PreferenceCenterJavascriptInterface(private val prefCenter: KetchPrefCenter) {
+    private class PreferenceCenterJavascriptInterface(private val prefCenterActivity: KetchPrefCenterActivity) {
+        private val sharedPreferences = KetchSharedPreferences(prefCenterActivity)
+
         @JavascriptInterface
         fun onInit() {
             Log.d(TAG, "plugin initialized")
@@ -92,22 +95,38 @@ class KetchPrefCenter : AppCompatActivity() {
 
         @JavascriptInterface
         fun onUpdate(json: String) {
-            prefCenter.consent = Gson().fromJson(json, Consent::class.java)
+            saveConsent(json)
         }
 
         @JavascriptInterface
         fun onClose(json: String) {
-            val intent = Intent()
-            intent.putExtra(CONSENT_KEY, prefCenter.consent)
-            prefCenter.consent = Gson().fromJson(json, Consent::class.java)
-            prefCenter.setResult(RESULT_OK, intent)
-            prefCenter.finish()
+            saveConsent(json)
+
+            prefCenterActivity.setResult(RESULT_OK)
+            prefCenterActivity.finish()
+        }
+
+        private fun saveConsent(json: String) {
+            val consent = try {
+                Gson().fromJson(json, Consent::class.java)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+                null
+            }
+
+            consent?.let {
+                sharedPreferences.save(it)
+            } ?: sharedPreferences.clear()
         }
     }
 
     companion object {
-        private val TAG = KetchPrefCenter::class.java.simpleName
+        private val TAG = KetchPrefCenterActivity::class.java.simpleName
 
-        const val CONSENT_KEY = "consent"
+        const val ORG_CODE_KEY = "orgCode"
+        const val PROPERTY_KEY = "property"
+        const val IDENTITIES_KEY = "identities"
+
+        const val ADVERTISING_ID_KEY = "aaid"
     }
 }
