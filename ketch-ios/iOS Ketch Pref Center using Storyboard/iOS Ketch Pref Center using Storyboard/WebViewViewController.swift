@@ -110,7 +110,7 @@ extension WebViewViewController: WKScriptMessageHandler {
             let IABUSPrivacy_String = jsonDecode.IABUSPrivacy_String
             let IABTCF_TCString = jsonDecode.IABTCF_TCString
             let IABTCF_gdprApplies = jsonDecode.IABTCF_gdprApplies
-            
+
             let defaults = UserDefaults.standard
 
             if (!IABUSPrivacy_String.isEmpty) {

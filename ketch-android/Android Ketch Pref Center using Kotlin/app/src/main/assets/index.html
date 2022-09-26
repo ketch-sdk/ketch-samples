@@ -46,14 +46,14 @@
                             androidListener[messageName]();
                         }
                     } else {
-                        console.error("Can't pass message to native code. " + messageName + " handler is not registerred");
+                        console.error("Can't pass message to native code. " + messageName + " handler is not registered");
                     }
                 }
                 if (window.webkit && window.webkit.messageHandlers) {  // we run on iOS
                     if (messageName in window.webkit.messageHandlers) {
                         window.webkit.messageHandlers[messageName].postMessage(params)
                     } else {
-                        console.error("Can't pass message to native code. " + messageName + " handler is not registerred");
+                        console.error("Can't pass message to native code. " + messageName + " handler is not registered");
                     }
                 }
             }
