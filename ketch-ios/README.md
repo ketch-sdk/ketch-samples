@@ -25,14 +25,14 @@ Add [index.html](./index.html) file with privacy web form wrapper to your projec
 The `index.html` file makes use of WebKit `WKWebView` and `JavascriptInterface` to 
 communicate back and forth with the native runtime of the iOS application.
 
-### Step 2. Add Info.plist privacy trecking request.
+### Step 2. Add Info.plist privacy tracking request
 
 Define `Info.plist` string for tracking allowance request with key 
 `Privacy - Tracking Usage Description` (`NSUserTrackingUsageDescription`) 
 that describes wanted purpose, e.g. "Please indicate whether you consent to our collection and use 
 of your data in order to perform the operation(s) you’ve requested."
 
-### Step 3. Create the Ketch Preferences Center view with the webView.
+### Step 3. Create the Ketch Preferences Center view with the webView
 
 Integrate source code of preference settings view controller to your project.
 File for UIKit integration: [ConsentViewController](./iOS%20Ketch%20Pref%20Center%20using%20Storyboard/ConsentViewController.swift)
@@ -41,7 +41,7 @@ Or view for SwiftUI integration: [ConsentView](./iOS%20Ketch%20Pref%20Center%20u
 
 And add source code for config: [ConsentConfig](./ConsentConfig.swift)
     
-### Step 4. Integrate calls for presentation of preference settings view (or view controller).
+### Step 4. Integrate calls for presentation of preference settings view (or view controller)
 
 - Request permission for application tracking using `requestTrackingAuthorization` from `AppTrackingTransparency.ATTrackingManager`:
 
@@ -106,8 +106,8 @@ Configure `ConsentConfig` with those parameters:
 
 ```swift
 ConsentConfig(
-    propertyName: "#{your_property}#",
     orgCode: "#{your_org_code}#",
+    propertyName: "#{your_property}#",
     advertisingIdentifier: advertisingId
 )
 ```
@@ -135,8 +135,8 @@ ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
 private func showConsent(advertisingId: UUID) {
     let vc = ConsentViewController(
         config: ConsentConfig(
-            propertyName: "#{your_property}#",
             orgCode: "#{your_org_code}#",
+            propertyName: "#{your_property}#",
             advertisingIdentifier: advertisingId
         )
     )
