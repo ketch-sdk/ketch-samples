@@ -11,7 +11,7 @@
 		31F17FD628B6CBC8006237D7 /* iOS_Pref_Center_DemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F17FD528B6CBC8006237D7 /* iOS_Pref_Center_DemoApp.swift */; };
 		31F17FD828B6CBC8006237D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F17FD728B6CBC8006237D7 /* ContentView.swift */; };
 		31F17FDA28B6CBCD006237D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31F17FD928B6CBCD006237D7 /* Assets.xcassets */; };
-		3A3A638528E1EAB300CAB56D /* ConsentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3A638428E1EAB300CAB56D /* ConsentView.swift */; };
+		3A18975228E2226D00FE6518 /* ConsentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A18975128E2226D00FE6518 /* ConsentView.swift */; };
 		3A3A638728E1EB5600CAB56D /* ConsentConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3A638628E1EB5600CAB56D /* ConsentConfig.swift */; };
 /* End PBXBuildFile section */
 
@@ -20,9 +20,9 @@
 		31D8FE1728BD5972009E57F4 /* ios-ketch-pref-center-using-swiftui-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ios-ketch-pref-center-using-swiftui-Info.plist"; sourceTree = SOURCE_ROOT; };
 		31F17FD228B6CBC8006237D7 /* iOS Ketch Pref Center using SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS Ketch Pref Center using SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31F17FD528B6CBC8006237D7 /* iOS_Pref_Center_DemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_Pref_Center_DemoApp.swift; sourceTree = "<group>"; };
-		31F17FD728B6CBC8006237D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = ../ContentView.swift; sourceTree = "<group>"; };
+		31F17FD728B6CBC8006237D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		31F17FD928B6CBCD006237D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		3A3A638428E1EAB300CAB56D /* ConsentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConsentView.swift; path = ../../../../../.Trash/ConsentView.swift; sourceTree = "<group>"; };
+		3A18975128E2226D00FE6518 /* ConsentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsentView.swift; sourceTree = SOURCE_ROOT; };
 		3A3A638628E1EB5600CAB56D /* ConsentConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConsentConfig.swift; path = ../../ConsentConfig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -61,8 +61,8 @@
 				31F17FD528B6CBC8006237D7 /* iOS_Pref_Center_DemoApp.swift */,
 				31F17FD728B6CBC8006237D7 /* ContentView.swift */,
 				31F17FD928B6CBCD006237D7 /* Assets.xcassets */,
-				3A3A638428E1EAB300CAB56D /* ConsentView.swift */,
 				3A3A638628E1EB5600CAB56D /* ConsentConfig.swift */,
+				3A18975128E2226D00FE6518 /* ConsentView.swift */,
 			);
 			path = "iOS Ketch Pref Center using SwiftUI";
 			sourceTree = "<group>";
@@ -138,7 +138,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				31F17FD828B6CBC8006237D7 /* ContentView.swift in Sources */,
-				3A3A638528E1EAB300CAB56D /* ConsentView.swift in Sources */,
+				3A18975228E2226D00FE6518 /* ConsentView.swift in Sources */,
 				31F17FD628B6CBC8006237D7 /* iOS_Pref_Center_DemoApp.swift in Sources */,
 				3A3A638728E1EB5600CAB56D /* ConsentConfig.swift in Sources */,
 			);
