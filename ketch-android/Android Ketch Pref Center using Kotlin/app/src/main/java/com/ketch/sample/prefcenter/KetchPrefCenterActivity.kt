@@ -62,7 +62,7 @@ class KetchPrefCenterActivity : AppCompatActivity() {
         // url = "$url&swb_region=US-CA&swb_show"
 
         // Uncomment this like to force the GDPR regulations for Germany
-        url = "$url&swb_region=DE"
+        // url = "$url&swb_region=DE"
 
         webView.loadUrl(url)
 
@@ -126,7 +126,5 @@ class KetchPrefCenterActivity : AppCompatActivity() {
         const val ORG_CODE_KEY = "orgCode"
         const val PROPERTY_KEY = "property"
         const val IDENTITIES_KEY = "identities"
-
-        const val ADVERTISING_ID_KEY = "aaid"
     }
 }

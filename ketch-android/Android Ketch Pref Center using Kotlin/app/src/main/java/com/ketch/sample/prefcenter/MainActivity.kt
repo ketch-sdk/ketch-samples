@@ -86,5 +86,6 @@ class MainActivity : AppCompatActivity() {
 
         private const val ORG_CODE = "transcenda"
         private const val PROPERTY = "website_smart_tag"
+        private const val ADVERTISING_ID_KEY = "aaid"
     }
 }
