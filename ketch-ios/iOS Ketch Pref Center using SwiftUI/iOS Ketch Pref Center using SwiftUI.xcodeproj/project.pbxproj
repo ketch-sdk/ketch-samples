@@ -23,7 +23,7 @@
 		31F17FD728B6CBC8006237D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		31F17FD928B6CBCD006237D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3A3A638428E1EAB300CAB56D /* ConsentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConsentView.swift; path = ../../../../../.Trash/ConsentView.swift; sourceTree = "<group>"; };
-		3A3A638628E1EB5600CAB56D /* ConsentConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentConfig.swift; sourceTree = "<group>"; };
+		3A3A638628E1EB5600CAB56D /* ConsentConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConsentConfig.swift; path = ../../ConsentConfig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,7 +272,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS-Ketch-Pref-Center-using-SwiftUI-Info.plist";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Please indicate whether you consent to our collection and use of your data in order to perform the operation(s) you’ve requested.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -302,7 +301,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS-Ketch-Pref-Center-using-SwiftUI-Info.plist";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Please indicate whether you consent to our collection and use of your data in order to perform the operation(s) you’ve requested.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
