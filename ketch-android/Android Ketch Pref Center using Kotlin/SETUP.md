@@ -2,9 +2,8 @@
 
 This document demonstrates the Ketch Smart Tag usage for the Kotlin based native Android application.
 
-It covers the storage of the corresponding policy strings to SharedPreferences,
-
-as per standards requirements: 
+It handles the storage of the corresponding policy strings to SharedPreferences, 
+as per standards requirements for the in-app support: 
 - [IAB Europe Transparency & Consent Framework](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details)
 - [CCPA Compliance Mechanism](https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/USP%20API.md#in-app-support)
 
@@ -12,13 +11,14 @@ as per standards requirements:
 - Registered [Ketch organization account](https://app.ketch.com/settings/organization) 
 - Configured [application property](https://app.ketch.com/deployment/applications) record
 - [Custom identity space](https://docs.ketch.com/hc/en-us/articles/360063594173-Managing-Properties#configuring-data-layer-setup-0-9)
-- [index.html](./app/src/main/assets/index.html) Ketch Smart Tag integration bridge
+- [index.html](./app/src/main/assets/index.html) Ketch Smart Tag integration bridge and [Kotlin utility classes](./app/src/main/java/com/ketch/sample/prefcenter/).
 
 ## Quick Start
 
-To integrate the Ketch Smart Tag into your Kotlin based Android project follow these steps:
+Before we start, take a look at the [fully functional sample of Android app](./../Android%20Ketch%20Pref%20Center%20using%20Kotlin),
+where the following steps are implemented, integrating the Ketch Smart Tag into your Kotlin based Android project.
 
-### Step 1. Copy the integration bridge into an app  
+### Step 1. Copy the integration bridge into the app
 
 Create `[module]/app/src/main/assets` folder and put the [index.html](./app/src/main/assets/index.html) file there.
 
@@ -27,7 +27,7 @@ communicate back and forth with the native runtime of the Android application.
 
 ### Step 2. Create the activity with the webview
 
-In your application in Android Studio, copy the following files to your module package:
+Copy the following files to your module package:
 - [KetchPrefCenter](./app/src/main/java/com/ketch/sample/prefcenter/KetchPrefCenterActivity.kt)
 - [KetchSharedPreferences](./app/src/main/java/com/ketch/sample/prefcenter/KetchSharedPreferences.kt)
 - [Consent](./app/src/main/java/com/ketch/sample/prefcenter/Consent.kt)
@@ -166,3 +166,5 @@ class MainActivity : AppCompatActivity() {
 
 Now when you run your application and have set a consent state, 
 you will see the corresponding policy strings added to your default SharedPreferences.
+
+### Done!
