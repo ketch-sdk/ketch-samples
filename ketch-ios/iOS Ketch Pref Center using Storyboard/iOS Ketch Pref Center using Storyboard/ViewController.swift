@@ -44,12 +44,11 @@ class ViewController: UIViewController {
             config: .init(
                 propertyName: "website_smart_tag",
                 orgCode: "transcenda",
-                identities: [.advertisingIdentifier(advertisingId!)]
+                advertisingIdentifier: advertisingId!
             )
         )
 
         let navVC = UINavigationController(rootViewController: vc)
-        self.present(navVC, animated: true)
+        present(navVC, animated: true)
     }
 }
-

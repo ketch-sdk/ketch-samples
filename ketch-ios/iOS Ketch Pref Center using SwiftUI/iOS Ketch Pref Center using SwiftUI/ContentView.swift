@@ -15,8 +15,7 @@ struct ContentView: View {
     @State private var showingPopover = false
 
     var body: some View {
-        VStack(spacing: 10) {
-            Text("Hello world!")
+        VStack {
             Button("Show Preference Center") {
                 ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
                     if case .authorized = authorizationStatus {
@@ -31,7 +30,7 @@ struct ContentView: View {
                 config: .init(
                     propertyName: "website_smart_tag",
                     orgCode: "transcenda",
-                    identities: [.advertisingIdentifier(advertisingId!)]
+                    advertisingIdentifier: advertisingId!
                 )
             )
         }
@@ -43,5 +42,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-
