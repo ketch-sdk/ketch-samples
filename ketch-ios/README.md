@@ -12,27 +12,30 @@ This documentation demonstrates the Ketch Smart Tag usage for the Swift based iO
 
 To integrate the Ketch Smart Tag into your Swift based iOS project follow these steps:
 
-### 1. Copy the integration bridge into an app  
 
-Add [index.html](./app/src/main/assets/index.html) file with privacy web form wrapper to your project.
+### Step 1. Copy the integration bridge into an app  
+
+Add [index.html](./index.html) file with privacy web form wrapper to your project.
 
 The `index.html` file makes use of WebKit `WKWebView` and `JavascriptInterface` to 
 communicate back and forth with the native runtime of the iOS application.
 
-### 2. Add Info.plist privacy trecking request.
+
+### Step 2. Add Info.plist privacy trecking request.
 Define `Info.plist` string for tracking allowance request with key `Privacy - Tracking Usage Description` (`NSUserTrackingUsageDescription`) that describes wanted purpose, e.g. "Please indicate whether you consent to our collection and use of your data in order to perform the operation(s) you’ve requested."
 
-### 3. Create the Ketch Preferences Center view with the webView.
+
+### Step 3. Create the Ketch Preferences Center view with the webView.
 
 Integrate source code of preference settings view controller to your project.
-File for UIKit integration: [ConsentViewController](./iOS Ketch Pref Center using Storyboard/ConsentViewController.swift)
+File for UIKit integration: [ConsentViewController](./iOS%20Ketch%20Pref%20Center%20using%20Storyboard/ConsentViewController.swift)
 
-Or view for SwiftUI integration: [ConsentView](./iOS Ketch Pref Center using SwiftUI/ConsentView.swift)
+Or view for SwiftUI integration: [ConsentView](./iOS%20Ketch%20Pref%20Center%20using%20SwiftUI/ConsentView.swift)
 
 And add source code for config: [ConsentConfig](./ConsentConfig.swift)
     
     
-### 4. Integrate calls for presentation of preference settings view (or view controller).
+### Step 4. Integrate calls for presentation of preference settings view (or view controller).
 
 - Request permission for application tracking using `requestTrackingAuthorization` from `AppTrackingTransparency.ATTrackingManager`:
 ```swift
@@ -128,9 +131,9 @@ private func showConsent(advertisingId: UUID) {
 }
 ```
 
-Example for UIKit integration: [ViewController](./iOS Ketch Pref Center using Storyboard/iOS Ketch Pref Center using Storyboard/ViewController.swift)
+Example for UIKit integration: [ViewController](./iOS%20Ketch%20Pref%20Center%20using%20Storyboard/iOS%20Ketch%20Pref%20Center%20using%20Storyboard/ViewController.swift)
 
-Example for SwiftUI integration: [ContentView](./iOS Ketch Pref Center using SwiftUI/iOS Ketch Pref Center using SwiftUI/ContentView.swift)
+Example for SwiftUI integration: [ContentView](./iOS%20Ketch%20Pref%20Center%20using%20SwiftUI/iOS%20Ketch%20Pref%20Center%20using%20SwiftUI/ContentView.swift)
 
 
     
