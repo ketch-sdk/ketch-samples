@@ -16,6 +16,7 @@
 		31D8FE1228B94620009E57F4 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 31D8FE1128B94620009E57F4 /* index.html */; };
 		3A18974328E1EC7B00FE6518 /* ConsentConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A18974228E1EC7B00FE6518 /* ConsentConfig.swift */; };
 		3A18974A28E20FB400FE6518 /* ConsentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A18974828E20B5D00FE6518 /* ConsentViewController.swift */; };
+		3A18975028E214BC00FE6518 /* SETUP.md in Resources */ = {isa = PBXBuildFile; fileRef = 3A18974F28E214BC00FE6518 /* SETUP.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		31D8FE1128B94620009E57F4 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = index.html; path = ../../index.html; sourceTree = "<group>"; };
 		3A18974228E1EC7B00FE6518 /* ConsentConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConsentConfig.swift; path = ../../ConsentConfig.swift; sourceTree = "<group>"; };
 		3A18974828E20B5D00FE6518 /* ConsentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConsentViewController.swift; path = ../ConsentViewController.swift; sourceTree = "<group>"; };
+		3A18974F28E214BC00FE6518 /* SETUP.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = SETUP.md; path = ../../../../../Desktop/SETUP.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				31D8FE1128B94620009E57F4 /* index.html */,
 				3A18974228E1EC7B00FE6518 /* ConsentConfig.swift */,
 				3A18974828E20B5D00FE6518 /* ConsentViewController.swift */,
+				3A18974F28E214BC00FE6518 /* SETUP.md */,
 			);
 			path = "iOS Ketch Pref Center using Storyboard";
 			sourceTree = "<group>";
@@ -137,6 +140,7 @@
 				31D8FE0828B93EAD009E57F4 /* LaunchScreen.storyboard in Resources */,
 				31D8FE1228B94620009E57F4 /* index.html in Resources */,
 				31D8FE0528B93EAD009E57F4 /* Assets.xcassets in Resources */,
+				3A18975028E214BC00FE6518 /* SETUP.md in Resources */,
 				31D8FE0328B93EA8009E57F4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
