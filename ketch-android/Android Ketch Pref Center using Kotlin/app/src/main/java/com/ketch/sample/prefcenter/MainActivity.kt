@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
         // identities to be passed to the WebView displaying the Ketch Preference Center
         val identities = ArrayList<Identity>()
-        identities.add(Identity(ADVERTISING_ID_KEY, advertisingId!!))
+        identities.add(Identity(ADVERTISING_ID_CODE, advertisingId!!))
 
         return Intent(this, KetchPrefCenterActivity::class.java).apply {
             putExtra(ORG_CODE_KEY, ORG_CODE)
@@ -83,8 +83,8 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private val TAG = MainActivity::class.java.simpleName
 
-        private const val ORG_CODE = "transcenda"
-        private const val PROPERTY = "website_smart_tag"
-        private const val ADVERTISING_ID_KEY = "aaid"
+        private const val ORG_CODE = "your organization code" // Organization code `ORG_CODE` could be found on the [Organization Settings](https://app.ketch.com/settings/organization)
+        private const val PROPERTY = "your app property code" // App property code `PROPERTY` could be found on the [Properties Management](https://app.ketch.com/deployment/applications)
+        private const val ADVERTISING_ID_CODE = "advertising ID field code" // Advertising ID field code `ADVERTISING_ID_CODE` is available on the [Identity Spaces](https://app.ketch.com/settings/identity-spaces)
     }
 }
