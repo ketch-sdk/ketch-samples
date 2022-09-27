@@ -11,12 +11,12 @@ as per standards requirements for the in-app support:
 - Registered [Ketch organization account](https://app.ketch.com/settings/organization) 
 - Configured [application property](https://app.ketch.com/deployment/applications) record
 - [Custom identity space](https://docs.ketch.com/hc/en-us/articles/360063594173-Managing-Properties#configuring-data-layer-setup-0-9)
-- [index.html](./app/src/main/assets/index.html) Ketch Smart Tag integration bridge
+- [index.html](./index.html) Ketch Smart Tag integration bridge
 
 ## Quick Start
 
-Before we start, take a look at the [fully functional sample of iOS app](./../iOS%20Ketch%20Pref%20Center%20using%20Storyboard),
-where the following steps are implemented, the Ketch Smart Tag into your Swift based iOS project.
+Before we start, take a look at the [fully functional sample iOS app](./../iOS%20Ketch%20Pref%20Center%20using%20Storyboard),
+where the following steps implement the Ketch Smart Tag into your Storyboard based iOS project.
 
 ### Step 1. Copy the integration bridge into the app
 
