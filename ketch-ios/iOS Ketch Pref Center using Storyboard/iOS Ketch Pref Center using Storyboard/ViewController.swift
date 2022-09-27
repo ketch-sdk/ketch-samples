@@ -7,8 +7,6 @@ import UIKit
 import AdSupport
 import AppTrackingTransparency
 
-private var advertisingId: UUID?
-
 class ViewController: UIViewController {
 
     private let button: UIButton = {
@@ -30,26 +28,54 @@ class ViewController: UIViewController {
     @objc private func didTapButton() {
         ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
             if case .authorized = authorizationStatus {
-                advertisingId = ASIdentifierManager.shared().advertisingIdentifier
+                let advertisingId = ASIdentifierManager.shared().advertisingIdentifier
 
                 DispatchQueue.main.async { [weak self] in
-                    self?.showConsent()
+                    self?.showConsent(advertisingId: advertisingId)
+                }
+            } else if case .denied = authorizationStatus {
+                let alert = UIAlertController(
+                    title: "Tracking Authorization Denied by app settings",
+                    message: "Please allow tracking in Settings -> Privacy -> Tracking",
+                    preferredStyle: .alert
+                )
+
+                alert.addAction(
+                    UIAlertAction(
+                        title: "Cancel",
+                        style: .cancel
+                    )
+                )
+
+                alert.addAction(
+                    UIAlertAction(
+                        title: "Edit preferences",
+                        style: .default,
+                        handler: { _ in
+                            if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                                UIApplication.shared.open(settingsURL)
+                            }
+                        }
+                    )
+                )
+
+                DispatchQueue.main.async { [weak self] in
+                    self?.present(alert, animated: true)
                 }
             }
         }
     }
 
-    private func showConsent() {
+    private func showConsent(advertisingId: UUID) {
         let vc = ConsentViewController(
-            config: .init(
-                propertyName: "website_smart_tag",
-                orgCode: "transcenda",
-                identities: [.advertisingIdentifier(advertisingId!)]
+            config: ConsentConfig(
+                orgCode: "<#Your Organization Code#>",
+                propertyName: "<#Your Property ID#>",
+                advertisingIdentifier: advertisingId
             )
         )
 
         let navVC = UINavigationController(rootViewController: vc)
-        self.present(navVC, animated: true)
+        present(navVC, animated: true)
     }
 }
-
