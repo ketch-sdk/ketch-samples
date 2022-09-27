@@ -29,8 +29,8 @@ struct ContentView: View {
         .sheet(isPresented: $showingPopover) {
             ConsentView(
                 config: ConsentConfig(
-                    propertyName: "website_smart_tag",
-                    orgCode: "transcenda",
+                    orgCode: "<#Your Organization Code#>",
+                    propertyName: "<#Your Property ID#>",
                     advertisingIdentifier: advertisingId!
                 )
             )

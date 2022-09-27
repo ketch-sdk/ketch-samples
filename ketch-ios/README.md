@@ -135,8 +135,8 @@ ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
 private func showConsent(advertisingId: UUID) {
     let vc = ConsentViewController(
         config: ConsentConfig(
-            orgCode: "#{your_org_code}#",
-            propertyName: "#{your_property}#",
+            orgCode: "<#Your Organization Code#>",
+            propertyName: "<#Your Property ID#>",
             advertisingIdentifier: advertisingId
         )
     )

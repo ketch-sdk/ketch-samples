@@ -69,8 +69,8 @@ class ViewController: UIViewController {
     private func showConsent(advertisingId: UUID) {
         let vc = ConsentViewController(
             config: ConsentConfig(
-                propertyName: "website_smart_tag",
-                orgCode: "transcenda",
+                orgCode: "<#Your Organization Code#>",
+                propertyName: "<#Your Property ID#>",
                 advertisingIdentifier: advertisingId
             )
         )

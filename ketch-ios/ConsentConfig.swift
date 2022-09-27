@@ -7,15 +7,15 @@ import Foundation
 import WebKit
 
 struct ConsentConfig {
-    let propertyName: String
     let orgCode: String
+    let propertyName: String
     let advertisingIdentifier: UUID
     let htmlFileName: String
     let userDefaults: UserDefaults
 
     init(
-        propertyName: String,
         orgCode: String,
+        propertyName: String,
         advertisingIdentifier: UUID,
         htmlFileName: String = "index",
         userDefaults: UserDefaults = .standard
