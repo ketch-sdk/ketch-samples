@@ -65,7 +65,7 @@ class KetchPrefCenterActivity : AppCompatActivity() {
         // url = "$url&swb_region=DE"
 
         // Uncomment this to force the preferences senter to show
-        // url = "$url&swb_show=preferences"
+        url = "$url&swb_show=preferences"
 
         webView.loadUrl(url)
 
@@ -113,7 +113,7 @@ class KetchPrefCenterActivity : AppCompatActivity() {
         @JavascriptInterface
         fun onNotShow() {
             prefCenterActivity.setResult(RESULT_FIRST_USER)
-            prefCenterActivity.finish()
+            // prefCenterActivity.finish()
         }
 
         @JavascriptInterface
