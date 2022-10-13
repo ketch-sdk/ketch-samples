@@ -30,6 +30,9 @@
             document.getElementsByTagName("head")[0].appendChild(e);
             window.semaphore=window.semaphore||[];
 
+            // Show the preference center experience
+            window.semaphore.push(['showPreferences'])
+
             // helper functions
             function postNativeMessage(messageName, argument1, argument2) {
                 if (window.androidListener) { // we run on Android
@@ -191,9 +194,9 @@
                     }
                     if (isTCF_Active()) {
                         buildTCFString(tcfString => {
-                            console.log('onTCFUpdate, policy string: ' + tcfString);
+                            console.log('onTCFUpdate, policy string: ' + tcfString + ' tcfApplies: ' + (tcfApplies ? 1 : 0));
                             // should be saved to UD/SP as "IABTCF_TCString" and "IABTCF_gdprApplies"
-                            postNativeMessage('onTCFUpdate', tcfString, tcfApplies ? 1 : 0);
+                            postNativeMessage('onTCFUpdate', tcfString, 1);
                         });
                     }
                 },

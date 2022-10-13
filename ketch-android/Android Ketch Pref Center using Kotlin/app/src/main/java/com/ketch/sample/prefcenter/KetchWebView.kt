@@ -80,7 +80,7 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
         // url = "$url&swb_region=DE"
 
         // Uncomment this to force the preferences center to show
-        url = "$url&swb_show=preferences"
+        //url = "$url&swb_show=preferences"
 
         ketchUrl = url
 
@@ -102,7 +102,12 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
         }
 
         @JavascriptInterface
-        fun onCCPAUpdate(ccpaString: String) {
+        fun onCCPAUpdate() {
+            onCCPAUpdate(null)
+        }
+
+        @JavascriptInterface
+        fun onCCPAUpdate(ccpaString: String?) {
             Log.d(TAG, "onCCPAUpdate: $ccpaString")
             runOnMainThread {
                 ketchWebView.listener?.onCCPAUpdate(ccpaString)
@@ -110,7 +115,12 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
         }
 
         @JavascriptInterface
-        fun onTCFUpdate(tcfString: String, tcfApplies: Int) {
+        fun onTCFUpdate() {
+            onTCFUpdate(null, null)
+        }
+
+        @JavascriptInterface
+        fun onTCFUpdate(tcfString: String?, tcfApplies: Int?) {
             Log.d(TAG, "onTCFUpdate: tcfString: $tcfString, tcfApplies: $tcfApplies")
             runOnMainThread {
                 ketchWebView.listener?.onTCFUpdate(tcfString, tcfApplies)
@@ -148,8 +158,8 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
     }
 
     interface KetchListener {
-        fun onCCPAUpdate(ccpaString: String)
-        fun onTCFUpdate(tcfString: String, tcfApplies: Int)
+        fun onCCPAUpdate(ccpaString: String?)
+        fun onTCFUpdate(tcfString: String?, tcfApplies: Int?)
         fun onSave()
         fun onCancel()
     }

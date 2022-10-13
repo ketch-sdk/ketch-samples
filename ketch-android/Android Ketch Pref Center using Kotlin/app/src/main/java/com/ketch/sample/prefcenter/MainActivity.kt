@@ -1,7 +1,6 @@
 package com.ketch.sample.prefcenter
 
 import android.os.Bundle
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -35,11 +34,11 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         ketchWebView.listener = object : KetchWebView.KetchListener {
-            override fun onCCPAUpdate(ccpaString: String) {
+            override fun onCCPAUpdate(ccpaString: String?) {
                 sharedPreferences.saveUSPrivacyString(ccpaString)
             }
 
-            override fun onTCFUpdate(tcfString: String, tcfApplies: Int) {
+            override fun onTCFUpdate(tcfString: String?, tcfApplies: Int?) {
                 sharedPreferences.saveTCFTCString(tcfString)
                 sharedPreferences.saveTCFGdprApplies(tcfApplies)
             }
@@ -87,7 +86,11 @@ class MainActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 progressBar.isVisible = false
-                Toast.makeText(this@MainActivity, R.string.cannot_get_advertising_id_toast, Toast.LENGTH_LONG)
+                Toast.makeText(
+                    this@MainActivity,
+                    R.string.cannot_get_advertising_id_toast,
+                    Toast.LENGTH_LONG
+                )
                     .show()
             }
         }
