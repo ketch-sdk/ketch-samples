@@ -62,7 +62,6 @@ struct ConsentConfig {
 
         ConsentHandler.Event.allCases.forEach { event in
             configuration.userContentController.add(consentHandler, name: event.rawValue)
-            print(event)
         }
 
         let webView = WKWebView(frame: .zero, configuration: configuration)
