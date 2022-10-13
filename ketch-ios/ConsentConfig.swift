@@ -12,6 +12,7 @@ struct ConsentConfig {
     let advertisingIdentifier: UUID
     let htmlFileName: String
     let userDefaults: UserDefaults
+    private var configWebApp: WKWebView?
 
     init(
         orgCode: String,
@@ -25,6 +26,8 @@ struct ConsentConfig {
         self.advertisingIdentifier = advertisingIdentifier
         self.htmlFileName = htmlFileName
         self.userDefaults = userDefaults
+
+        configWebApp = webView
     }
 
     var fileUrl: URL? {
@@ -47,6 +50,29 @@ struct ConsentConfig {
             URLQueryItem(name: "encodedIdentities", value: base64EncodedString)
         ]
     }
+
+    private var webView: WKWebView {
+        let preferences = WKWebpagePreferences()
+        preferences.allowsContentJavaScript = true
+
+        let configuration = WKWebViewConfiguration()
+        configuration.defaultWebpagePreferences = preferences
+
+        let consentHandler = ConsentHandler(userDefaults: userDefaults) { }
+
+        ConsentHandler.Event.allCases.forEach { event in
+            configuration.userContentController.add(consentHandler, name: event.rawValue)
+            print(event)
+        }
+
+        let webView = WKWebView(frame: .zero, configuration: configuration)
+
+        if let fileUrl = fileUrl {
+            webView.load(URLRequest(url: fileUrl))
+        }
+
+        return webView
+    }
 }
 
 class ConsentHandler: NSObject, WKScriptMessageHandler {
@@ -60,15 +86,26 @@ class ConsentHandler: NSObject, WKScriptMessageHandler {
     }
 
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        switch message.name {
-        case "onInit", "onUpdate": break
-        case "onClose":
-            if let payload = message.body as? String {
-                handleEvent(with: payload)
-            }
+        guard let event = Event(rawValue: message.name) else {
+            print("Ketch Preference Center: Unable to handle unknown event \"\(message.name)\"")
+            return
+        }
+
+        switch event {
+        case .onInit, .save, .notShow: break
+        case .close:
             onClose()
 
-        default: break
+        case .updateCCPA:
+            if let value = message.body as? String {
+                save(value: value, for: .valueUSPrivacy)
+            }
+
+        case .updateTCF:
+            if let value = message.body as? String {
+                save(value: value, for: .valueTC)
+//                save(value: consent.valueGDPRApplies, for: .valueGDPRApplies)
+            }
         }
     }
 
@@ -77,26 +114,38 @@ class ConsentHandler: NSObject, WKScriptMessageHandler {
               let consent = try? JSONDecoder().decode(ConsentModel.self, from: payloadData)
         else { return }
 
-        let keyUSPrivacy = ConsentModel.CodingKeys.valueUSPrivacy.rawValue
-        if consent.valueUSPrivacy?.isEmpty == false {
-            userDefaults.set(consent.valueUSPrivacy, forKey: keyUSPrivacy)
-        } else {
-            userDefaults.removeObject(forKey: keyUSPrivacy)
-        }
+        save(value: consent.valueUSPrivacy, for: .valueUSPrivacy)
+        save(value: consent.valueTC, for: .valueTC)
+        save(value: consent.valueGDPRApplies, for: .valueGDPRApplies)
+    }
 
-        let keyTC = ConsentModel.CodingKeys.valueTC.rawValue
-        if consent.valueTC?.isEmpty == false {
-            userDefaults.set(consent.valueTC, forKey: keyTC)
+    private func save(value: String?, for key: ConsentModel.CodingKeys) {
+        let keyValue = key.rawValue
+        if value?.isEmpty == false {
+            userDefaults.set(value, forKey: keyValue)
         } else {
-            userDefaults.removeObject(forKey: keyTC)
+            userDefaults.removeObject(forKey: keyValue)
         }
+    }
 
-        let keyGDPRApplies = ConsentModel.CodingKeys.valueGDPRApplies.rawValue
-        if let valueGDPRApplies = consent.valueGDPRApplies {
-            userDefaults.set(valueGDPRApplies, forKey: keyGDPRApplies)
+    private func save(value: Int?, for key: ConsentModel.CodingKeys) {
+        let keyValue = key.rawValue
+        if let value = value {
+            userDefaults.set(value, forKey: keyValue)
         } else {
-            userDefaults.removeObject(forKey: keyGDPRApplies)
+            userDefaults.removeObject(forKey: keyValue)
         }
+    }
+}
+
+extension ConsentHandler {
+    enum Event: String, CaseIterable {
+        case onInit = "onInit"
+        case save = "onSave"
+        case close = "onClose"
+        case notShow = "onNotShow"
+        case updateCCPA = "onCCPAUpdate"
+        case updateTCF = "onTCFUpdate"
     }
 }
 

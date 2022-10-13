@@ -19,9 +19,9 @@ class ConsentViewController: UIViewController {
             self.dismiss(animated: true)
         }
 
-        configuration.userContentController.add(consentHandler, name: "onInit")
-        configuration.userContentController.add(consentHandler, name: "onUpdate")
-        configuration.userContentController.add(consentHandler, name: "onClose")
+        ConsentHandler.Event.allCases.forEach { event in
+            configuration.userContentController.add(consentHandler, name: event.rawValue)
+        }
 
         let webView = WKWebView(frame: view.frame, configuration: configuration)
 
