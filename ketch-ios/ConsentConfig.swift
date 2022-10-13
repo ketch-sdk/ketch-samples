@@ -91,8 +91,8 @@ class ConsentHandler: NSObject, WKScriptMessageHandler {
         }
 
         switch event {
-        case .onInit, .save, .notShow: break
-        case .close:
+        case .onInit, .notShow: break
+        case .close, .save:
             onClose()
 
         case .updateCCPA:
