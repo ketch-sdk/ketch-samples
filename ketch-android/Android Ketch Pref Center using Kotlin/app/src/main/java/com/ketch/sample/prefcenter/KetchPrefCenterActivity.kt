@@ -64,6 +64,9 @@ class KetchPrefCenterActivity : AppCompatActivity() {
         // Uncomment this like to force the GDPR regulations for Germany
         // url = "$url&swb_region=DE"
 
+        // Uncomment this to force the preferences senter to show
+        // url = "$url&swb_show=preferences"
+
         webView.loadUrl(url)
 
         //receive console messages from the WebView
@@ -94,29 +97,35 @@ class KetchPrefCenterActivity : AppCompatActivity() {
         }
 
         @JavascriptInterface
-        fun onUpdate(json: String) {
-            saveConsent(json)
+        fun onCCPAUpdate(ccpaString: String) {
+            // TODO: save the ccpaString to user preferences
+            val data = Consent(ccpaString, null, null);
+            sharedPreferences.save(data)
         }
 
         @JavascriptInterface
-        fun onClose(json: String) {
-            saveConsent(json)
+        fun onTCFUpdate(tcfString: String, tcfApplies: Int) {
+            // TODO: save the tcfString to user preferences
+            val data = Consent(null, tcfString, tcfApplies);
+            sharedPreferences.save(data)
+        }
 
-            prefCenterActivity.setResult(RESULT_OK)
+        @JavascriptInterface
+        fun onNotShow() {
+            prefCenterActivity.setResult(RESULT_FIRST_USER)
             prefCenterActivity.finish()
         }
 
-        private fun saveConsent(json: String) {
-            val consent = try {
-                Gson().fromJson(json, Consent::class.java)
-            } catch (e: JsonParseException) {
-                e.printStackTrace()
-                null
-            }
+        @JavascriptInterface
+        fun onClose() {
+            prefCenterActivity.setResult(RESULT_CANCELED)
+            prefCenterActivity.finish()
+        }
 
-            consent?.let {
-                sharedPreferences.save(it)
-            } ?: sharedPreferences.clear()
+        @JavascriptInterface
+        fun onSave() {
+            prefCenterActivity.setResult(RESULT_OK)
+            prefCenterActivity.finish()
         }
     }
 
