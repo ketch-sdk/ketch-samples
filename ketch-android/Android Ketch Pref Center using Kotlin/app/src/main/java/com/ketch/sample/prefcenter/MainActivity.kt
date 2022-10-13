@@ -1,21 +1,24 @@
 package com.ketch.sample.prefcenter
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.whenStateAtLeast
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
-import com.ketch.sample.prefcenter.KetchPrefCenterActivity.Companion.IDENTITIES_KEY
-import com.ketch.sample.prefcenter.KetchPrefCenterActivity.Companion.ORG_CODE_KEY
-import com.ketch.sample.prefcenter.KetchPrefCenterActivity.Companion.PROPERTY_KEY
+import kotlinx.android.synthetic.main.activity_main.button
+import kotlinx.android.synthetic.main.activity_main.ketchWebView
+import kotlinx.android.synthetic.main.activity_main.mainLayout
+import kotlinx.android.synthetic.main.activity_main.progressBar
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 
@@ -24,65 +27,92 @@ class MainActivity : AppCompatActivity() {
         KetchSharedPreferences(this)
     }
 
-    private var advertisingId: String? = null
+    private val advertisingId = MutableStateFlow<String?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
 
+        ketchWebView.listener = object : KetchWebView.KetchListener {
+            override fun onCCPAUpdate(ccpaString: String) {
+                sharedPreferences.saveUSPrivacyString(ccpaString)
+            }
+
+            override fun onTCFUpdate(tcfString: String, tcfApplies: Int) {
+                sharedPreferences.saveTCFTCString(tcfString)
+                sharedPreferences.saveTCFGdprApplies(tcfApplies)
+            }
+
+            override fun onSave() {
+                mainLayout.isVisible = true
+            }
+
+            override fun onCancel() {
+                mainLayout.isVisible = true
+            }
+
+        }
+
+        button.setOnClickListener {
+            ketchWebView.show()
+            mainLayout.isVisible = false
+        }
+
+        collectState(advertisingId) {
+            button.isVisible = it != null
+
+            it?.let { aaid ->
+                progressBar.isVisible = false
+
+                // identities to be passed to the WebView displaying the Ketch Preference Center
+                val identities = ArrayList<Identity>()
+                identities.add(Identity(ADVERTISING_ID_CODE, aaid))
+
+                ketchWebView.init(ORG_CODE, PROPERTY, identities)
+            }
+        }
+
+        progressBar.isVisible = true
+
         loadAdvertisingId()
-
-        val startForResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    Log.d(TAG, "***** RESULT *****")
-                    Log.d(TAG, "IABUSPrivacy_String: ${sharedPreferences.getUSPrivacyString()}")
-                    Log.d(TAG, "IABTCF_TCString: ${sharedPreferences.getTCFTcString()}")
-                    Log.d(TAG, "IABTCF_gdprApplies: ${sharedPreferences.getTCFGdprApplies()}")
-                }
-            }
-
-        val buttonClick = findViewById<Button>(R.id.button)
-        buttonClick.setOnClickListener {
-            createKetchPrefCenterIntent()?.let { intent ->
-                startForResult.launch(intent)
-            }
-        }
-    }
-
-    private fun createKetchPrefCenterIntent(): Intent? {
-        if (advertisingId.isNullOrEmpty()) {
-            Toast.makeText(this, R.string.cannot_get_advertising_id_toast, Toast.LENGTH_LONG)
-                .show()
-            return null
-        }
-
-        // identities to be passed to the WebView displaying the Ketch Preference Center
-        val identities = ArrayList<Identity>()
-        identities.add(Identity(ADVERTISING_ID_CODE, advertisingId!!))
-
-        return Intent(this, KetchPrefCenterActivity::class.java).apply {
-            putExtra(ORG_CODE_KEY, ORG_CODE)
-            putExtra(PROPERTY_KEY, PROPERTY)
-            putExtra(IDENTITIES_KEY, identities)
-        }
     }
 
     @OptIn(DelicateCoroutinesApi::class)
     private fun loadAdvertisingId() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                advertisingId = AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id
+                advertisingId.value =
+                    AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id
             } catch (e: Exception) {
                 e.printStackTrace()
+                progressBar.isVisible = false
+                Toast.makeText(this@MainActivity, R.string.cannot_get_advertising_id_toast, Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
+    }
+
+    private fun <A> collectState(
+        state: StateFlow<A>,
+        minState: Lifecycle.State = Lifecycle.State.STARTED,
+        collector: suspend (A) -> Unit
+    ) = state.collectLifecycle(minState, collector)
+
+    private fun <T> Flow<T>.collectLifecycle(
+        minState: Lifecycle.State,
+        collector: suspend (T) -> Unit
+    ) {
+        lifecycleScope.launch {
+            lifecycle.whenStateAtLeast(minState) {
+                collect {
+                    collector(it)
+                }
             }
         }
     }
 
     companion object {
-        private val TAG = MainActivity::class.java.simpleName
-
         private const val ORG_CODE = "transcenda"
         private const val PROPERTY = "website_smart_tag"
         private const val ADVERTISING_ID_CODE = "aaid"

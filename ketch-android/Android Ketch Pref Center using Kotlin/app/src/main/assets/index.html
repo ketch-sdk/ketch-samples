@@ -208,8 +208,8 @@
                         postNativeMessage('onSave');
                     }
                     if (reason.constructor.name && ['MouseEvent', 'PointerEvent'].includes(reason.constructor.name)) { // Exit
-                        console.log('onClose');
-                        postNativeMessage('onClose');
+                        console.log('onCancel');
+                        postNativeMessage('onCancel');
                     }
                 }
             }

@@ -2,6 +2,7 @@ package com.ketch.sample.prefcenter
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 
 
 class KetchSharedPreferences(context: Context) {
@@ -13,31 +14,35 @@ class KetchSharedPreferences(context: Context) {
 
     fun getUSPrivacyString(): String? = sharedPreferences.getString(IAB_US_PRIVACY_STRING, null)
 
-    fun getTCFTcString(): String? = sharedPreferences.getString(IAB_TCF_TC_STRING, null)
+    fun saveUSPrivacyString(value: String?) {
+        sharedPreferences.edit {
+            value?.let {
+                putString(IAB_US_PRIVACY_STRING, value)
+            } ?: remove(IAB_US_PRIVACY_STRING)
+            apply()
+        }
+    }
+
+    fun getTCFTCString(): String? = sharedPreferences.getString(IAB_TCF_TC_STRING, null)
+
+    fun saveTCFTCString(value: String?) {
+        sharedPreferences.edit {
+            value?.let {
+                putString(IAB_TCF_TC_STRING, value)
+            } ?: remove(IAB_TCF_TC_STRING)
+            apply()
+        }
+    }
 
     fun getTCFGdprApplies(): Int? = if (sharedPreferences.contains(IAB_TCF_GDPR_APPLIES)) {
         sharedPreferences.getInt(IAB_TCF_GDPR_APPLIES, 0)
     } else null
 
-    fun save(consent: Consent) {
-        with(sharedPreferences.edit()) {
-            putString(IAB_US_PRIVACY_STRING, consent.IABUSPrivacy_String)
-            putString(IAB_TCF_TC_STRING, consent.IABTCF_TCString)
-
-            consent.IABTCF_gdprApplies?.let {
-                putInt(IAB_TCF_GDPR_APPLIES, it)
+    fun saveTCFGdprApplies(value: Int?) {
+        sharedPreferences.edit {
+            value?.let {
+                putInt(IAB_TCF_GDPR_APPLIES, value)
             } ?: remove(IAB_TCF_GDPR_APPLIES)
-
-            apply()
-        }
-    }
-
-    fun clear() {
-        with(sharedPreferences.edit()) {
-            remove(IAB_US_PRIVACY_STRING)
-            remove(IAB_TCF_TC_STRING)
-            remove(IAB_TCF_GDPR_APPLIES)
-
             apply()
         }
     }
