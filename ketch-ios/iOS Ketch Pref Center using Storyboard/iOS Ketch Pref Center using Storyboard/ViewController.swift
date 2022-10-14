@@ -8,6 +8,7 @@ import AdSupport
 import AppTrackingTransparency
 
 class ViewController: UIViewController {
+    private var config: ConsentConfig?
 
     private let button: UIButton = {
        let button = UIButton()
@@ -19,20 +20,25 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         view.addSubview(button)
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         button.frame = CGRect(x: 0, y: 0, width: 220, height: 50)
         button.center = view.center
     }
-    
-    @objc private func didTapButton() {
-        ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        ATTrackingManager.requestTrackingAuthorization { [weak self] authorizationStatus in
             if case .authorized = authorizationStatus {
                 let advertisingId = ASIdentifierManager.shared().advertisingIdentifier
 
-                DispatchQueue.main.async { [weak self] in
-                    self?.showConsent(advertisingId: advertisingId)
-                }
+                self?.config = ConsentConfig.configure(
+                    orgCode: <#Your Organization Code#>,
+                    propertyName: <#Your Property ID#>,
+                    advertisingIdentifier: advertisingId
+                )
             } else if case .denied = authorizationStatus {
                 let alert = UIAlertController(
                     title: "Tracking Authorization Denied by app settings",
@@ -65,17 +71,13 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    @objc private func didTapButton() {
+        guard let config = config else { return }
 
-    private func showConsent(advertisingId: UUID) {
-        let vc = ConsentViewController(
-            config: ConsentConfig(
-                orgCode: "<#Your Organization Code#>",
-                propertyName: "<#Your Property ID#>",
-                advertisingIdentifier: advertisingId
-            )
-        )
-
+        let vc = ConsentViewController(config: config)
         let navVC = UINavigationController(rootViewController: vc)
+
         present(navVC, animated: true)
     }
 }

@@ -64,7 +64,7 @@ import AppTrackingTransparency
 import AdSupport
 
 ...
-
+    
 ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
     if case .authorized = authorizationStatus {
         let advertisingId = ASIdentifierManager.shared().advertisingIdentifier
@@ -74,7 +74,7 @@ ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
 }
 ```
 
-- Present Consent View, don't forget to run it in main thread:
+- Create ConsentConfig by .configure(:...) method and save it for future preferencesCenter launch. To keep the activity as configurable as the Ketch Smart Tag on the HTML page, it expects an organization code and property code to be passed in to it:
 
 ```swift
 import AppTrackingTransparency
@@ -82,34 +82,33 @@ import AdSupport
 
 ...
 
-ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
-    if case .authorized = authorizationStatus {
-        let advertisingId = ASIdentifierManager.shared().advertisingIdentifier
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.showConsent(advertisingId: advertisingId)
-        }
-    }
-}
+class ViewController: UIViewController {
+    var config: ConsentConfig?
 
 ...
 
-private func showConsent(advertisingId: UUID) {
-    let vc = ConsentViewController(config:  ... )
-    let navVC = UINavigationController(rootViewController: vc)
-    present(navVC, animated: true)
-}
+override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
+        if case .authorized = authorizationStatus {
+            let advertisingId = ASIdentifierManager.shared().advertisingIdentifier
+            
+            self?.config = ConsentConfig.configure(
+                orgCode: "#{your_org_code}#",
+                propertyName: "#{your_property}#",
+                advertisingIdentifier: advertisingId
+            )
+        }
+    }
 ```
 
-- To keep the activity as configurable as the Ketch Smart Tag on the HTML page, it expects an organization code and property code to be passed in to it.
-Configure `ConsentConfig` with those parameters:
+- Show PreferenceCenter once you need to launch preferences setup:
 
 ```swift
-ConsentConfig(
-    orgCode: "#{your_org_code}#",
-    propertyName: "#{your_property}#",
-    advertisingIdentifier: advertisingId
-)
+let vc = ConsentViewController(config: config)
+let navVC = UINavigationController(rootViewController: vc)
+present(navVC, animated: true)
 ```
 
 - Full integration code with config:
@@ -120,27 +119,34 @@ import AdSupport
 
 ...
 
-ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
-    if case .authorized = authorizationStatus {
-        let advertisingId = ASIdentifierManager.shared().advertisingIdentifier
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.showConsent(advertisingId: advertisingId)
-        }
-    }
-}
+class ViewController: UIViewController {
+    var config: ConsentConfig?
 
 ...
 
-private func showConsent(advertisingId: UUID) {
-    let vc = ConsentViewController(
-        config: ConsentConfig(
-            orgCode: "<#Your Organization Code#>",
-            propertyName: "<#Your Property ID#>",
-            advertisingIdentifier: advertisingId
-        )
-    )
+override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
+        if case .authorized = authorizationStatus {
+            let advertisingId = ASIdentifierManager.shared().advertisingIdentifier
+            
+            self?.config = ConsentConfig.configure(
+                orgCode: "#{your_org_code}#",
+                propertyName: "#{your_property}#",
+                advertisingIdentifier: advertisingId
+            )
+        }
+    }
+
+...
+
+func showPreferencesCenter() {
+    guard let config = config else { return }
+
+    let vc = ConsentViewController(config: config)
     let navVC = UINavigationController(rootViewController: vc)
+
     present(navVC, animated: true)
 }
 ```

@@ -8,29 +8,11 @@ import WebKit
 
 class ConsentViewController: UIViewController {
     let config: ConsentConfig
-    lazy var webView: WKWebView = {
-        let preferences = WKWebpagePreferences()
-        preferences.allowsContentJavaScript = true
-
-        let configuration = WKWebViewConfiguration()
-        configuration.defaultWebpagePreferences = preferences
-
-        let consentHandler = ConsentHandler(userDefaults: config.userDefaults) {
+    lazy var webView: WKWebView = config.preferencesWebView(
+        onClose: {
             self.dismiss(animated: true)
         }
-
-        ConsentHandler.Event.allCases.forEach { event in
-            configuration.userContentController.add(consentHandler, name: event.rawValue)
-        }
-
-        let webView = WKWebView(frame: view.frame, configuration: configuration)
-
-        if let fileUrl = config.fileUrl {
-            webView.load(URLRequest(url: fileUrl))
-        }
-
-        return webView
-    }()
+    )
 
     init(config: ConsentConfig) {
         self.config = config

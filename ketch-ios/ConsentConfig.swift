@@ -14,7 +14,7 @@ struct ConsentConfig {
     let userDefaults: UserDefaults
     private var configWebApp: WKWebView?
 
-    init(
+    private init(
         orgCode: String,
         propertyName: String,
         advertisingIdentifier: UUID,
@@ -26,11 +26,30 @@ struct ConsentConfig {
         self.advertisingIdentifier = advertisingIdentifier
         self.htmlFileName = htmlFileName
         self.userDefaults = userDefaults
-
-        configWebApp = webView
     }
 
-    var fileUrl: URL? {
+    static func configure(
+        orgCode: String,
+        propertyName: String,
+        advertisingIdentifier: UUID,
+        htmlFileName: String = "index",
+        userDefaults: UserDefaults = .standard
+    ) -> Self {
+        var config = ConsentConfig(
+            orgCode: orgCode,
+            propertyName: propertyName,
+            advertisingIdentifier: advertisingIdentifier,
+            htmlFileName: htmlFileName,
+            userDefaults: userDefaults)
+
+        DispatchQueue.main.async {
+            config.configWebApp = config.preferencesWebView(onClose: nil)
+        }
+
+        return config
+    }
+
+    private var fileUrl: URL? {
         let url = Bundle.main.url(forResource: htmlFileName, withExtension: "html")!
 
         var urlComponents = URLComponents(string: url.absoluteString)
@@ -39,7 +58,7 @@ struct ConsentConfig {
         return urlComponents?.url
     }
 
-    var queryItems: [URLQueryItem] {
+    private var queryItems: [URLQueryItem] {
         let base64EncodedString = try? JSONSerialization
             .data(withJSONObject: ["idfa": advertisingIdentifier.uuidString])
             .base64EncodedString()
@@ -51,14 +70,14 @@ struct ConsentConfig {
         ]
     }
 
-    private var webView: WKWebView {
+    func preferencesWebView(onClose: (() -> Void)?) -> WKWebView {
         let preferences = WKWebpagePreferences()
         preferences.allowsContentJavaScript = true
 
         let configuration = WKWebViewConfiguration()
         configuration.defaultWebpagePreferences = preferences
 
-        let consentHandler = ConsentHandler(userDefaults: userDefaults) { }
+        let consentHandler = ConsentHandler(userDefaults: userDefaults, onClose: onClose)
 
         ConsentHandler.Event.allCases.forEach { event in
             configuration.userContentController.add(consentHandler, name: event.rawValue)
@@ -74,12 +93,18 @@ struct ConsentConfig {
     }
 }
 
+extension ConsentConfig: Identifiable {
+    var id: String {
+        orgCode + propertyName + advertisingIdentifier.uuidString
+    }
+}
+
 class ConsentHandler: NSObject, WKScriptMessageHandler {
-    var onClose: () -> Void
+    var onClose: (() -> Void)?
     private let userDefaults: UserDefaults
     private var consent: [String: Any]?
 
-    init(userDefaults: UserDefaults, onClose: @escaping () -> Void) {
+    init(userDefaults: UserDefaults, onClose: (() -> Void)?) {
         self.onClose = onClose
         self.userDefaults = userDefaults
     }
@@ -93,7 +118,7 @@ class ConsentHandler: NSObject, WKScriptMessageHandler {
         switch event {
         case .onInit, .notShow: break
         case .close, .save:
-            onClose()
+            onClose?()
 
         case .updateCCPA:
             if let value = message.body as? String {
