@@ -11,7 +11,7 @@ as per standards requirements for the in-app support:
 - Registered [Ketch organization account](https://app.ketch.com/settings/organization)
 - Configured [application property](https://app.ketch.com/deployment/applications) record
 - [Custom identity space](https://docs.ketch.com/hc/en-us/articles/360063594173-Managing-Properties#configuring-data-layer-setup-0-9)
-- [index.html](./app/src/main/assets/index.html) Ketch Smart Tag integration bridge and [Kotlin utility classes](./app/src/main/java/com/ketch/sample/prefcenter/).
+- [index.html](./app/src/main/assets/index.html) Ketch Smart Tag integration bridge and [Kotlin utility classes](./app/src/main/java/com/ketch/sample/pref/).
 
 ## Quick Start
 
@@ -28,10 +28,10 @@ communicate back and forth with the native runtime of the Android application.
 ### Step 2. Create the activity with the webview
 
 Copy the following files to your module package:
-- [KetchPrefCenterActivity](./app/src/main/java/com/ketch/sample/prefcenter/KetchPrefCenterActivity.kt)
-- [KetchSharedPreferences](./app/src/main/java/com/ketch/sample/prefcenter/KetchSharedPreferences.kt)
-- [Consent](./app/src/main/java/com/ketch/sample/prefcenter/Consent.kt)
-- [Identity](./app/src/main/java/com/ketch/sample/prefcenter/Identity.kt)
+- [KetchPrefCenterActivity](./app/src/main/java/com/ketch/sample/pref/KetchPrefCenterActivity.kt)
+- [KetchSharedPreferences](./app/src/main/java/com/ketch/sample/pref/KetchSharedPreferences.kt)
+- [Consent](./app/src/main/java/com/ketch/sample/pref/Consent.kt)
+- [Identity](./app/src/main/java/com/ketch/sample/pref/Identity.kt)
 
 The activity and helper classes cover the communication with the JavaScript SDK
 running inside the webview and storage of the corresponding policy strings.
