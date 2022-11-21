@@ -7,23 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		31458E5428BFB4F40099DC6D /* PreferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31458E5328BFB4F40099DC6D /* PreferenceView.swift */; };
 		31D8FE1428BD2534009E57F4 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 31D8FE1328BD2534009E57F4 /* index.html */; };
 		31F17FD628B6CBC8006237D7 /* iOS_Pref_Center_DemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F17FD528B6CBC8006237D7 /* iOS_Pref_Center_DemoApp.swift */; };
 		31F17FD828B6CBC8006237D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F17FD728B6CBC8006237D7 /* ContentView.swift */; };
 		31F17FDA28B6CBCD006237D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31F17FD928B6CBCD006237D7 /* Assets.xcassets */; };
-		31F17FDD28B6CBCD006237D7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31F17FDC28B6CBCD006237D7 /* Preview Assets.xcassets */; };
+		3A18975228E2226D00FE6518 /* ConsentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A18975128E2226D00FE6518 /* ConsentView.swift */; };
+		3A3A638728E1EB5600CAB56D /* ConsentConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3A638628E1EB5600CAB56D /* ConsentConfig.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		31458E5328BFB4F40099DC6D /* PreferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceView.swift; sourceTree = "<group>"; };
-		31D8FE1328BD2534009E57F4 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		31D8FE1328BD2534009E57F4 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = index.html; path = ../../index.html; sourceTree = "<group>"; };
 		31D8FE1728BD5972009E57F4 /* ios-ketch-pref-center-using-swiftui-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ios-ketch-pref-center-using-swiftui-Info.plist"; sourceTree = SOURCE_ROOT; };
 		31F17FD228B6CBC8006237D7 /* iOS Ketch Pref Center using SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS Ketch Pref Center using SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31F17FD528B6CBC8006237D7 /* iOS_Pref_Center_DemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_Pref_Center_DemoApp.swift; sourceTree = "<group>"; };
 		31F17FD728B6CBC8006237D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		31F17FD928B6CBCD006237D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		31F17FDC28B6CBCD006237D7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		3A18975128E2226D00FE6518 /* ConsentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsentView.swift; sourceTree = SOURCE_ROOT; };
+		3A3A638628E1EB5600CAB56D /* ConsentConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConsentConfig.swift; path = ../../ConsentConfig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,18 +61,10 @@
 				31F17FD528B6CBC8006237D7 /* iOS_Pref_Center_DemoApp.swift */,
 				31F17FD728B6CBC8006237D7 /* ContentView.swift */,
 				31F17FD928B6CBCD006237D7 /* Assets.xcassets */,
-				31F17FDB28B6CBCD006237D7 /* Preview Content */,
-				31458E5328BFB4F40099DC6D /* PreferenceView.swift */,
+				3A3A638628E1EB5600CAB56D /* ConsentConfig.swift */,
+				3A18975128E2226D00FE6518 /* ConsentView.swift */,
 			);
 			path = "iOS Ketch Pref Center using SwiftUI";
-			sourceTree = "<group>";
-		};
-		31F17FDB28B6CBCD006237D7 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				31F17FDC28B6CBCD006237D7 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,7 +126,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				31D8FE1428BD2534009E57F4 /* index.html in Resources */,
-				31F17FDD28B6CBCD006237D7 /* Preview Assets.xcassets in Resources */,
 				31F17FDA28B6CBCD006237D7 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -147,8 +138,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				31F17FD828B6CBC8006237D7 /* ContentView.swift in Sources */,
+				3A18975228E2226D00FE6518 /* ConsentView.swift in Sources */,
 				31F17FD628B6CBC8006237D7 /* iOS_Pref_Center_DemoApp.swift in Sources */,
-				31458E5428BFB4F40099DC6D /* PreferenceView.swift in Sources */,
+				3A3A638728E1EB5600CAB56D /* ConsentConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,7 +268,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"iOS Ketch Pref Center using SwiftUI/Preview Content\"";
+				DEVELOPMENT_TEAM = K265G3Z3K4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS-Ketch-Pref-Center-using-SwiftUI-Info.plist";
@@ -305,7 +297,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"iOS Ketch Pref Center using SwiftUI/Preview Content\"";
+				DEVELOPMENT_TEAM = K265G3Z3K4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS-Ketch-Pref-Center-using-SwiftUI-Info.plist";

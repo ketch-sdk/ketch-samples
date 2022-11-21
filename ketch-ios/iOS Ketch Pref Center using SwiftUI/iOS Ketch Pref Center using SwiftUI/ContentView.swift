@@ -2,25 +2,59 @@
 //  ContentView.swift
 //  iOS Pref Center Demo
 //
-//  Created by Ryan Overton on 8/24/22.
-//
 
 import SwiftUI
-import UIKit
-import WebKit
+import AdSupport
+import AppTrackingTransparency
+
+private var config: ConsentConfig?
 
 struct ContentView: View {
     @State private var showingPopover = false
-    @State private var ids = [Identity(code: "visitorId", value: "user@test.com")]
-    
+    @State private var showAuthorizationDenied = false
+    @State private var configItem: ConsentConfig?
+
     var body: some View {
-        Text("Hello world!")
-            .padding()
-        Button("Show Preference Center") {
-            showingPopover = true
+        VStack {
+            Button("Show Preference Center") {
+                configItem = config
+            }
         }
-        .popover(isPresented: $showingPopover) {
-            PreferenceView(isPresented: $showingPopover, identities: $ids)
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                //  Delay after SwiftUI view appearing is required for alert presenting, otherwise it will not be shown
+                ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
+                    if case .authorized = authorizationStatus {
+                        let advertisingId = ASIdentifierManager.shared().advertisingIdentifier
+
+                        config = ConsentConfig.configure(
+                            orgCode: <#Your Organization Code#>,
+                            propertyName: <#Your Property ID#>,
+                            advertisingIdentifier: advertisingId
+                        )
+                    } else if case .denied = authorizationStatus {
+                        showAuthorizationDenied = true
+                    }
+                }
+            }
+        }
+        .sheet(item: $configItem) { configItem in
+            ConsentView(config: configItem)
+        }
+        .alert(isPresented: $showAuthorizationDenied) {
+            Alert(
+                title: Text("Tracking Authorization Denied by app settings"),
+                message: Text("Please allow tracking in Settings -> Privacy -> Tracking"),
+                primaryButton: .cancel(Text("Cancel")),
+                secondaryButton: .default(
+                    Text("Edit preferences"),
+                    action: {
+                        if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                            UIApplication.shared.open(settingsURL)
+                        }
+                    }
+                )
+            )
         }
     }
 }
@@ -30,5 +64,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-

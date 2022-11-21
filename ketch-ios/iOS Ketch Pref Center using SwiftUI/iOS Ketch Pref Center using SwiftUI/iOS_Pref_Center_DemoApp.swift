@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AppTrackingTransparency
 
 @main
 struct iOS_Pref_Center_DemoApp: App {
