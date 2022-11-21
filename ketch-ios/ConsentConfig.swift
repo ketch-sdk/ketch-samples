@@ -59,14 +59,12 @@ struct ConsentConfig {
     }
 
     private var queryItems: [URLQueryItem] {
-        let base64EncodedString = try? JSONSerialization
-            .data(withJSONObject: ["idfa": advertisingIdentifier.uuidString])
-            .base64EncodedString()
-
+        
         return [
             URLQueryItem(name: "propertyName", value: propertyName),
             URLQueryItem(name: "orgCode", value: orgCode),
-            URLQueryItem(name: "encodedIdentities", value: base64EncodedString)
+            URLQueryItem(name: "idfa", value: advertisingIdentifier.uuidString),
+            URLQueryItem(name: "swb_region", value: "US-CA")
         ]
     }
 
@@ -116,16 +114,25 @@ class ConsentHandler: NSObject, WKScriptMessageHandler {
         }
 
         switch event {
-        case .onInit, .notShow: break
-        case .close, .save:
-            onClose?()
+        case .hideExperience:
+            if let status = message.body as? String {
+                if status == "[\"willNotShow\"]" {
+                    print(status)
+                } else {
+                    print(status)
+                    onClose?()
+                }
+            }
 
         case .updateCCPA:
+            print("CCPA Updated")
             if let value = message.body as? String {
+                print(value)
                 save(value: value, for: .valueUSPrivacy)
             }
 
         case .updateTCF:
+            print("TCF Updated")
             if let value = message.body as? String {
                 save(value: value, for: .valueTC)
 //                save(value: consent.valueGDPRApplies, for: .valueGDPRApplies)
@@ -164,12 +171,9 @@ class ConsentHandler: NSObject, WKScriptMessageHandler {
 
 extension ConsentHandler {
     enum Event: String, CaseIterable {
-        case onInit = "onInit"
-        case save = "onSave"
-        case close = "onClose"
-        case notShow = "onNotShow"
-        case updateCCPA = "onCCPAUpdate"
-        case updateTCF = "onTCFUpdate"
+        case updateCCPA = "usprivacy:updated"
+        case updateTCF = "tcf:updated"
+        case hideExperience = "hideExperience"
     }
 }
 
