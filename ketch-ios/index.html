@@ -6,9 +6,9 @@
             let params = (new URL(document.location)).searchParams;
 
             // Get property name from query parameters
-            let propertyName = params.get("propertyName") || 'axonic';
+            let propertyName = params.get("propertyName");
             // Get organization code from query parameters
-            let orgCode = params.get("orgCode") || 'axonic';
+            let orgCode = params.get("orgCode");
             
             var e=document.createElement("script");
             e.type="text/javascript";
