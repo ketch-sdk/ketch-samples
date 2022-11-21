@@ -32,11 +32,20 @@ class ViewController: UIViewController {
             return
         }
         
+        // Add org info to URL
+        let urlWithOrgCode = url.appending("orgCode", value: "transcenda")
+        let urlWithProperty = urlWithOrgCode.appending("propertyName", value: "website_smart_tag")
+
         // Add identities to URL
-        let finalUrl = url.appending("visitorId", value: "ryan@test.com")
+        let identities:NSMutableDictionary = NSMutableDictionary()
+        identities.setValue("idfa", forKey:"{MY IDFA}")
+        let jsonData = try! JSONSerialization.data(withJSONObject:identities)
+        let identitiesJson = NSString(data: jsonData, encoding: NSUTF8StringEncoding) as! String
+        let identitiesBase64 = identitiesJson.data(using: .utf8)?.base64EncodedString()
+        let urlWithIdentities = urlWithProperty.appending("encodedIdentities", value: identitiesBase64)
         
         // Create instance of WebViewController
-        let vc = WebViewViewController(url: finalUrl, title: "Preference Center")
+        let vc = WebViewViewController(url: urlWithIdentities, title: "Preference Center")
         
         // Navigate to Preference Center
         let navVC = UINavigationController(rootViewController: vc)

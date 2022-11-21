@@ -1,14 +1,19 @@
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script>
+            // Global variables
+            let tcfApplies = false
+            let ccpaApplies = false
+
             // Get query parameters
             let params = (new URL(document.location)).searchParams;
 
             // Get property name from query parameters
-            let propertyName = params.get("propertyName") || "web";
+            let propertyName = params.get("propertyName");
             // Get organization code from query parameters
-            //let propertyName = params.get("orgCode");
+            let orgCode = params.get("orgCode");
 
             // Get identities from query string
             let encodedIdentities = params.get("encodedIdentities")
@@ -18,35 +23,197 @@
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push(decodedIdentities);
 
-            // Add Ketch Smart Tag
-            // Replace the org_code below with your organization code.
-            var orgCode = 'your_org_code_here';
-
             var e=document.createElement("script");
             e.type="text/javascript";
-            e.src=`https://global.ketchcdn.com/web/v1/config/${orgCode}/${propertyName}/boot.js`;
+            e.src=`https://global.ketchcdn.com/web/v2/config/${orgCode}/${propertyName}/boot.js`;
             e.defer=e.async=!0;
             document.getElementsByTagName("head")[0].appendChild(e);
             window.semaphore=window.semaphore||[];
-        </script>
 
-        <script>
             // Show the preference center experience
             window.semaphore.push(['showPreferences'])
 
+            // helper functions
+            function postNativeMessage(messageName, argument1, argument2) {
+                if (window.androidListener) { // we run on Android
+                    if (messageName in androidListener) {
+                        if (argument1 && argument2) {
+                            androidListener[messageName](argument1, argument2);
+                        } else if (argument1) {
+                            androidListener[messageName](argument1);
+                        } else {
+                            androidListener[messageName]();
+                        }
+                    } else {
+                        console.error("Can't pass message to native code. " + messageName + " handler is not registered");
+                    }
+                }
+                if (window.webkit && window.webkit.messageHandlers) {  // we run on iOS
+                    if (messageName in window.webkit.messageHandlers) {
+                        window.webkit.messageHandlers[messageName].postMessage(argument1, argument2)
+                    } else {
+                        console.error("Can't pass message to native code. " + messageName + " handler is not registered");
+                    }
+                }
+            }
+
+            function isTCF_Active() {
+                return !!window.__tcf__;
+            }
+
+            function isCCPA_Active() {
+                return !!window.__ccpa__;
+            }
+
+            function isTCF_Applies(regulations) {
+                for (const regulation of regulations) {
+                    if (regulation === 'gdpreu') {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            function isCCPA_Applies(regulations) {
+                for (const regulation of regulations) {
+                    if (regulation === 'ccpaca') {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            function buildCCPAString(host, config, consent) {
+                const defaultValue = "1---";
+
+                // early return for some negative cases
+                if (!ccpaApplies) {
+                    return defaultValue;
+                }
+                const canonicalPurposes = config && config.canonicalPurposes
+                if (!canonicalPurposes) {
+                    return defaultValue;
+                }
+
+                // helpers
+                const getOptOutCount = (purpose) => {
+                    let optOutCount = 0
+                    if(!consent.purposes[purpose]) {
+                        optOutCount += 1
+                    }
+                    return optOutCount
+                }
+
+                let isAnalyticsDisabled = false;
+                let isBehavioralAdvertisingDisabled = false;
+                let isDataBrokingDisabled = false;
+
+                // consts
+                let analyticsPurposeCodes = canonicalPurposes['analytics']?.purposeCodes;
+                let behavioralAdvertisingPurposeCodes = canonicalPurposes['behavioral_advertising']?.purposeCodes;
+                let dataBrokingPurposeCodes = canonicalPurposes['data_broking']?.purposeCodes;
+
+                // permit logic
+                analyticsPurposeCodes && analyticsPurposeCodes.map((purpose) => {
+                    let optOutCount = getOptOutCount(purpose)
+                    if(optOutCount === analyticsPurposeCodes?.length) {
+                        isAnalyticsDisabled = true
+                    }
+                })
+                behavioralAdvertisingPurposeCodes && behavioralAdvertisingPurposeCodes.map((purpose) => {
+                    let optOutCount = getOptOutCount(purpose)
+                    if(optOutCount === behavioralAdvertisingPurposeCodes?.length) {
+                        isBehavioralAdvertisingDisabled = true
+                    }
+                })
+
+                dataBrokingPurposeCodes && dataBrokingPurposeCodes.map((purpose) => {
+                    let optOutCount = getOptOutCount(purpose)
+                    if(optOutCount === dataBrokingPurposeCodes?.length) {
+                        isDataBrokingDisabled = true
+                    }
+                })
+
+                const API_VERSION = "1";
+
+                // we expect the user to set the LSPA variable on their page if they are using that framework for CCPA compliance
+                // TODO: allow the mobile developer to pass this value from the outside of webview
+                const LSPA = window.LSPA || 'N';
+
+                // Status of notice given: whether the digital property provided
+                // TODO: allow the mobile developer to control this value (can we detect it automatically?)
+                const notice = true;
+
+                const optedOut = isAnalyticsDisabled || isBehavioralAdvertisingDisabled || isDataBrokingDisabled;
+
+                // return uspString
+                // v = version (int)
+                // n = Notice Given (char)
+                // o = OptedOut (char)
+                // l = Lspact (char)
+                return `${API_VERSION}${notice ? 'Y' : 'N'}${optedOut ? 'Y' : 'N'}${LSPA}`
+            }
+
+            function buildTCFString(callback) {
+                const defaultValue = null;
+
+                // early return for some negative cases
+                if (!tcfApplies) {
+                    return callback(defaultValue);
+                }
+                __tcfapi('getInAppTCData', 2, (inAppTCData, success) => {
+                    if(success) {
+                        return callback(inAppTCData['tcString']);
+                    } else {
+                        // TODO: figure out when error state could happen and whether we need to handle this somehow
+                        return callback(defaultValue);
+                    }
+                })
+            }
+
             // Custom plugin to listen for the closing of the preference center experience
             var custom_plugin = {
-                'init': function(host) {
-                    console.log('plugin initialized');
-                    androidListener.receiveMessage('custom plugin initialized');
-                },
-                'experienceHidden': function(host, config, reason) {
-                    if ((reason.constructor.name === 'String' && reason === 'setConsent') || reason.constructor.name === 'MouseEvent') {
-                        androidListener.receiveMessage('PreferenceCenterClosed');
+                'init': function(host, config) {
+                    if (config.regulations) {
+                        if (isCCPA_Active()) { // CCPA init
+                            ccpaApplies = isCCPA_Applies(config.regulations)
+                        }
+                        if (isTCF_Active()) { // TCF init
+                            tcfApplies = isTCF_Applies(config.regulations)
+                        }
                     }
+                    console.log('onInit');
+                    postNativeMessage('onInit');
                 },
                 'consentChanged': function(host, config, consent) {
-                    consentListener.receiveMessage(JSON.stringify(consent));
+                    if (isCCPA_Active()) {
+                        // should be saved to UD/SP as "IABUSPrivacy_String"
+                        const ccpaString = buildCCPAString(host, config, consent)
+                        console.log('onCCPAUpdate, policy string: ' + ccpaString);
+                        postNativeMessage('onCCPAUpdate', ccpaString);
+                    }
+                    if (isTCF_Active()) {
+                        buildTCFString(tcfString => {
+                            console.log('onTCFUpdate, policy string: ' + tcfString + ' tcfApplies: ' + (tcfApplies ? 1 : 0));
+                            // should be saved to UD/SP as "IABTCF_TCString" and "IABTCF_gdprApplies"
+                            postNativeMessage('onTCFUpdate', tcfString, 1);
+                        });
+                    }
+                },
+                'experienceHidden': function(host, config, reason) {
+                    console.log('experienceHidden, reason = ' + reason);
+                    if ((reason.constructor.name === 'String' && reason === 'willNotShow')) { // called when will not show
+                        console.log('onNotShow');
+                        postNativeMessage('onNotShow'); // TODO: remove this as unused, added for troubleshooting
+                    }
+                    if ((reason.constructor.name === 'String' && reason === 'setConsent')) { // Save clicked
+                        console.log('onSave');
+                        postNativeMessage('onSave');
+                    }
+                    if (reason.constructor.name && ['MouseEvent', 'PointerEvent'].includes(reason.constructor.name)) { // Exit
+                        console.log('onCancel');
+                        postNativeMessage('onCancel');
+                    }
                 }
             }
 
@@ -54,7 +221,7 @@
             window.semaphore = window.semaphore || [];
             window.semaphore.push(['registerPlugin', custom_plugin]);
         </script>
-    </head>
-    <body>
-    </body>
+</head>
+<body>
+</body>
 </html>
