@@ -1,0 +1,77 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlinx-serialization'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdk buildConfig.compileSdk
+
+    defaultConfig {
+        applicationId "com.ketch.sample"
+        minSdk buildConfig.minSdk
+        targetSdk buildConfig.targetSdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
+        freeCompilerArgs += [
+                "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi," +
+                        "kotlinx.coroutines.FlowPreview,kotlin.RequiresOptIn"
+        ]
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+}
+
+dependencies {
+    implementation "com.ketch.android:core:${versions.ketch}"
+    implementation "com.ketch.android:ccpa:${versions.ketch}"
+    implementation "com.ketch.android:tcf:${versions.ketch}"
+    implementation "com.ketch.android:core-ui:${versions.ketch}"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
+    implementation "androidx.core:core-ktx:${versions.ktx}"
+    implementation "androidx.appcompat:appcompat:${versions.appcompat}"
+    implementation "com.google.android.material:material:${versions.material}"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycleruntimektx}"
+
+    implementation "com.google.android.gms:play-services-base:${versions.playbase}"
+    implementation "com.google.android.gms:play-services-ads-identifier:${versions.playads}"
+
+    implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
+    implementation "com.squareup.okhttp3:okhttp:${versions.okhttp}"
+
+    implementation "io.noties.markwon:core:${versions.markwon}"
+    implementation "io.noties.markwon:linkify:${versions.markwon}"
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+}
