@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:ketch-android/Android Ketch Pref Center using Kotlin/app/src/test/java/com/ketch/sample/prefcenter/ExampleUnitTest.kt
-package com.ketch.sample.prefcenter
-========
 package com.ketch.sample.pref
->>>>>>>> main:ketch-android/Android Ketch Pref Center using Kotlin/app/src/test/java/com/ketch/sample/pref/ExampleUnitTest.kt
 
 import org.junit.Test
 
