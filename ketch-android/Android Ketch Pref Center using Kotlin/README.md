@@ -28,7 +28,7 @@ communicate back and forth with the native runtime of the Android application.
 ### Step 2. Create the activity with the webview
 
 Copy the following files to your module package:
-- [KetchPrefCenterActivity](./app/src/main/java/com/ketch/sample/pref/KetchWebView.kt)
+- [KetchWebView](./app/src/main/java/com/ketch/sample/pref/KetchWebView.kt)
 - [KetchSharedPreferences](./app/src/main/java/com/ketch/sample/pref/KetchSharedPreferences.kt)
 - [Identity](./app/src/main/java/com/ketch/sample/pref/Identity.kt)
 
@@ -71,17 +71,13 @@ class MainActivity : AppCompatActivity() {
     private fun loadAdvertisingId() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                advertisingId.value =
-                    AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id
+                AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id
             } catch (e: Exception) {
                 e.printStackTrace()
-                progressBar.isVisible = false
-                Toast.makeText(
-                    this@MainActivity,
-                    R.string.cannot_get_advertising_id_toast,
-                    Toast.LENGTH_LONG
-                )
-                    .show()
+            } finally {
+                launch(Dispatchers.Main) {
+                    progressBar.isVisible = false
+                }
             }
         }
     }
@@ -93,7 +89,7 @@ class MainActivity : AppCompatActivity() {
 
 ### Step 4. Finally, setup the Ketch webview with the Ketch JS SDK configuration
 
-Construct the webview using the "onCreate" lifecycle method in your main activity.
+Create the webview class or use KetchWebView from this sample. Add ths view to your your main activity layout.
 In works in a similar way to The Ketch Smart Tag on the HTML page 
 that expects an organization code and app property code to be passed in to it.
 
@@ -127,11 +123,11 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSave() {
-                mainLayout.isVisible = true
+                mainLayout.isVisible = false
             }
 
             override fun onCancel() {
-                mainLayout.isVisible = true
+                mainLayout.isVisible = false
             }
 
         }
@@ -160,13 +156,13 @@ class MainActivity : AppCompatActivity() {
         loadAdvertisingId()
     }
 
-    // navigate to the Ketch Dashboard settings screen for these values
+    ...
+
     companion object {
-        private const val ORG_CODE = "XXXX-your-org-code-XXXX"
-        private const val PROPERTY = "XXXX-your-property-tag-XXXX"
-        private const val ADVERTISING_ID_CODE = "XXXX-your-advertising-id-code-XXXX"
+        private const val ORG_CODE = "<organization code>"
+        private const val PROPERTY = "<property>"
+        private const val ADVERTISING_ID_CODE = "<advertising field code>"
     }
-    
     ...
 }
 

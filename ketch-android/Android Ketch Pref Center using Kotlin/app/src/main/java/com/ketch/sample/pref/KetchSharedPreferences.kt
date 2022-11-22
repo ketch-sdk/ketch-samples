@@ -34,22 +34,8 @@ class KetchSharedPreferences(context: Context) {
         }
     }
 
-    fun getTCFGdprApplies(): Int? = if (sharedPreferences.contains(IAB_TCF_GDPR_APPLIES)) {
-        sharedPreferences.getInt(IAB_TCF_GDPR_APPLIES, 0)
-    } else null
-
-    fun saveTCFGdprApplies(value: Int?) {
-        sharedPreferences.edit {
-            value?.let {
-                putInt(IAB_TCF_GDPR_APPLIES, value)
-            } ?: remove(IAB_TCF_GDPR_APPLIES)
-            apply()
-        }
-    }
-
     companion object {
         private const val IAB_TCF_TC_STRING = "IABTCF_TCString"
         private const val IAB_US_PRIVACY_STRING = "IABUSPrivacy_String"
-        private const val IAB_TCF_GDPR_APPLIES = "IABTCF_gdprApplies"
     }
 }
