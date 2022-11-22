@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:ketch-android/Android Ketch Pref Center using Kotlin/app/src/androidTest/java/com/ketch/sample/prefcenter/ExampleInstrumentedTest.kt
 package com.ketch.sample.prefcenter
+========
+package com.ketch.sample.pref
+>>>>>>>> main:ketch-android/Android Ketch Pref Center using Kotlin/app/src/androidTest/java/com/ketch/sample/pref/ExampleInstrumentedTest.kt
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +23,10 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+<<<<<<<< HEAD:ketch-android/Android Ketch Pref Center using Kotlin/app/src/androidTest/java/com/ketch/sample/prefcenter/ExampleInstrumentedTest.kt
         assertEquals("com.ketch.sample.prefcenter", appContext.packageName)
+========
+        assertEquals("com.ketch.sample.pref", appContext.packageName)
+>>>>>>>> main:ketch-android/Android Ketch Pref Center using Kotlin/app/src/androidTest/java/com/ketch/sample/pref/ExampleInstrumentedTest.kt
     }
 }
