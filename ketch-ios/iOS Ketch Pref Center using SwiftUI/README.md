@@ -1,4 +1,4 @@
-# Ketch Smart Tag for the iOS app
+# Ketch Smart Tag for the iOS app using SwiftUI
 
 This document demonstrates the Ketch Smart Tag usage for the Swift based native iOS application.
 
@@ -35,6 +35,7 @@ of your data in order to perform the operation(s) you’ve requested."
 ### Step 3. Create the Ketch Preferences Center view with the webView
 
 Integrate source code of preference settings view controller to your project.
+
 File for SwiftUI integration: [ConsentView](./ConsentView.swift)
 
 And add source code for config: [ConsentConfig](./../ConsentConfig.swift)
