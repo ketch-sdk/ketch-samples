@@ -24,6 +24,7 @@
 		31F17FD928B6CBCD006237D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3A18975128E2226D00FE6518 /* ConsentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsentView.swift; sourceTree = SOURCE_ROOT; };
 		3A3A638628E1EB5600CAB56D /* ConsentConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConsentConfig.swift; path = ../../ConsentConfig.swift; sourceTree = "<group>"; };
+		3AAC917A292D85AF001E364E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +64,7 @@
 				31F17FD928B6CBCD006237D7 /* Assets.xcassets */,
 				3A3A638628E1EB5600CAB56D /* ConsentConfig.swift */,
 				3A18975128E2226D00FE6518 /* ConsentView.swift */,
+				3AAC917A292D85AF001E364E /* README.md */,
 			);
 			path = "iOS Ketch Pref Center using SwiftUI";
 			sourceTree = "<group>";

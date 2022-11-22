@@ -30,6 +30,7 @@
 		31D8FE1128B94620009E57F4 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = index.html; path = ../../index.html; sourceTree = "<group>"; };
 		3A18974228E1EC7B00FE6518 /* ConsentConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConsentConfig.swift; path = ../../ConsentConfig.swift; sourceTree = "<group>"; };
 		3A18974828E20B5D00FE6518 /* ConsentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConsentViewController.swift; path = ../ConsentViewController.swift; sourceTree = "<group>"; };
+		3AAC9179292D85A4001E364E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +73,7 @@
 				31D8FE1128B94620009E57F4 /* index.html */,
 				3A18974228E1EC7B00FE6518 /* ConsentConfig.swift */,
 				3A18974828E20B5D00FE6518 /* ConsentViewController.swift */,
+				3AAC9179292D85A4001E364E /* README.md */,
 			);
 			path = "iOS Ketch Pref Center using Storyboard";
 			sourceTree = "<group>";
