@@ -16,7 +16,7 @@ as per standards requirements for the in-app support:
 ## Quick Start
 
 Before we start, take a look at the fully functional sample iOS app in current repo,
-where the following steps implement the Ketch Smart Tag into your Storyboard based iOS project.
+where the following steps implement the Ketch Smart Tag into your SwiftUI based iOS project.
 
 ### Step 1. Copy the integration bridge into the app
 
