@@ -61,8 +61,7 @@ struct ConsentConfig {
         [
             URLQueryItem(name: "propertyName", value: propertyName),
             URLQueryItem(name: "orgCode", value: orgCode),
-            URLQueryItem(name: "idfa", value: advertisingIdentifier.uuidString),
-            URLQueryItem(name: "swb_region", value: NSLocale.current.regionCode) // "US-CA" ???
+            URLQueryItem(name: "idfa", value: advertisingIdentifier.uuidString)
         ]
     }
 
