@@ -51,7 +51,6 @@ struct ConsentConfig {
 
     private var fileUrl: URL? {
         let url = Bundle.main.url(forResource: htmlFileName, withExtension: "html")!
-
         var urlComponents = URLComponents(string: url.absoluteString)
         urlComponents?.queryItems = queryItems
 
@@ -59,12 +58,11 @@ struct ConsentConfig {
     }
 
     private var queryItems: [URLQueryItem] {
-        
-        return [
+        [
             URLQueryItem(name: "propertyName", value: propertyName),
             URLQueryItem(name: "orgCode", value: orgCode),
             URLQueryItem(name: "idfa", value: advertisingIdentifier.uuidString),
-            URLQueryItem(name: "swb_region", value: "US-CA")
+            URLQueryItem(name: "swb_region", value: NSLocale.current.regionCode) // "US-CA" ???
         ]
     }
 
@@ -113,41 +111,44 @@ class ConsentHandler: NSObject, WKScriptMessageHandler {
             return
         }
 
+        print(message.name, message.body)
+
         switch event {
         case .hideExperience:
-            if let status = message.body as? String {
-                if status == "[\"willNotShow\"]" {
-                    print(status)
-                } else {
-                    print(status)
-                    onClose?()
-                }
+            guard
+                let status: [Event.Message] = payload(with: message.body),
+                status.contains(.willNotShow)
+            else {
+                onClose?()
+                return
             }
 
         case .updateCCPA:
             print("CCPA Updated")
-            if let value = message.body as? String {
-                print(value)
-                save(value: value, for: .valueUSPrivacy)
-            }
+            let payload: [String]? = payload(with: message.body)
+            let value = payload?.first
+
+            save(value: value, for: .valueUSPrivacy)
+            save(value: 0, for: .valueGDPRApplies)
 
         case .updateTCF:
             print("TCF Updated")
-            if let value = message.body as? String {
-                save(value: value, for: .valueTC)
-//                save(value: consent.valueGDPRApplies, for: .valueGDPRApplies)
-            }
+            let payload: [String]? = payload(with: message.body)
+            let value = payload?.first
+
+            save(value: value, for: .valueTC)
+            save(value: value != nil ? 1 : 0, for: .valueGDPRApplies)
+
+        default: break
         }
     }
 
-    private func handleEvent(with payload: String) {
-        guard let payloadData = payload.data(using: .utf8),
-              let consent = try? JSONDecoder().decode(ConsentModel.self, from: payloadData)
-        else { return }
+    private func payload<T: Decodable>(with payload: Any) -> T? {
+        guard let payload = payload as? String,
+              let payloadData = payload.data(using: .utf8)
+        else { return nil }
 
-        save(value: consent.valueUSPrivacy, for: .valueUSPrivacy)
-        save(value: consent.valueTC, for: .valueTC)
-        save(value: consent.valueGDPRApplies, for: .valueGDPRApplies)
+        return try? JSONDecoder().decode(T.self, from: payloadData)
     }
 
     private func save(value: String?, for key: ConsentModel.CodingKeys) {
@@ -171,9 +172,21 @@ class ConsentHandler: NSObject, WKScriptMessageHandler {
 
 extension ConsentHandler {
     enum Event: String, CaseIterable {
-        case updateCCPA = "usprivacy:updated"
-        case updateTCF = "tcf:updated"
-        case hideExperience = "hideExperience"
+        case updateCCPA = "usprivacy_updated"
+        case updateTCF = "tcf_updated"
+        case hideExperience
+        case environment
+        case regionInfo
+        case jurisdiction
+        case identities
+        case consent
+        case willShowExperience
+
+        enum Message: String, Codable {
+            case willNotShow
+            case setConsent
+            case close
+        }
     }
 }
 
