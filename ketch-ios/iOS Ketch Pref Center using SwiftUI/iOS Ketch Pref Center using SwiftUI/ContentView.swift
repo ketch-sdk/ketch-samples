@@ -10,7 +10,6 @@ import AppTrackingTransparency
 private var config: ConsentConfig?
 
 struct ContentView: View {
-    @State private var showingPopover = false
     @State private var showAuthorizationDenied = false
     @State private var configItem: ConsentConfig?
 
