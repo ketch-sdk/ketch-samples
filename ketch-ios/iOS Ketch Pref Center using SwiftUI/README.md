@@ -139,8 +139,8 @@ struct ContentView: View {
                     let advertisingId = ASIdentifierManager.shared().advertisingIdentifier
 
                     config = ConsentConfig.configure(
-                        orgCode: "transcenda",
-                        propertyName: "website_smart_tag",
+                        orgCode: "#{your_org_code}#",
+                        propertyName: "#{your_property}#",
                         advertisingIdentifier: advertisingId
                     )
                 }
