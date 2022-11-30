@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
-import android.util.Base64
 import android.util.Log
 import android.webkit.ConsoleMessage
 import android.webkit.JavascriptInterface
@@ -16,7 +15,6 @@ import android.webkit.WebView
 import androidx.core.view.isVisible
 import androidx.webkit.WebViewAssetLoader
 import androidx.webkit.WebViewClientCompat
-import org.json.JSONObject
 
 @SuppressLint("SetJavaScriptEnabled")
 class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, attrs) {
@@ -31,8 +29,9 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
             .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(context))
             .addPathHandler("/res/", WebViewAssetLoader.ResourcesPathHandler(context))
             .build()
+
         webViewClient = LocalContentWebViewClient(assetLoader)
-        WebView.setWebContentsDebuggingEnabled(true)
+        setWebContentsDebuggingEnabled(true)
 
         addJavascriptInterface(
             PreferenceCenterJavascriptInterface(this),
@@ -63,24 +62,9 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
         var url =
             "https://appassets.androidplatform.net/assets/index.html?orgCode=$orgCode&propertyName=$property"
 
-        val identitiesJSON = JSONObject()
         identities.forEach { identity ->
-            identitiesJSON.put(identity.code, identity.value)
+            url = "$url&${identity.code}=${identity.value}"
         }
-
-        val encodedIdentities =
-            Base64.encodeToString(identitiesJSON.toString().toByteArray(), Base64.DEFAULT)
-
-        url = "$url&encodedIdentities=$encodedIdentities"
-
-        // Uncomment this like to force the CCPA regulations for California
-        // url = "$url&swb_region=US-CA&swb_show"
-
-        // Uncomment this like to force the GDPR regulations for Germany
-        // url = "$url&swb_region=DE"
-
-        // Uncomment this to force the preferences center to show
-        //url = "$url&swb_show=preferences"
 
         ketchUrl = url
 
@@ -95,62 +79,66 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
     }
 
     private class PreferenceCenterJavascriptInterface(private val ketchWebView: KetchWebView) {
-
         @JavascriptInterface
-        fun onInit() {
-            Log.d(TAG, "plugin initialized")
+        fun hideExperience(status: String?) {
+            Log.d(TAG, "hideExperience: $status")
+            if (status?.equals(CLOSE, ignoreCase = true) == true
+                || status?.equals(SET_CONSENT, ignoreCase = true) == true
+            ) {
+                runOnMainThread {
+                    ketchWebView.listener?.onClose()
+                    ketchWebView.isVisible = false
+                }
+            }
         }
 
         @JavascriptInterface
-        fun onCCPAUpdate() {
-            onCCPAUpdate(null)
-        }
-
-        @JavascriptInterface
-        fun onCCPAUpdate(ccpaString: String?) {
+        fun usprivacy_updated(ccpaString: String?) {
             Log.d(TAG, "onCCPAUpdate: $ccpaString")
             runOnMainThread {
-                ketchWebView.listener?.onCCPAUpdate(ccpaString)
+                ketchWebView.listener?.onCCPAUpdate(ccpaString?.trim('"'))
             }
         }
 
         @JavascriptInterface
-        fun onTCFUpdate() {
-            onTCFUpdate(null, null)
-        }
-
-        @JavascriptInterface
-        fun onTCFUpdate(tcfString: String?, tcfApplies: Int?) {
-            Log.d(TAG, "onTCFUpdate: tcfString: $tcfString, tcfApplies: $tcfApplies")
+        fun tcf_updated(tcfString: String?) {
+            Log.d(TAG, "onTCFUpdate: tcfString: $tcfString")
             runOnMainThread {
-                ketchWebView.listener?.onTCFUpdate(tcfString, tcfApplies)
+                ketchWebView.listener?.onTCFUpdate(tcfString?.trim('"'))
             }
         }
 
         @JavascriptInterface
-        fun onNotShow() {
-            Log.d(TAG, "onNotShow()")
+        fun environment(environment: String?) {
+            Log.d(TAG, "environment: $environment")
         }
 
         @JavascriptInterface
-        fun onCancel() {
-            Log.d(TAG, "onCancel()")
-            runOnMainThread {
-                ketchWebView.listener?.onCancel()
-                ketchWebView.isVisible = false
-            }
+        fun regionInfo(regionInfo: String?) {
+            Log.d(TAG, "regionInfo: $regionInfo")
         }
 
         @JavascriptInterface
-        fun onSave() {
-            Log.d(TAG, "onSave()")
-            runOnMainThread {
-                ketchWebView.listener?.onSave()
-                ketchWebView.isVisible = false
-            }
+        fun jurisdiction(jurisdiction: String?) {
+            Log.d(TAG, "jurisdiction: $jurisdiction")
         }
 
-        private fun runOnMainThread(action: ()->Unit) {
+        @JavascriptInterface
+        fun identities(identities: String?) {
+            Log.d(TAG, "identities: $identities")
+        }
+
+        @JavascriptInterface
+        fun consent(consent: String?) {
+            Log.d(TAG, "consent: $consent")
+        }
+
+        @JavascriptInterface
+        fun willShowExperience(willShowExperience: String?) {
+            Log.d(TAG, "willShowExperience: $willShowExperience")
+        }
+
+        private fun runOnMainThread(action: () -> Unit) {
             Handler(Looper.getMainLooper()).post {
                 action.invoke()
             }
@@ -159,12 +147,15 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
 
     interface KetchListener {
         fun onCCPAUpdate(ccpaString: String?)
-        fun onTCFUpdate(tcfString: String?, tcfApplies: Int?)
-        fun onSave()
-        fun onCancel()
+        fun onTCFUpdate(tcfString: String?)
+        fun onClose()
     }
 
     companion object {
-        val TAG = KetchWebView::class.java.simpleName
+        private val TAG: String = KetchWebView::class.java.simpleName
+
+        private const val WILL_NOT_SHOW = "\"willNotShow\""
+        private const val CLOSE = "\"close\""
+        private const val SET_CONSENT = "\"setConsent\""
     }
 }

@@ -38,19 +38,13 @@ class MainActivity : AppCompatActivity() {
                 sharedPreferences.saveUSPrivacyString(ccpaString)
             }
 
-            override fun onTCFUpdate(tcfString: String?, tcfApplies: Int?) {
+            override fun onTCFUpdate(tcfString: String?) {
                 sharedPreferences.saveTCFTCString(tcfString)
-                sharedPreferences.saveTCFGdprApplies(tcfApplies)
             }
 
-            override fun onSave() {
+            override fun onClose() {
                 mainLayout.isVisible = true
             }
-
-            override fun onCancel() {
-                mainLayout.isVisible = true
-            }
-
         }
 
         button.setOnClickListener {
@@ -81,17 +75,20 @@ class MainActivity : AppCompatActivity() {
     private fun loadAdvertisingId() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                advertisingId.value =
-                    AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id
+                advertisingId.value = AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id
             } catch (e: Exception) {
                 e.printStackTrace()
-                progressBar.isVisible = false
-                Toast.makeText(
-                    this@MainActivity,
-                    R.string.cannot_get_advertising_id_toast,
-                    Toast.LENGTH_LONG
-                )
-                    .show()
+                launch(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        R.string.cannot_get_advertising_id_toast,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            } finally {
+                launch(Dispatchers.Main) {
+                    progressBar.isVisible = false
+                }
             }
         }
     }
@@ -116,8 +113,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val ORG_CODE = "transcenda"
-        private const val PROPERTY = "website_smart_tag"
-        private const val ADVERTISING_ID_CODE = "aaid"
+        private const val ORG_CODE = "<organization code>"
+        private const val PROPERTY = "<property>"
+        private const val ADVERTISING_ID_CODE = "<advertising field code>"
     }
 }
