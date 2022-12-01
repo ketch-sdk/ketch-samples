@@ -96,7 +96,7 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
         fun usprivacy_updated(ccpaString: String?) {
             Log.d(TAG, "onCCPAUpdate: $ccpaString")
             runOnMainThread {
-                ketchWebView.listener?.onCCPAUpdate(ccpaString?.trim('"'))
+                ketchWebView.listener?.onCCPAUpdate(ccpaString)
             }
         }
 
@@ -104,7 +104,7 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
         fun tcf_updated(tcfString: String?) {
             Log.d(TAG, "onTCFUpdate: tcfString: $tcfString")
             runOnMainThread {
-                ketchWebView.listener?.onTCFUpdate(tcfString?.trim('"'))
+                ketchWebView.listener?.onTCFUpdate(tcfString)
             }
         }
 
