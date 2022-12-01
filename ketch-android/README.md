@@ -2,4 +2,4 @@
 
 - [Android WebView Kotlin Sample](./Android%20Ketch%20Pref%20Center%20using%20Kotlin/)
 - [Android WebView Java Sample](./Android%20Ketch%20Pref%20Center%20using%20Java/)
-- [Android Native SDK Sample]() __<COMING SOON>__
+- [Android Native SDK Sample]() __`<COMING SOON>`__
