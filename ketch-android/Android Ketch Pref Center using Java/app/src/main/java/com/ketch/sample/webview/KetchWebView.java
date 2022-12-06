@@ -139,8 +139,7 @@ public class KetchWebView extends WebView {
             Log.d(TAG, String.format("onCCPAUpdate: %s", ccpaString));
             runOnMainThread(() -> {
                 if (ketchWebView.listener != null) {
-                    String ccpa = ccpaString != null ? ccpaString.replaceAll("\"", "") : null;
-                    ketchWebView.listener.onCCPAUpdate(ccpa);
+                    ketchWebView.listener.onCCPAUpdate(ccpaString);
                 }
             });
         }
@@ -149,7 +148,6 @@ public class KetchWebView extends WebView {
         public void tcf_updated(@Nullable String tcfString) {
             Log.d(TAG, String.format("onTCFUpdate: %s", tcfString));
             runOnMainThread(() -> {
-                String tcf = tcfString != null ? tcfString.replaceAll("\"", "") : null;
                 ketchWebView.listener.onTCFUpdate(tcfString);
             });
         }
