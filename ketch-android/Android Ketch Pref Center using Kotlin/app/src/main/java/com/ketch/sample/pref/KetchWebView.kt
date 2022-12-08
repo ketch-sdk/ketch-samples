@@ -138,6 +138,16 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
             Log.d(TAG, "willShowExperience: $willShowExperience")
         }
 
+        @JavascriptInterface
+        fun showConsentExperience(showConsentExperience: String?) {
+            Log.d(TAG, "showConsentExperience: $showConsentExperience")
+        }
+
+        @JavascriptInterface
+        fun showPreferenceExperience(showPreferenceExperience: String?) {
+            Log.d(TAG, "showPreferenceExperience: $showPreferenceExperience")
+        }
+
         private fun runOnMainThread(action: () -> Unit) {
             Handler(Looper.getMainLooper()).post {
                 action.invoke()
@@ -154,8 +164,8 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
     companion object {
         private val TAG: String = KetchWebView::class.java.simpleName
 
-        private const val WILL_NOT_SHOW = "\"willNotShow\""
-        private const val CLOSE = "\"close\""
-        private const val SET_CONSENT = "\"setConsent\""
+        private const val WILL_NOT_SHOW = "willNotShow"
+        private const val CLOSE = "close"
+        private const val SET_CONSENT = "setConsent"
     }
 }

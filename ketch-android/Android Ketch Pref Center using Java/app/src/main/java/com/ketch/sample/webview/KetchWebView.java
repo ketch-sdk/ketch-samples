@@ -24,9 +24,9 @@ import java.util.List;
 public class KetchWebView extends WebView {
     private static final String TAG = KetchWebView.class.getSimpleName();
 
-    private static final String WILL_NOT_SHOW = "\"willNotShow\"";
-    private static final String CLOSE = "\"close\"";
-    private static final String SET_CONSENT = "\"setConsent\"";
+    private static final String WILL_NOT_SHOW = "willNotShow";
+    private static final String CLOSE = "close";
+    private static final String SET_CONSENT = "setConsent";
 
     private KetchListener listener;
 
@@ -175,6 +175,16 @@ public class KetchWebView extends WebView {
         @JavascriptInterface
         public void consent(@Nullable String consent) {
             Log.d(TAG, String.format("consent: %s", consent));
+        }
+
+        @JavascriptInterface
+        public void showConsentExperience(@Nullable String showConsentExperience) {
+            Log.d(TAG, String.format("showConsentExperience: %s", showConsentExperience));
+        }
+
+        @JavascriptInterface
+        public void showPreferenceExperience(@Nullable String showPreferenceExperience) {
+            Log.d(TAG, String.format("showPreferenceExperience: %s", showPreferenceExperience));
         }
 
         private void runOnMainThread(Runnable runnable) {
