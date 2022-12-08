@@ -36,6 +36,13 @@ dependencies {
     implementation 'com.ketch.android:tcf:<version>'
     implementation 'com.ketch.android:core-ui:<version>'
     ...
+    implementation "com.squareup.retrofit2:retrofit:<version>"
+    implementation "com.squareup.retrofit2:converter-gson:<version>"
+    implementation "com.squareup.okhttp3:okhttp:<version>"
+
+    implementation "io.noties.markwon:core:<version>"
+    implementation "io.noties.markwon:linkify:<version>"
+    ...
 }
 ```
 5. Sync gradle
