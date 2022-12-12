@@ -115,8 +115,8 @@ class ConsentHandler: NSObject, WKScriptMessageHandler {
         switch event {
         case .hideExperience:
             guard
-                let status: [Event.Message] = payload(with: message.body),
-                status.contains(.willNotShow)
+                let status = message.body as? String,
+                Event.Message(rawValue: status) == .willNotShow
             else {
                 onClose?()
                 return
@@ -124,30 +124,20 @@ class ConsentHandler: NSObject, WKScriptMessageHandler {
 
         case .updateCCPA:
             print("CCPA Updated")
-            let payload: [String]? = payload(with: message.body)
-            let value = payload?.first
+            let value = message.body as? String
 
             save(value: value, for: .valueUSPrivacy)
             save(value: 0, for: .valueGDPRApplies)
 
         case .updateTCF:
             print("TCF Updated")
-            let payload: [String]? = payload(with: message.body)
-            let value = payload?.first
+            let value = message.body as? String
 
             save(value: value, for: .valueTC)
             save(value: value != nil ? 1 : 0, for: .valueGDPRApplies)
 
         default: break
         }
-    }
-
-    private func payload<T: Decodable>(with payload: Any) -> T? {
-        guard let payload = payload as? String,
-              let payloadData = payload.data(using: .utf8)
-        else { return nil }
-
-        return try? JSONDecoder().decode(T.self, from: payloadData)
     }
 
     private func save(value: String?, for key: ConsentModel.CodingKeys) {
