@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Ketch SDK Sample</string>
+    <string name="cannot_get_advertising_id_toast">Cannot get AdvertisingId</string>
+    <string name="device_offline">No internet connection</string>
+    <string name="server_not_available">Server is not available</string>
+
+    <string name="button_get_configuration">Get Configuration</string>
+    <string name="button_get_gdpr_configuration">Get Configuration for GDPR jurisdiction</string>
+    <string name="button_get_ccpa_configuration">Get Configuration for CCPA jurisdiction</string>
+    <string name="button_get_consent">Get Consent</string>
+    <string name="button_set_consent">Update Consent</string>
+    <string name="button_invoke_rights">Invoke Rights</string>
+    <string name="button_show_banner">Show Banner</string>
+    <string name="button_show_modal">Show Modal</string>
+    <string name="button_show_jit">Show Jit</string>
+    <string name="button_show_preference">Show Preference</string>
+    <string name="button_show_dialogs_automatically">Show Dialogs Automatically</string>
+</resources>
