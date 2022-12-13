@@ -19,6 +19,9 @@ import androidx.annotation.Nullable;
 import androidx.webkit.WebViewAssetLoader;
 import androidx.webkit.WebViewClientCompat;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
+
 import java.util.List;
 
 public class KetchWebView extends WebView {
@@ -173,7 +176,15 @@ public class KetchWebView extends WebView {
         }
 
         @JavascriptInterface
-        public void consent(@Nullable String consent) {
+        public void consent(@Nullable String consentJson) {
+            // {"purposes":{"essential_services":true,"tcf.purpose_1":true,"analytics":false,"behavioral_advertising":false,"email_marketing":false,"data_broking":false,"somepurpose_key":false},"vendors":[]}
+            Consent consent = null;
+            try {
+                consent = new Gson().fromJson(consentJson, Consent.class);
+            } catch (JsonParseException ex) {
+                Log.e(TAG, ex.getMessage(), ex);
+            }
+
             Log.d(TAG, String.format("consent: %s", consent));
         }
 

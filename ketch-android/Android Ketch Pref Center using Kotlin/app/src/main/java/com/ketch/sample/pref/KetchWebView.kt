@@ -15,6 +15,8 @@ import android.webkit.WebView
 import androidx.core.view.isVisible
 import androidx.webkit.WebViewAssetLoader
 import androidx.webkit.WebViewClientCompat
+import com.google.gson.Gson
+import com.google.gson.JsonParseException
 
 @SuppressLint("SetJavaScriptEnabled")
 class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, attrs) {
@@ -129,7 +131,13 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
         }
 
         @JavascriptInterface
-        fun consent(consent: String?) {
+        fun consent(consentJson: String?) {
+            // {"purposes":{"essential_services":true,"tcf.purpose_1":true,"analytics":false,"behavioral_advertising":false,"email_marketing":false,"data_broking":false,"somepurpose_key":false},"vendors":[]}
+            val consent = try {
+                Gson().fromJson(consentJson, Consent::class.java)
+            } catch (ex: JsonParseException) {
+                Log.e(TAG, ex.message, ex)
+            }
             Log.d(TAG, "consent: $consent")
         }
 
