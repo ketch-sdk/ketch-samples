@@ -187,10 +187,11 @@ class MainActivity : BaseActivity() {
         binding.buttonShowJit.setOnClickListener {
             val configuration = ketch.configuration.value
             val consent = ketch.consent.value
+            val purpose = configuration?.purposes?.firstOrNull()
 
-            if (configuration == null || consent == null) return@setOnClickListener
+            if (configuration == null || consent == null || purpose == null) return@setOnClickListener
 
-            ketchUi.showJit(configuration, consent)
+            ketchUi.showJit(configuration, consent, purpose)
         }
 
         binding.buttonShowPreference.setOnClickListener {

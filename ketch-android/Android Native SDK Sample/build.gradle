@@ -10,7 +10,7 @@ buildscript {
             'compileSdk': 32,
     ]
     ext.versions = [
-            'ketch'              : '0.2.54',
+            'ketch'              : '0.2.56',
             'kotlin'             : '1.7.10',
             'ktx'                : '1.8.0',
             'coroutines'         : '1.6.1',
