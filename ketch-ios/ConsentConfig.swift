@@ -136,8 +136,20 @@ class ConsentHandler: NSObject, WKScriptMessageHandler {
             save(value: value, for: .valueTC)
             save(value: value != nil ? 1 : 0, for: .valueGDPRApplies)
 
+        case .consent:
+            let consentStatus: ConsentStatus? = payload(with: message.body)
+            print(message.name, consentStatus ?? "ConsentStatus decoding failed")
+
         default: break
         }
+    }
+
+    private func payload<T: Decodable>(with payload: Any) -> T? {
+        guard let payload = payload as? String,
+              let payloadData = payload.data(using: .utf8)
+        else { return nil }
+
+        return try? JSONDecoder().decode(T.self, from: payloadData)
     }
 
     private func save(value: String?, for key: ConsentModel.CodingKeys) {
@@ -188,5 +200,12 @@ private struct ConsentModel: Codable {
         case valueUSPrivacy = "IABUSPrivacy_String"
         case valueTC = "IABTCF_TCString"
         case valueGDPRApplies = "IABTCF_gdprApplies"
+    }
+}
+
+extension ConsentHandler {
+    struct ConsentStatus: Codable {
+        let purposes: [String: Bool]
+        let vendors: [String]?
     }
 }
