@@ -1,0 +1,9 @@
+use_frameworks!
+
+platform :ios, '14.0'
+
+target 'KetchSample' do
+  pod 'KetchSDK/CCPA', :git => 'https://github.com/ketch-sdk/ketch-ios.git', :branch => 'lib'
+  pod 'KetchSDK/TCF', :git => 'https://github.com/ketch-sdk/ketch-ios.git', :branch => 'lib'
+  pod 'KetchSDK/UI', :git => 'https://github.com/ketch-sdk/ketch-ios.git', :branch => 'lib'
+end
