@@ -9,23 +9,20 @@ import AdSupport
 import AppTrackingTransparency
 
 class ContentViewModel: ObservableObject {
-    @Published var authorizationDenied = false
     @Published var ketch: Ketch?
     @Published var ketchUI: KetchUI?
+    @Published var authorizationDenied = false
 
     init() { }
 
     func requestTrackingAuthorization() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            //  Delay after SwiftUI view appearing is required for alert presenting, otherwise it will not be shown
-            ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
-                if case .authorized = authorizationStatus {
-                    let advertisingId = ASIdentifierManager.shared().advertisingIdentifier
+        ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
+            if case .authorized = authorizationStatus {
+                let advertisingId = ASIdentifierManager.shared().advertisingIdentifier
 
-                    self.setupKetch(advertisingIdentifier: advertisingId)
-                } else if case .denied = authorizationStatus {
-                    self.authorizationDenied = true
-                }
+                self.setupKetch(advertisingIdentifier: advertisingId)
+            } else if case .denied = authorizationStatus {
+                self.authorizationDenied = true
             }
         }
     }
@@ -67,7 +64,10 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            viewModel.requestTrackingAuthorization()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                //  Delay after SwiftUI view appearing is required for alert presenting, otherwise it will not be shown
+                viewModel.requestTrackingAuthorization()
+            }
         }
         .onChange(of: showDialogsAutomatically) { value in
             viewModel.ketchUI?.showDialogsIfNeeded = value
@@ -90,22 +90,6 @@ struct ContentView: View {
     }
 }
 
-struct KetchUITestView: View {
-    @StateObject var ketchUI: KetchUI
-
-    var body: some View {
-        VStack(spacing: 40) {
-            if ketchUI.consentStatus != nil {
-                Button("Show Banner")     { ketchUI.showBanner() }
-                Button("Show Modal")      { ketchUI.showModal() }
-                Button("Show JIT")        { ketchUI.showJIT() }
-                Button("Show Preference") { ketchUI.showPreference() }
-            }
-        }
-        .fullScreenCover(item: $ketchUI.presentationItem, content: \.content)
-    }
-}
-
 struct KetchTestView: View {
     enum Jurisdiction {
         static let GDPR = "gdpr"
@@ -120,10 +104,19 @@ struct KetchTestView: View {
             Button("Configuration GDPR") { ketch.loadConfiguration(jurisdiction: Jurisdiction.GDPR) }
             Button("Configuration CCPA") { ketch.loadConfiguration(jurisdiction: Jurisdiction.CCPA) }
 
-            if ketch.configuration != nil {
-                Button("Invoke Rights")  { ketch.invokeRights(user: user) }
+            if let config = ketch.configuration {
+                Button("Invoke Rights")  { ketch.invokeRights(right: config.rights?.first, user: self.user) }
                 Button("Get Consent")    { ketch.loadConsent() }
-                Button("Update Consent") { ketch.updateConsent() }
+                Button("Update Consent") {
+                    let purposes = config.purposes?
+                        .reduce(into: [String: KetchSDK.ConsentUpdate.PurposeAllowedLegalBasis]()) { result, purpose in
+                            result[purpose.code] = .init(allowed: true, legalBasisCode: purpose.legalBasisCode)
+                        }
+
+                    let vendors = config.vendors?.map(\.id)
+
+                    ketch.updateConsent(purposes: purposes, vendors: vendors)
+                }
             }
         }
     }
@@ -141,5 +134,25 @@ struct KetchTestView: View {
             addressLine1: nil,
             addressLine2: nil
         )
+    }
+}
+
+struct KetchUITestView: View {
+    @StateObject var ketchUI: KetchUI
+
+    var body: some View {
+        VStack(spacing: 40) {
+            if let config = ketchUI.configuration, ketchUI.consentStatus != nil {
+                Button("Show Banner")     { ketchUI.showBanner() }
+                Button("Show Modal")      { ketchUI.showModal() }
+                Button("Show Preference") { ketchUI.showPreference() }
+                Button("Show JIT")        {
+                    if let purpose = config.purposes?.first {
+                        ketchUI.showJIT(purpose: purpose)
+                    }
+                }
+            }
+        }
+        .fullScreenCover(item: $ketchUI.presentationItem, content: \.content)
     }
 }
