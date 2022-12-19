@@ -105,7 +105,7 @@ struct KetchTestView: View {
             Button("Configuration CCPA") { ketch.loadConfiguration(jurisdiction: Jurisdiction.CCPA) }
 
             if let config = ketch.configuration {
-                Button("Invoke Rights")  { ketch.invokeRights(right: config.rights?.first, user: self.user) }
+                Button("Invoke Rights")  { ketch.invokeRights(right: config.rights?.first, user: user) }
                 Button("Get Consent")    { ketch.loadConsent() }
                 Button("Update Consent") {
                     let purposes = config.purposes?
