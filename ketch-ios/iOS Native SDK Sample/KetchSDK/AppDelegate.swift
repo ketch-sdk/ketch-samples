@@ -4,7 +4,6 @@
 //
 
 import SwiftUI
-import KetchSDK
 
 @main
 struct MyApplication: App {
