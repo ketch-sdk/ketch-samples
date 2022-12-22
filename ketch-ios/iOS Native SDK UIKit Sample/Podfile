@@ -2,7 +2,7 @@ use_frameworks!
 
 platform :ios, '14.0'
 
-target 'KetchSample' do
+target 'KetchUIKitSample' do
 
   plugin 'cocoapods-art', :sources => [
   'ios'

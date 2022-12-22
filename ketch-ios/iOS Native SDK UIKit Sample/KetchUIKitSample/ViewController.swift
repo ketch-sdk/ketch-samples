@@ -36,7 +36,9 @@ class ViewController: UIViewController {
             if case .authorized = authorizationStatus {
                 let advertisingId = ASIdentifierManager.shared().advertisingIdentifier
 
-                self?.setupKetch(advertisingIdentifier: advertisingId)
+                DispatchQueue.main.async {
+                    self?.setupKetch(advertisingIdentifier: advertisingId)
+                }
             } else if case .denied = authorizationStatus {
                 let alert = UIAlertController(
                     title: "Tracking Authorization Denied by app settings",

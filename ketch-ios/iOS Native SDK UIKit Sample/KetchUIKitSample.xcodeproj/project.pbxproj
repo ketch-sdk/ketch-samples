@@ -13,7 +13,7 @@
 		3A58D3152951000D00C471A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A58D3142951000D00C471A6 /* Assets.xcassets */; };
 		3A58D3182951000D00C471A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A58D3162951000D00C471A6 /* LaunchScreen.storyboard */; };
 		3A58D31F2951009E00C471A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A58D30D2951000C00C471A6 /* SceneDelegate.swift */; };
-		3AFD6591295118F400E1A4B2 /* KetchSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 3AFD6590295118F400E1A4B2 /* KetchSDK */; };
+		93303E39DC720D6F1D06A320 /* Pods_KetchUIKitSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D26A01C926AEC71141B30A /* Pods_KetchUIKitSample.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +25,9 @@
 		3A58D3142951000D00C471A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3A58D3172951000D00C471A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3A58D3192951000D00C471A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		54D26A01C926AEC71141B30A /* Pods_KetchUIKitSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KetchUIKitSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		69574964657765059B4F3A6B /* Pods-KetchUIKitSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KetchUIKitSample.release.xcconfig"; path = "Target Support Files/Pods-KetchUIKitSample/Pods-KetchUIKitSample.release.xcconfig"; sourceTree = "<group>"; };
+		BFA6C4D96B2F54307024BE30 /* Pods-KetchUIKitSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KetchUIKitSample.debug.xcconfig"; path = "Target Support Files/Pods-KetchUIKitSample/Pods-KetchUIKitSample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,18 +35,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3AFD6591295118F400E1A4B2 /* KetchSDK in Frameworks */,
+				93303E39DC720D6F1D06A320 /* Pods_KetchUIKitSample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		13248933DAD792F37EA97F6D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				54D26A01C926AEC71141B30A /* Pods_KetchUIKitSample.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3A58D2FF2951000C00C471A6 = {
 			isa = PBXGroup;
 			children = (
 				3A58D30A2951000C00C471A6 /* KetchUIKitSample */,
 				3A58D3092951000C00C471A6 /* Products */,
+				8245C16FD2FC43C5F9B02061 /* Pods */,
+				13248933DAD792F37EA97F6D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -69,6 +82,16 @@
 			path = KetchUIKitSample;
 			sourceTree = "<group>";
 		};
+		8245C16FD2FC43C5F9B02061 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BFA6C4D96B2F54307024BE30 /* Pods-KetchUIKitSample.debug.xcconfig */,
+				69574964657765059B4F3A6B /* Pods-KetchUIKitSample.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -76,18 +99,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3A58D31C2951000D00C471A6 /* Build configuration list for PBXNativeTarget "KetchUIKitSample" */;
 			buildPhases = (
+				9AD0CA304AD0E6CAD2169DD9 /* [CP] Check Pods Manifest.lock */,
 				3A58D3042951000C00C471A6 /* Sources */,
 				3A58D3052951000C00C471A6 /* Frameworks */,
 				3A58D3062951000C00C471A6 /* Resources */,
+				2C5FEC678AD5FDED5DF9F35F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = KetchUIKitSample;
-			packageProductDependencies = (
-				3AFD6590295118F400E1A4B2 /* KetchSDK */,
-			);
 			productName = KetchUIKitSample;
 			productReference = 3A58D3082951000C00C471A6 /* KetchUIKitSample.app */;
 			productType = "com.apple.product-type.application";
@@ -116,9 +138,6 @@
 				Base,
 			);
 			mainGroup = 3A58D2FF2951000C00C471A6;
-			packageReferences = (
-				3AFD658F295118F400E1A4B2 /* XCRemoteSwiftPackageReference "ketch-ios" */,
-			);
 			productRefGroup = 3A58D3092951000C00C471A6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -140,6 +159,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2C5FEC678AD5FDED5DF9F35F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-KetchUIKitSample/Pods-KetchUIKitSample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-KetchUIKitSample/Pods-KetchUIKitSample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-KetchUIKitSample/Pods-KetchUIKitSample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9AD0CA304AD0E6CAD2169DD9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KetchUIKitSample-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3A58D3042951000C00C471A6 /* Sources */ = {
@@ -290,6 +351,7 @@
 		};
 		3A58D31D2951000D00C471A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFA6C4D96B2F54307024BE30 /* Pods-KetchUIKitSample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -318,6 +380,7 @@
 		};
 		3A58D31E2951000D00C471A6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69574964657765059B4F3A6B /* Pods-KetchUIKitSample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -366,25 +429,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		3AFD658F295118F400E1A4B2 /* XCRemoteSwiftPackageReference "ketch-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ketch-sdk/ketch-ios.git";
-			requirement = {
-				branch = lib;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		3AFD6590295118F400E1A4B2 /* KetchSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3AFD658F295118F400E1A4B2 /* XCRemoteSwiftPackageReference "ketch-ios" */;
-			productName = KetchSDK;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3A58D3002951000C00C471A6 /* Project object */;
 }

@@ -19,8 +19,9 @@ class ContentViewModel: ObservableObject {
         ATTrackingManager.requestTrackingAuthorization { authorizationStatus in
             if case .authorized = authorizationStatus {
                 let advertisingId = ASIdentifierManager.shared().advertisingIdentifier
-
-                self.setupKetch(advertisingIdentifier: advertisingId)
+                DispatchQueue.main.async {
+                    self.setupKetch(advertisingIdentifier: advertisingId)
+                }
             } else if case .denied = authorizationStatus {
                 self.authorizationDenied = true
             }
