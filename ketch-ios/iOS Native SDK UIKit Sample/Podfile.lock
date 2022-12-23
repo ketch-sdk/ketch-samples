@@ -1,0 +1,24 @@
+PODS:
+  - KetchSDK/CCPA (0.1.2):
+    - KetchSDK/Core
+  - KetchSDK/Core (0.1.2)
+  - KetchSDK/TCF (0.1.2):
+    - KetchSDK/Core
+  - KetchSDK/UI (0.1.2):
+    - KetchSDK/Core
+
+DEPENDENCIES:
+  - KetchSDK/CCPA
+  - KetchSDK/TCF
+  - KetchSDK/UI
+
+SPEC REPOS:
+  https://ketch.jfrog.io/artifactory/api/pods/ios:
+    - KetchSDK
+
+SPEC CHECKSUMS:
+  KetchSDK: 63c0d3344eaeaed471ac023f59163183d6e4e6f4
+
+PODFILE CHECKSUM: bb6db55eea06fa026eaa3acc8e2b3dee5c9b6a10
+
+COCOAPODS: 1.11.3
