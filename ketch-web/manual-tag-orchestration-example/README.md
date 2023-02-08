@@ -3,12 +3,11 @@
 There are times when you cannot automate the firing of your tags. When those times arise, there are still ways you can gate the firing of these tags based of your visitors consent albeit a little more manual.
 
 ## Add Ketch Smart Tag to page
-To start, add the Ketch Smart Tag for your property as high up in the head of the page as you can.
+To start, add the Ketch Smart Tag for your property as high up in the head of the page as you can. The Ketch Smart Tag can be obtained from the corresponding property in the `Properties` page by clicking `Export Code`.
 ```HTML
 <html>
     <head>
-        <script>(function () {var a=document.createElement("script");a.type="text/javascript",a.src="https://global.ketchcdn.com/web/v1/config/organization_code/property_code/boot.js",a.defer=a.async=!0,document.getElementsByTagName("head")[0].appendChild(a),window.semaphore=window.semaphore||[];})();
-        </script>
+        <script>!function(){window.semaphore=window.semaphore||[],window.ketch=function(){window.semaphore.push(arguments)};var e=new URLSearchParams(document.location.search),o=e.has("property")?e.get("property"):"property_code",n=document.createElement("script");n.type="text/javascript",n.src="https://global.ketchcdn.com/web/v2/config/organitzation_code/".concat(o,"/boot.js"),n.defer=n.async=!0,document.getElementsByTagName("head")[0].appendChild(n)}();</script>
         ...
     </head>
     <body>
@@ -158,8 +157,7 @@ To run the example,
 
 - Update the Ketch Smart Tag in `Index.html` with your organization code and property code.
 ```
-    <script>(function () {var a=document.createElement("script");a.type="text/javascript",a.src="https://global.ketchcdn.com/web/v1/config/organization_code/property_code/boot.js",a.defer=a.async=!0,document.getElementsByTagName("head")[0].appendChild(a),window.semaphore=window.semaphore||[];})();
-    </script>
+   <script>!function(){window.semaphore=window.semaphore||[],window.ketch=function(){window.semaphore.push(arguments)};var e=new URLSearchParams(document.location.search),o=e.has("property")?e.get("property"):"property_code",n=document.createElement("script");n.type="text/javascript",n.src="https://global.ketchcdn.com/web/v2/config/organization_code/".concat(o,"/boot.js"),n.defer=n.async=!0,document.getElementsByTagName("head")[0].appendChild(n)}();</script>
     ...
 ```
 
