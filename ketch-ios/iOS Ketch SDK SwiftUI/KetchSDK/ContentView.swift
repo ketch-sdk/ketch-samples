@@ -101,8 +101,8 @@ struct ContentView: View {
                         { if let selectedTab                                { return .preferencesTab(selectedTab) }                 else { return nil } }(),
                         .region(region),
                         .language(langId: lang),
-                        .forceExperience(selectedExperienceToShow)
-                        , .jurisdiction(code: jurisdiction)
+                        .forceExperience(selectedExperienceToShow),
+                        .jurisdiction(code: jurisdiction)
                     ]
                     
                     ketchUI.overridePresentationConfig = nil
@@ -176,6 +176,7 @@ struct ContentView: View {
     }
     
     private func showPrivacyStrings() {
+        // fir some reson preview is not working when this strings are all in one array
         let keys = ["IABTCF_CmpSdkID",
                     "IABTCF_CmpSdkVersion",
                     "IABTCF_PolicyVersion",
@@ -184,18 +185,19 @@ struct ContentView: View {
                     "IABTCF_PurposeOneTreatment",
                     "IABTCF_UseNonStandardTexts",
                     "IABTCF_TCString",
-                    "IABTCF_VendorConsents",
-                    "IABTCF_VendorLegitimateInterests",
-                    "IABTCF_PurposeConsents",
-                    "IABTCF_PurposeLegitimateInterests",
-                    "IABTCF_SpecialFeaturesOptIns",
-                    "IABTCF_PublisherConsent",
-                    "IABTCF_PublisherLegitimateInterests",
-                    "IABTCF_PublisherCustomPurposesConsents",
-                    "IABTCF_PublisherCustomPurposesLegitimateInterests"]
+                    "IABTCF_VendorConsents"]
+        
+        let keys2 = ["IABTCF_VendorLegitimateInterests",
+                     "IABTCF_PurposeConsents",
+                     "IABTCF_PurposeLegitimateInterests",
+                     "IABTCF_SpecialFeaturesOptIns",
+                     "IABTCF_PublisherConsent",
+                     "IABTCF_PublisherLegitimateInterests",
+                     "IABTCF_PublisherCustomPurposesConsents",
+                     "IABTCF_PublisherCustomPurposesLegitimateInterests"]
         
         print("\n* ----- Begin privacy strings ---- *")
-        keys.forEach {
+        (keys + keys2).forEach {
             print("\($0): \(UserDefaults.standard.value(forKey: $0) ?? "")")
         }
         print("* ----- End privacy strings ---- *\n")
