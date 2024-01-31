@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "ketch-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ketch-com/ketch-ios.git",
+      "state" : {
+        "branch" : "rsimenok",
+        "revision" : "a21abe68d1f97d342085751d35c7defa06a74361"
+      }
+    }
+  ],
+  "version" : 2
+}
