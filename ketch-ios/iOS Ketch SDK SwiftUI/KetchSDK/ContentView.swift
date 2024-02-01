@@ -53,17 +53,30 @@ struct ContentView: View {
             .pickerStyle(.segmented)
             
             if selectedExperienceToShow == .preferences {
-                HStack {
-                    Text("Preferences tab:")
-                    
-                    Picker("Preferences tab:", selection: $selectedTab) {
-                        Text("none").tag(nil as KetchUI.ExperienceOption.PreferencesTab?)
-                        
-                        ForEach(KetchUI.ExperienceOption.PreferencesTab.allCases, id: \.self) { tab in
-                            Text(tab.rawValue.replacingOccurrences(of: "Tab", with: "")).tag(tab as KetchUI.ExperienceOption.PreferencesTab?)
-                        }
+                Text("Tabs:")
+                
+                LazyVGrid(columns: [
+                    GridItem(.flexible()),
+                    GridItem(.flexible())
+                ]) {
+                    ForEach(KetchUI.ExperienceOption.PreferencesTab.allCases, id: \.self) { tab in
+                        prefTabCheckMarkView(tab: tab)
                     }
-                    .pickerStyle(.menu)
+                }
+                
+                if !selectedTabs.isEmpty {
+                    HStack {
+                        Text("Active tab:")
+                        
+                        Picker("Active tab:", selection: $selectedTab) {
+                            Text("none").tag(nil as KetchUI.ExperienceOption.PreferencesTab?)
+                            
+                            ForEach(selectedTabs, id: \.self) { tab in
+                                Text(tab.rawValue.replacingOccurrences(of: "Tab", with: "")).tag(tab as KetchUI.ExperienceOption.PreferencesTab?)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                    }
                 }
             }
             
@@ -98,14 +111,22 @@ struct ContentView: View {
                 Spacer()
                 
                 Button("Show") {
-                    let params: [KetchUI.ExperienceOption?] = [
-                        { if let selectedTab                                { return .preferencesTab(selectedTab) }                 else { return nil } }(),
+                    var params: [KetchUI.ExperienceOption?] = [
                         .region(region),
                         .language(langId: lang),
                         .forceExperience(selectedExperienceToShow),
                         .jurisdiction(code: jurisdiction),
                         .sdkEnvironmentURL("https://dev.ketchcdn.com/web/v3")
                     ]
+                    
+                    if !selectedTabs.isEmpty {
+                        let selectedTabsNames = selectedTabs.compactMap { $0.rawValue }
+                        params.append(.preferencesTabs(selectedTabsNames.joined(separator: ",")))
+                        
+                        if let selectedTab, selectedTabs.contains(selectedTab) {
+                            params.append(.preferencesTab(selectedTab))
+                        }
+                    }
                     
                     ketchUI.overridePresentationConfig = nil
                     ketchUI.reload(with: params.compactMap{$0})
@@ -203,6 +224,24 @@ struct ContentView: View {
             print("\($0): \(UserDefaults.standard.value(forKey: $0) ?? "")")
         }
         print("* ----- End privacy strings ---- *\n")
+    }
+    
+    private func prefTabCheckMarkView(tab: KetchUI.ExperienceOption.PreferencesTab) -> some View {
+        HStack {
+            Image(systemName: selectedTabs.contains(tab) ? "checkmark.square" : "square")
+            Spacer()
+            Text(tab.rawValue)
+        }
+        .padding(2)
+        .background(.gray.opacity(0.2))
+        .cornerRadius(3)
+        .onTapGesture {
+            if let index = selectedTabs.firstIndex(of: tab) {
+                selectedTabs.remove(at: index)
+            } else {
+                selectedTabs.append(tab)
+            }
+        }
     }
 }
 
