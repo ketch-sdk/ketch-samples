@@ -189,7 +189,7 @@ struct ContentView: View {
                 .border(.black)
             }
             
-            Button("Preview privacy strings") {
+            Button("Log local privacy strings") {
                 showPrivacyStrings()
             }
         }
