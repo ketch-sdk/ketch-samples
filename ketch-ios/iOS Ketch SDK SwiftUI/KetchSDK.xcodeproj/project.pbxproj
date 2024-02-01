@@ -15,7 +15,8 @@
 		607FACEC1AFB9204008FA782 /* KetchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* KetchTests.swift */; };
 		FC4ED79D2B6AE330006A7722 /* KetchSDK in Frameworks */ = {isa = PBXBuildFile; productRef = FC4ED79C2B6AE330006A7722 /* KetchSDK */; };
 		FC4ED7A02B6AE7A0006A7722 /* KetchSDK in Frameworks */ = {isa = PBXBuildFile; productRef = FC4ED79F2B6AE7A0006A7722 /* KetchSDK */; };
-		FC4ED7A32B6B0639006A7722 /* KetchSDK in Frameworks */ = {isa = PBXBuildFile; productRef = FC4ED7A22B6B0639006A7722 /* KetchSDK */; };
+		FC4ED7A62B6BB3CD006A7722 /* KetchSDK in Frameworks */ = {isa = PBXBuildFile; productRef = FC4ED7A52B6BB3CD006A7722 /* KetchSDK */; };
+		FC6F28D32B6C00BE0066A456 /* KetchSDK in Frameworks */ = {isa = PBXBuildFile; productRef = FC6F28D22B6C00BE0066A456 /* KetchSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +48,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC4ED79D2B6AE330006A7722 /* KetchSDK in Frameworks */,
-				FC4ED7A32B6B0639006A7722 /* KetchSDK in Frameworks */,
+				FC6F28D32B6C00BE0066A456 /* KetchSDK in Frameworks */,
+				FC4ED7A62B6BB3CD006A7722 /* KetchSDK in Frameworks */,
 				FC4ED7A02B6AE7A0006A7722 /* KetchSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,7 +140,8 @@
 			packageProductDependencies = (
 				FC4ED79C2B6AE330006A7722 /* KetchSDK */,
 				FC4ED79F2B6AE7A0006A7722 /* KetchSDK */,
-				FC4ED7A22B6B0639006A7722 /* KetchSDK */,
+				FC4ED7A52B6BB3CD006A7722 /* KetchSDK */,
+				FC6F28D22B6C00BE0066A456 /* KetchSDK */,
 			);
 			productName = KetchSDK;
 			productReference = 607FACD01AFB9204008FA782 /* KetchSDK_Example.app */;
@@ -194,7 +197,7 @@
 			);
 			mainGroup = 607FACC71AFB9204008FA782;
 			packageReferences = (
-				FC4ED7A12B6B0639006A7722 /* XCRemoteSwiftPackageReference "ketch-ios" */,
+				FC6F28D12B6C00BD0066A456 /* XCRemoteSwiftPackageReference "ketch-ios" */,
 			);
 			productRefGroup = 607FACD11AFB9204008FA782 /* Products */;
 			projectDirPath = "";
@@ -529,11 +532,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		FC4ED7A12B6B0639006A7722 /* XCRemoteSwiftPackageReference "ketch-ios" */ = {
+		FC6F28D12B6C00BD0066A456 /* XCRemoteSwiftPackageReference "ketch-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ketch-com/ketch-ios.git";
 			requirement = {
-				branch = rsimenok;
+				branch = main;
 				kind = branch;
 			};
 		};
@@ -548,9 +551,13 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = KetchSDK;
 		};
-		FC4ED7A22B6B0639006A7722 /* KetchSDK */ = {
+		FC4ED7A52B6BB3CD006A7722 /* KetchSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FC4ED7A12B6B0639006A7722 /* XCRemoteSwiftPackageReference "ketch-ios" */;
+			productName = KetchSDK;
+		};
+		FC6F28D22B6C00BE0066A456 /* KetchSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FC6F28D12B6C00BD0066A456 /* XCRemoteSwiftPackageReference "ketch-ios" */;
 			productName = KetchSDK;
 		};
 /* End XCSwiftPackageProductDependency section */

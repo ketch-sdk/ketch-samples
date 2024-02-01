@@ -14,7 +14,6 @@ struct ContentView: View {
             organizationCode: "bluebird",
             propertyCode: "mobile",
             environmentCode: "production",
-            controllerCode: "my_controller",
             identities: [.idfa("00000000-0000-0000-0000-000000000000")] // or advertisingIdentifier.uuidString
         )
         
@@ -31,6 +30,8 @@ struct ContentView: View {
     @State var lang = "EN"
     @State var jurisdiction = "france"
     @State var region = "FR"
+    @State var tabsExpanded = false
+    @State var selectedTabs = KetchUI.ExperienceOption.PreferencesTab.allCases
     
     @ViewBuilder
     private func checkbox(_ value: Binding<Bool>) -> some View {
@@ -102,7 +103,8 @@ struct ContentView: View {
                         .region(region),
                         .language(langId: lang),
                         .forceExperience(selectedExperienceToShow),
-                        .jurisdiction(code: jurisdiction)
+                        .jurisdiction(code: jurisdiction),
+                        .sdkEnvironmentURL("https://dev.ketchcdn.com/web/v3")
                     ]
                     
                     ketchUI.overridePresentationConfig = nil
