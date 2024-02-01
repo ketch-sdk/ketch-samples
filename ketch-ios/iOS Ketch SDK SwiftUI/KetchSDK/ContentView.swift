@@ -217,7 +217,8 @@ struct ContentView: View {
                      "IABTCF_PublisherConsent",
                      "IABTCF_PublisherLegitimateInterests",
                      "IABTCF_PublisherCustomPurposesConsents",
-                     "IABTCF_PublisherCustomPurposesLegitimateInterests"]
+                     "IABTCF_PublisherCustomPurposesLegitimateInterests",
+                     "IABUSPrivacy_String"]
         
         print("\n* ----- Begin privacy strings ---- *")
         (keys + keys2).forEach {
