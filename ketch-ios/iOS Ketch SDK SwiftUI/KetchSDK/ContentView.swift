@@ -230,7 +230,7 @@ struct ContentView: View {
         HStack {
             Image(systemName: selectedTabs.contains(tab) ? "checkmark.square" : "square")
             Spacer()
-            Text(tab.rawValue)
+            Text(tab.rawValue.replacingOccurrences(of: "Tab", with: ""))
         }
         .padding(2)
         .background(.gray.opacity(0.2))
