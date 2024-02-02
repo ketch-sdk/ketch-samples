@@ -450,9 +450,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = "com.ketch.KetchSDK-Tests";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "com.ketch.KetchSDK-Tests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ketch.KetchSDK-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -483,9 +481,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = "com.ketch.KetchSDK-Tests";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "com.ketch.KetchSDK-Tests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ketch.KetchSDK-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
