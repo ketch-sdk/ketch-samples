@@ -1,17 +1,16 @@
 package com.ketch.sample
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.ArrayAdapter
+import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
-import com.ketch.android.KetchNotification
+import com.google.gson.Gson
+import com.ketch.android.Ketch
 import com.ketch.android.KetchSdk
-import com.ketch.android.api.request.PurposeAllowedLegalBasis
-import com.ketch.android.api.request.User
-import com.ketch.android.api.response.ErrorResult
-import com.ketch.android.ccpa.CCPAPlugin
-import com.ketch.android.tcf.TCFPlugin
-import com.ketch.android.ui.KetchUi
+import com.ketch.android.data.Consent
 import com.ketch.sample.databinding.ActivityMainBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -19,189 +18,212 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
+
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
     private val advertisingId = MutableStateFlow<String?>(null)
 
+    private val languages = arrayOf("EN", "FR")
+    private val jurisdictions = arrayOf("default", "gdpr")
+    private val regions = arrayOf("US", "FR", "GB")
+
+    private val listener = object : Ketch.Listener {
+
+        override fun onEnvironmentUpdated(environment: String?) {
+            Log.d(TAG, "onEnvironmentUpdated: environment = $environment")
+        }
+
+        override fun onRegionInfoUpdated(regionInfo: String?) {
+            Log.d(TAG, "onRegionInfoUpdated: regionInfo = $regionInfo")
+        }
+
+        override fun onJurisdictionUpdated(jurisdiction: String?) {
+            Log.d(TAG, "onJurisdictionUpdated: jurisdiction = $jurisdiction")
+        }
+
+        override fun onIdentitiesUpdated(identities: String?) {
+            Log.d(TAG, "onIdentitiesUpdated: identities = $identities")
+        }
+
+        override fun onConsentUpdated(consent: Consent) {
+            val consentJson = Gson().toJson(consent)
+            Log.d(TAG, "onConsentUpdated: consent = $consentJson")
+        }
+
+        override fun onError(errMsg: String?) {
+            Log.e(TAG, "onError: errMsg = $errMsg")
+        }
+
+        override fun onUSPrivacyUpdated(values: Map<String, Any?>) {
+            Log.d(TAG, "onUSPrivacyUpdated: $values")
+        }
+
+        override fun onTCFUpdated(values: Map<String, Any?>) {
+            Log.d(TAG, "onTCFUpdated: $values")
+        }
+
+        override fun onGPPUpdated(values: Map<String, Any?>) {
+            Log.d(TAG, "onGPPUpdated: $values")
+        }
+    }
+
+    private val ketch: Ketch by lazy {
+        KetchSdk.create(
+            this,
+            supportFragmentManager,
+            ORG_CODE,
+            PROPERTY,
+            listener,
+            TEST_URL
+        ).build()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setupUI()
+
+        setParameters()
 
         loadAdvertisingId(binding)
 
         collectState(advertisingId) {
-            binding.ketchLayout.isVisible = it != null
-            it?.let { setupKetch(it) }
-        }
-    }
-
-    private fun setupKetch(advertisingId: String) {
-        val ketch = KetchSdk.create(
-            organization = ORGANIZATION,
-            property = PROPERTY,
-            environment = ENVIRONMENT,
-            controller = CONTROLLER,
-            identities = mapOf(ADVERTISING_ID_CODE to advertisingId)
-        )
-
-        val preferenceService = PreferenceService(this)
-
-        val ccpaPlugin = CCPAPlugin { encodedString, applied ->
-            preferenceService.saveUSPrivacyString(encodedString, applied)
-        }.apply {
-            notice = true
-            lspa = true
-        }
-
-        val tcfPlugin = TCFPlugin { encodedString, applied ->
-            preferenceService.saveTCFTCString(encodedString, applied)
-        }
-
-        ketch.addPlugins(
-            ccpaPlugin,
-            tcfPlugin
-        )
-
-        val ketchUi = KetchUi(this, ketch)
-
-        collectState(ketch.loading) {
-            binding.progressBar.isVisible = it
-        }
-
-        collectState(ketch.configuration) {
-            binding.buttonUpdateConsent.isVisible = it != null
-            binding.buttonGetConsent.isVisible = it != null
-            binding.buttonInvokeRights.isVisible = it != null
-        }
-
-        collectState(ketch.consent) {
-            binding.buttonShowBanner.isVisible = it != null
-            binding.buttonShowModal.isVisible = it != null
-            binding.buttonShowJit.isVisible = it != null
-            binding.buttonShowPreference.isVisible = it != null
-        }
-
-        ketch.notifications.collectLifecycle {
-            when (it) {
-                is KetchNotification.KetchNotificationSuccess -> {}
-                is KetchNotification.KetchNotificationError -> {
-                    val message = when (val errorResult = it.error) {
-                        is ErrorResult.HttpError -> errorResult.error.errMessage
-                        is ErrorResult.Offline -> getString(R.string.device_offline)
-                        is ErrorResult.ServerNotAvailable -> getString(R.string.server_not_available)
-                        is ErrorResult.OtherError -> errorResult.throwable.message
-                    }
-                    Toast.makeText(
-                        this@MainActivity,
-                        message,
-                        Toast.LENGTH_LONG
-                    ).show()
+            with(binding) {
+                progressBar.isVisible = false
+            }
+            it?.let {
+                with(ketch) {
+                    setIdentities(mapOf(ADVERTISING_ID_CODE to it))
+                    load()
                 }
             }
         }
+    }
 
-        binding.checkboxShowDialogsAutomatically.setOnCheckedChangeListener { _, isChecked ->
-            ketchUi.showDialogsIfNeeded = isChecked
-        }
+    private fun setupUI() {
+        with(binding) {
+            val languageAdapter: ArrayAdapter<String> =
+                ArrayAdapter<String>(this@MainActivity, android.R.layout.simple_spinner_dropdown_item, languages)
+            spLanguage.adapter = languageAdapter
 
-        binding.buttonGetFullConfiguration.setOnClickListener {
-            ketch.loadConfiguration()
-        }
+            val jurisdictionAdapter: ArrayAdapter<String> =
+                ArrayAdapter<String>(this@MainActivity, android.R.layout.simple_spinner_dropdown_item, jurisdictions)
+            spJurisdiction.adapter = jurisdictionAdapter
 
-        binding.buttonGetGDPRConfiguration.setOnClickListener {
-            ketch.loadConfiguration(
-                jurisdiction = GDPR
-            )
-        }
+            val regionAdapter: ArrayAdapter<String> =
+                ArrayAdapter<String>(this@MainActivity, android.R.layout.simple_spinner_dropdown_item, regions)
+            spRegion.adapter = regionAdapter
 
-        binding.buttonGetCCPAConfiguration.setOnClickListener {
-            ketch.loadConfiguration(
-                jurisdiction = CCPA
-            )
-        }
+            buttonSetParameters.setOnClickListener {
+                setParameters()
+                ketch.load()
+            }
 
-        binding.buttonInvokeRights.setOnClickListener {
-            val configuration = ketch.configuration.value
+            buttonShowPreferences.setOnClickListener {
+                ketch.showPreferences()
+            }
 
-            configuration?.rights?.firstOrNull()?.code?.let { right ->
-                ketch.invokeRights(
-                    right = right,
-                    user = User(
-                        email = "rkuziv@transcenda.com",
-                        first = "Roman",
-                        last = "Kuziv",
-                        country = "Ukraine",
-                        stateRegion = "Kyiv",
-                        description = null,
-                        phone = null,
-                        postalCode = null,
-                        addressLine1 = null,
-                        addressLine2 = null,
-                    )
-                )
+            val preferenceTabAdapter: ArrayAdapter<Ketch.PreferencesTab> =
+                ArrayAdapter<Ketch.PreferencesTab>(this@MainActivity, android.R.layout.simple_spinner_dropdown_item)
+            spPreferencesTab.adapter = preferenceTabAdapter
+
+            val cbListener = CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+                val preferencesTabs = getMultiselectedPreferencesTab()
+                val selectedItem = spPreferencesTab.selectedItemPosition.let {
+                    if (it >= 0) {
+                        preferenceTabAdapter.getItem(it)
+                    } else null
+                }
+                preferenceTabAdapter.clear()
+                preferenceTabAdapter.addAll(preferencesTabs)
+                selectedItem?.let {
+                    val index = preferencesTabs.indexOf(it)
+                    if (index >= 0) {
+                        spPreferencesTab.setSelection(index)
+                    }
+                }
+            }
+            cbOverviewTab.setOnCheckedChangeListener(cbListener)
+            cbRightsTab.setOnCheckedChangeListener(cbListener)
+            cbConsentsTab.setOnCheckedChangeListener(cbListener)
+            cbSubscriptionsTab.setOnCheckedChangeListener(cbListener)
+
+            buttonShowPreferencesTab.setOnClickListener {
+                val multiselectedTabs = getMultiselectedPreferencesTab()
+                if (multiselectedTabs.isNotEmpty()) {
+                    spPreferencesTab.selectedItemPosition.let {
+                        preferenceTabAdapter.getItem(it)
+                    }?.let {
+                        ketch.showPreferencesTab(multiselectedTabs, it)
+                    }
+                }
+            }
+
+            buttonShowConsent.setOnClickListener {
+                ketch.let {
+                    it.setBannerWindowPosition(getPosition())
+                    it.setModalWindowPosition(getPosition())
+                    it.forceShowConsent()
+                }
+            }
+
+            buttonShowSharedPreferences.setOnClickListener {
+                sharedPreferencesString.text = getSharedPreferencesString() ?: ""
             }
         }
+    }
 
-        binding.buttonGetConsent.setOnClickListener {
-            ketch.loadConsent()
+    private fun setParameters() {
+        with(binding) {
+            spLanguage.selectedItemPosition.let {
+                ketch.setLanguage(languages[it])
+            }
+            spJurisdiction.selectedItemPosition.let {
+                ketch.setJurisdiction(jurisdictions[it])
+            }
+            spRegion.selectedItemPosition.let {
+                ketch.setRegion(regions[it])
+            }
         }
+    }
 
-        binding.buttonUpdateConsent.setOnClickListener {
-            val configuration = ketch.configuration.value
+    private fun getPosition(): Ketch.WindowPosition? = when (binding.rgPosition.checkedRadioButtonId) {
+        R.id.rbConfig -> null
+        R.id.rbTop -> Ketch.WindowPosition.TOP
+        R.id.rbBottom -> Ketch.WindowPosition.BOTTOM
+        R.id.rbBottomLeft -> Ketch.WindowPosition.BOTTOM_LEFT
+        R.id.rbBottomRight -> Ketch.WindowPosition.BOTTOM_RIGHT
+        R.id.rbBottomMiddle -> Ketch.WindowPosition.BOTTOM_MIDDLE
+        R.id.rbCenter -> Ketch.WindowPosition.CENTER
+        else -> Ketch.WindowPosition.BOTTOM_MIDDLE
+    }
 
-            ketch.updateConsent(
-                purposes = configuration?.purposes?.map {
-                    it.code to PurposeAllowedLegalBasis(
-                        allowed = true.toString(),
-                        legalBasisCode = "disclosure"
-                    )
-                }?.toMap() ?: emptyMap(),
-                vendors = configuration?.vendors?.map {
-                    it.id
-                },
-            )
+    private fun getMultiselectedPreferencesTab(): List<Ketch.PreferencesTab> {
+        val tabs = mutableListOf<Ketch.PreferencesTab>()
+        if (binding.cbOverviewTab.isChecked) {
+            tabs.add(Ketch.PreferencesTab.OVERVIEW)
         }
-
-        binding.buttonShowBanner.setOnClickListener {
-            val configuration = ketch.configuration.value
-            val consent = ketch.consent.value
-
-            if (configuration == null || consent == null) return@setOnClickListener
-
-            ketchUi.showBanner(configuration, consent)
+        if (binding.cbRightsTab.isChecked) {
+            tabs.add(Ketch.PreferencesTab.RIGHTS)
         }
-
-        binding.buttonShowModal.setOnClickListener {
-            val configuration = ketch.configuration.value
-            val consent = ketch.consent.value
-
-            if (configuration == null || consent == null) return@setOnClickListener
-
-            ketchUi.showModal(configuration, consent)
+        if (binding.cbConsentsTab.isChecked) {
+            tabs.add(Ketch.PreferencesTab.CONSENTS)
         }
-
-        binding.buttonShowJit.setOnClickListener {
-            val configuration = ketch.configuration.value
-            val consent = ketch.consent.value
-            val purpose = configuration?.purposes?.firstOrNull()
-
-            if (configuration == null || consent == null || purpose == null) return@setOnClickListener
-
-            ketchUi.showJit(configuration, consent, purpose)
+        if (binding.cbSubscriptionsTab.isChecked) {
+            tabs.add(Ketch.PreferencesTab.SUBSCRIPTIONS)
         }
+        return tabs
+    }
 
-        binding.buttonShowPreference.setOnClickListener {
-            val configuration = ketch.configuration.value
-            val consent = ketch.consent.value
-
-            if (configuration == null || consent == null) return@setOnClickListener
-
-            ketchUi.showPreference(configuration, consent)
-        }
+    private fun getSharedPreferencesString(): String? = when (binding.rgSharedPreferences.checkedRadioButtonId) {
+        R.id.rbTCF -> ketch.getTCFTCString()
+        R.id.rbUSPrivacy -> ketch.getUSPrivacyString()
+        R.id.rbGPP -> ketch.getGPPHDRGppString()
+        else -> null
     }
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -229,12 +251,12 @@ class MainActivity : BaseActivity() {
     }
 
     companion object {
-        private const val ORGANIZATION = "<organization code>"
-        private const val PROPERTY = "<property>"
-        private const val ENVIRONMENT = "<environment>"
-        private const val CONTROLLER = "<controller>"
-        private const val ADVERTISING_ID_CODE = "<advertising code>"
-        private const val GDPR = "gdpr"
-        private const val CCPA = "ccpa"
+        private val TAG = MainActivity::class.java.simpleName
+
+        private const val ORG_CODE = "ketch_samples"
+        private const val PROPERTY = "android"
+        private const val ADVERTISING_ID_CODE = "aaid"
+
+        private const val TEST_URL = "https://global.ketchcdn.com/web/v3"
     }
 }
