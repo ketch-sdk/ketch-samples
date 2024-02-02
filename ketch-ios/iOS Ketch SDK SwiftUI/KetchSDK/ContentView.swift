@@ -189,7 +189,7 @@ struct ContentView: View {
                 .border(.black)
             }
             
-            Button("Preview privacy strings") {
+            Button("Log local privacy strings") {
                 showPrivacyStrings()
             }
         }
@@ -217,10 +217,17 @@ struct ContentView: View {
                      "IABTCF_PublisherConsent",
                      "IABTCF_PublisherLegitimateInterests",
                      "IABTCF_PublisherCustomPurposesConsents",
-                     "IABTCF_PublisherCustomPurposesLegitimateInterests"]
+                     "IABTCF_PublisherCustomPurposesLegitimateInterests",
+                     "IABUSPrivacy_String"]
+        
+        let keys3 = ["IABGPP_HDR_Version",
+                     "IABGPP_HDR_Sections",
+                     "IABGPP_HDR_GppString",
+                     "IABGPP_GppSID",
+                     "IABGPP_tcfeuv2_GppSID"]
         
         print("\n* ----- Begin privacy strings ---- *")
-        (keys + keys2).forEach {
+        (keys + keys2 + keys3).forEach {
             print("\($0): \(UserDefaults.standard.value(forKey: $0) ?? "")")
         }
         print("* ----- End privacy strings ---- *\n")
@@ -230,7 +237,7 @@ struct ContentView: View {
         HStack {
             Image(systemName: selectedTabs.contains(tab) ? "checkmark.square" : "square")
             Spacer()
-            Text(tab.rawValue)
+            Text(tab.rawValue.replacingOccurrences(of: "Tab", with: ""))
         }
         .padding(2)
         .background(.gray.opacity(0.2))
