@@ -6,20 +6,17 @@ import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
 import android.util.Log
-import android.view.animation.TranslateAnimation
 import android.webkit.ConsoleMessage
 import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.webkit.WebViewAssetLoader
 import androidx.webkit.WebViewClientCompat
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
-
 
 @SuppressLint("SetJavaScriptEnabled")
 class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, attrs) {
@@ -36,7 +33,6 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
             .build()
 
         webViewClient = LocalContentWebViewClient(assetLoader)
-
         setWebContentsDebuggingEnabled(true)
 
         addJavascriptInterface(
@@ -50,33 +46,11 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
                 Log.d(TAG, consoleMessage.message())
                 return true
             }
-
-            override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                super.onProgressChanged(view, newProgress)
-                Log.d(TAG, "progress: $newProgress")
-                if (progress == 100) {
-                    isVisible = true
-                    alpha = 0.0f
-                    postDelayed({
-                        alpha = 1.0f
-                        val animate = TranslateAnimation(
-                            0f,  // fromXDelta
-                            0f,  // toXDelta
-                            height.toFloat(),  // fromYDelta
-                            0f // toYDelta
-                        )
-
-                        animate.duration = 1000
-                        startAnimation(animate)
-                    }, 1000)
-                }
-            }
         }
     }
 
-    private class LocalContentWebViewClient(
-        private val assetLoader: WebViewAssetLoader
-    ) : WebViewClientCompat() {
+    private class LocalContentWebViewClient(private val assetLoader: WebViewAssetLoader) :
+        WebViewClientCompat() {
         override fun shouldInterceptRequest(
             view: WebView,
             request: WebResourceRequest
@@ -99,6 +73,13 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
         loadUrl(ketchUrl)
     }
 
+    fun show() {
+        loadUrl("about:blank")
+        clearHistory()
+        loadUrl(ketchUrl)
+        isVisible = true
+    }
+
     private class PreferenceCenterJavascriptInterface(private val ketchWebView: KetchWebView) {
         @JavascriptInterface
         fun hideExperience(status: String?) {
@@ -107,9 +88,8 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
                 || status?.equals(SET_CONSENT, ignoreCase = true) == true
             ) {
                 runOnMainThread {
-                    with(ketchWebView) {
-                        isVisible = false
-                    }
+                    ketchWebView.listener?.onClose()
+                    ketchWebView.isVisible = false
                 }
             }
         }
@@ -186,6 +166,7 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
     interface KetchListener {
         fun onCCPAUpdate(ccpaString: String?)
         fun onTCFUpdate(tcfString: String?)
+        fun onClose()
     }
 
     companion object {

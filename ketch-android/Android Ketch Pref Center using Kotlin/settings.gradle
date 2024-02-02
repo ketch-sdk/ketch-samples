@@ -14,4 +14,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "KetchPrefCenterSample"
 include ':app'
-include ':lint'
