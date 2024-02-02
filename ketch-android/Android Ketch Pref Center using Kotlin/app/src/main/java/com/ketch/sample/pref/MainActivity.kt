@@ -8,9 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStateAtLeast
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
-import kotlinx.android.synthetic.main.activity_main.button
 import kotlinx.android.synthetic.main.activity_main.ketchWebView
-import kotlinx.android.synthetic.main.activity_main.mainLayout
 import kotlinx.android.synthetic.main.activity_main.progressBar
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -41,20 +39,9 @@ class MainActivity : AppCompatActivity() {
             override fun onTCFUpdate(tcfString: String?) {
                 sharedPreferences.saveTCFTCString(tcfString)
             }
-
-            override fun onClose() {
-                mainLayout.isVisible = true
-            }
-        }
-
-        button.setOnClickListener {
-            ketchWebView.show()
-            mainLayout.isVisible = false
         }
 
         collectState(advertisingId) {
-            button.isVisible = it != null
-
             it?.let { aaid ->
                 progressBar.isVisible = false
 
@@ -75,7 +62,8 @@ class MainActivity : AppCompatActivity() {
     private fun loadAdvertisingId() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                advertisingId.value = AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id
+                advertisingId.value =
+                    AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id
             } catch (e: Exception) {
                 e.printStackTrace()
                 launch(Dispatchers.Main) {
@@ -113,8 +101,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val ORG_CODE = "<organization code>"
-        private const val PROPERTY = "<property>"
-        private const val ADVERTISING_ID_CODE = "<advertising field code>"
+        private const val ORG_CODE = "transcenda"
+        private const val PROPERTY = "website_smart_tag"
+        private const val ADVERTISING_ID_CODE = "aaid"
     }
 }

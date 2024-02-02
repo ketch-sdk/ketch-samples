@@ -2,36 +2,40 @@ apply plugin: "com.github.ben-manes.versions"
 apply plugin: "org.jlleitschuh.gradle.ktlint"
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
+apply plugin: "org.jetbrains.dokka"
 
 buildscript {
     ext.buildConfig = [
             'minSdk'    : 28,
-            'targetSdk' : 32,
-            'compileSdk': 32,
+            'targetSdk' : 33,
+            'compileSdk': 33,
     ]
     ext.versions = [
+            'javaVersion'  :  17,
             'buildTools'   : '33.0.2',
-            'ketch'        : '0.3.+',
-            'kotlin'       : '1.7.10',
-            'ktx'          : '1.8.0',
+            'kotlin'       : '1.8.21',
+            'ktx'          : '1.9.0',
             'lint'         : '27.2.0',
             'appcompat'    : '1.5.1',
             'material'     : '1.7.0',
             'dokka'        : '1.7.20',
-            'junit'        : '5.7.1'
+            'junit'        : '5.7.1',
+            'gson'         : '2.9.1',
+            'webkit'       : '1.5.0'
     ]
     repositories {
         google()
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.0'
+        classpath 'com.android.tools.build:gradle:8.0.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath "org.jetbrains.kotlin:kotlin-serialization:${versions.kotlin}"
         classpath "de.mannodermaus.gradle.plugins:android-junit5:1.7.1.1"
-        classpath "com.github.ben-manes:gradle-versions-plugin:0.42.0"
-        classpath "org.jlleitschuh.gradle:ktlint-gradle:10.3.0"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.44.0"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:11.6.0"
         classpath("org.jfrog.buildinfo:build-info-extractor-gradle:4.29.0") {
             exclude group: 'org.codehaus.groovy'
         }
@@ -48,13 +52,6 @@ allprojects {
         maven { url 'https://jitpack.io' }
         maven { url "https://dl.cloudsmith.io/public/indooratlas/mvn-public/maven" }
         maven { url "https://software.mobile.pendo.io/artifactory/android-release" }
-        maven {
-            url "https://ketch.jfrog.io/artifactory/android/"
-            credentials {
-                username = System.getenv('ARTIFACTORY_USERNAME')
-                password = System.getenv('ARTIFACTORY_PASSWORD')
-            }
-        }
     }
 }
 
@@ -66,39 +63,21 @@ ext {
     ketch_version = '0.3.' + System.getenv('GITHUB_RUN_NUMBER')
 }
 
-project('app') {
-    publishing {
-        publications {
-            sample(MavenPublication) {
-                groupId 'web-sdk'
-                version ketch_version
-                artifactId 'websdk-android-sample'
+dokkaHtmlMultiModule.configure {
+    // Set module name displayed in the final output
+    moduleName.set("Ketch SDK")
 
-                artifact("$buildDir/outputs/apk/debug/app-debug.apk")
-            }
-        }
-    }
+    // Suppress obvious functions like default toString or equals. Defaults to true
+    suppressObviousFunctions.set(false)
+
+    // Suppress all inherited members that were not overridden in a given class.
+    // Eg. using it you can suppress toString or equals functions but you can't suppress componentN or copy on data class. To do that use with suppressObviousFunctions
+    // Defaults to false
+    suppressInheritedMembers.set(true)
 }
 
-artifactory {
-    contextUrl = 'https://ketch.jfrog.io/artifactory/'
-
-    publish {
-        repository {
-            repoKey = 'android'
-
-            username = System.getenv('ARTIFACTORY_USERNAME')
-            password = System.getenv('ARTIFACTORY_PASSWORD')
-        }
-
-        defaults {
-            publications('sample')
-            publishBuildInfo = false   //Publish build-info to Artifactory (true by default)
-            publishArtifacts = true   //Publish artifacts to Artifactory (true by default)
-            publishPom = true   //Publish generated POM files to Artifactory (true by default).
-            publishIvy = false
-            //Publish generated Ivy descriptor files to Artifactory (true by default).
-            properties = ['qa.level': 'basic', 'q.os': 'android']
-        }
-    }
+task packageDoc(type: Zip) {
+    archiveFileName = "sdk-doc.zip"
+    destinationDirectory = file("$buildDir/doc")
+    from "$buildDir/dokka/htmlMultiModule/"
 }
