@@ -155,7 +155,7 @@ class MainActivity : BaseActivity() {
             buttonShowPreferencesTab.setOnClickListener {
                 val multiselectedTabs = getMultiselectedPreferencesTab()
                 if (multiselectedTabs.isNotEmpty()) {
-                    val selectedTab = spPreferencesTab.selectedItemPosition.let {
+                    spPreferencesTab.selectedItemPosition.let {
                         preferenceTabAdapter.getItem(it)
                     }?.let {
                         ketch.showPreferencesTab(multiselectedTabs, it)
