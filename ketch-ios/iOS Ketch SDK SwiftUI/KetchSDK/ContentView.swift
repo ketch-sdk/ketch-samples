@@ -220,8 +220,14 @@ struct ContentView: View {
                      "IABTCF_PublisherCustomPurposesLegitimateInterests",
                      "IABUSPrivacy_String"]
         
+        let keys3 = ["IABGPP_HDR_Version",
+                     "IABGPP_HDR_Sections",
+                     "IABGPP_HDR_GppString",
+                     "IABGPP_GppSID",
+                     "IABGPP_tcfeuv2_GppSID"]
+        
         print("\n* ----- Begin privacy strings ---- *")
-        (keys + keys2).forEach {
+        (keys + keys2 + keys3).forEach {
             print("\($0): \(UserDefaults.standard.value(forKey: $0) ?? "")")
         }
         print("* ----- End privacy strings ---- *\n")
