@@ -253,10 +253,10 @@ class MainActivity : BaseActivity() {
     companion object {
         private val TAG = MainActivity::class.java.simpleName
 
-        private const val ORG_CODE = "bluebird"
-        private const val PROPERTY = "mobile"
+        private const val ORG_CODE = "ketch_samples"
+        private const val PROPERTY = "android"
         private const val ADVERTISING_ID_CODE = "aaid"
 
-        private const val TEST_URL = "https://dev.ketchcdn.com/web/v2"
+        private const val TEST_URL = "https://global.ketchcdn.com/web/v3"
     }
 }
