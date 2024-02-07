@@ -52,7 +52,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.aar'], dir: 'libs')
+    implementation 'com.github.ketch-com:ketch-android:main-SNAPSHOT'
 
     implementation "androidx.core:core-ktx:${versions.ktx}"
     implementation "androidx.appcompat:appcompat:${versions.appcompat}"
