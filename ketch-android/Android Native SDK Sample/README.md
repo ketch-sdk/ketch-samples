@@ -20,7 +20,7 @@ Click Run to build and run the app on the simulator or a device.
 
 
 
-Optionally you can add your organization code and property name to
+Optionally, you can add your organization code and property name to
 `ketch-android/app/src/main/java/com/ketch/sample/MainActivity.kt`:
 
 ```kotlin
@@ -37,6 +37,6 @@ private const val PROPERTY = "????????????????"
 
 ![sync-with-gradle.png](docs%2Fsync-with-gradle.png)
 
-3. Fefresh Graddle Dependancies
+3. Refresh Gradle Dependencies
 
 ![refresh-graddle-deps.png](docs%2Frefresh-graddle-deps.png)
