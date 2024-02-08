@@ -11,8 +11,8 @@ struct ContentView: View {
     
     init() {
         let ketch = KetchSDK.create(
-            organizationCode: "bluebird",
-            propertyCode: "mobile",
+            organizationCode: "ketch_samples",
+            propertyCode: "ios",
             environmentCode: "production",
             identities: [.idfa("00000000-0000-0000-0000-000000000000")] // or advertisingIdentifier.uuidString
         )
@@ -28,8 +28,8 @@ struct ContentView: View {
     @State var selectedExperienceToShow: KetchUI.ExperienceOption.ExperienceToShow = .cd
     @State var selectedTab: KetchUI.ExperienceOption.PreferencesTab?
     @State var lang = "EN"
-    @State var jurisdiction = "france"
-    @State var region = "FR"
+    @State var jurisdiction = "default"
+    @State var region = "US"
     @State var tabsExpanded = false
     @State var selectedTabs = KetchUI.ExperienceOption.PreferencesTab.allCases
     
@@ -90,7 +90,7 @@ struct ContentView: View {
             
             Text("Jurisdiction:")
             Picker("Jurisdiction", selection: $jurisdiction) {
-                ForEach(["france", "england___banner_momile_testing"], id: \.self) {
+                ForEach(["default", "gdpr"], id: \.self) {
                     Text($0)
                 }
             }
@@ -115,8 +115,7 @@ struct ContentView: View {
                         .region(region),
                         .language(langId: lang),
                         .forceExperience(selectedExperienceToShow),
-                        .jurisdiction(code: jurisdiction),
-                        .sdkEnvironmentURL("https://dev.ketchcdn.com/web/v3")
+                        .jurisdiction(code: jurisdiction)
                     ]
                     
                     if !selectedTabs.isEmpty {
