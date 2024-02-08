@@ -195,7 +195,7 @@ struct ContentView: View {
         }
         .padding()
         .background(.white)
-        .ketchView(model: $ketchUI.webPresentationItem)
+        .ketchView(model: ketchUI)
     }
     
     private func showPrivacyStrings() {
