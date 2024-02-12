@@ -31,6 +31,10 @@ class MainActivity : BaseActivity() {
 
     private val listener = object : Ketch.Listener {
 
+        override fun onLoad() {
+            Log.d(TAG, "onLoad()")
+        }
+
         override fun onEnvironmentUpdated(environment: String?) {
             Log.d(TAG, "onEnvironmentUpdated: environment = $environment")
         }
@@ -164,11 +168,7 @@ class MainActivity : BaseActivity() {
             }
 
             buttonShowConsent.setOnClickListener {
-                ketch.let {
-                    it.setBannerWindowPosition(getPosition())
-                    it.setModalWindowPosition(getPosition())
-                    it.forceShowConsent()
-                }
+                ketch.forceShowConsent()
             }
 
             buttonShowSharedPreferences.setOnClickListener {
@@ -189,17 +189,6 @@ class MainActivity : BaseActivity() {
                 ketch.setRegion(regions[it])
             }
         }
-    }
-
-    private fun getPosition(): Ketch.WindowPosition? = when (binding.rgPosition.checkedRadioButtonId) {
-        R.id.rbConfig -> null
-        R.id.rbTop -> Ketch.WindowPosition.TOP
-        R.id.rbBottom -> Ketch.WindowPosition.BOTTOM
-        R.id.rbBottomLeft -> Ketch.WindowPosition.BOTTOM_LEFT
-        R.id.rbBottomRight -> Ketch.WindowPosition.BOTTOM_RIGHT
-        R.id.rbBottomMiddle -> Ketch.WindowPosition.BOTTOM_MIDDLE
-        R.id.rbCenter -> Ketch.WindowPosition.CENTER
-        else -> Ketch.WindowPosition.BOTTOM_MIDDLE
     }
 
     private fun getMultiselectedPreferencesTab(): List<Ketch.PreferencesTab> {
