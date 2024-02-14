@@ -43,156 +43,108 @@ struct ContentView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Experience:")
-            Picker("Experience", selection: $selectedExperienceToShow) {
-                ForEach([KetchUI.ExperienceOption.ExperienceToShow.cd, .preferences], id: \.self) {
-                    Text($0.name)
-                }
-            }
-            .pickerStyle(.segmented)
-            
-            if selectedExperienceToShow == .preferences {
-                Text("Tabs:")
-                
-                LazyVGrid(columns: [
-                    GridItem(.flexible()),
-                    GridItem(.flexible())
-                ]) {
-                    ForEach(KetchUI.ExperienceOption.PreferencesTab.allCases, id: \.self) { tab in
-                        prefTabCheckMarkView(tab: tab)
+        ZStack(alignment: .bottom) {
+            VStack(alignment: .leading) {
+                Text("Experience:")
+                Picker("Experience", selection: $selectedExperienceToShow) {
+                    ForEach([KetchUI.ExperienceOption.ExperienceToShow.cd, .preferences], id: \.self) {
+                        Text($0.name)
                     }
                 }
+                .pickerStyle(.segmented)
                 
-                if !selectedTabs.isEmpty {
-                    HStack {
-                        Text("Active tab:")
-                        
-                        Picker("Active tab:", selection: $selectedTab) {
-                            Text("none").tag(nil as KetchUI.ExperienceOption.PreferencesTab?)
-                            
-                            ForEach(selectedTabs, id: \.self) { tab in
-                                Text(tab.rawValue.replacingOccurrences(of: "Tab", with: "")).tag(tab as KetchUI.ExperienceOption.PreferencesTab?)
-                            }
+                if selectedExperienceToShow == .preferences {
+                    Text("Tabs:")
+                    
+                    LazyVGrid(columns: [
+                        GridItem(.flexible()),
+                        GridItem(.flexible())
+                    ]) {
+                        ForEach(KetchUI.ExperienceOption.PreferencesTab.allCases, id: \.self) { tab in
+                            prefTabCheckMarkView(tab: tab)
                         }
-                        .pickerStyle(.menu)
                     }
-                }
-            }
-            
-            Text("Language:")
-            Picker("Language", selection: $lang) {
-                ForEach(["EN", "FR"], id: \.self) {
-                    Text($0)
-                }
-            }
-            .pickerStyle(.segmented)
-            
-            Text("Jurisdiction:")
-            Picker("Jurisdiction", selection: $jurisdiction) {
-                ForEach(["default", "gdpr"], id: \.self) {
-                    Text($0)
-                }
-            }
-            .pickerStyle(.segmented)
-            
-            
-            Text("Region:")
-            Picker("Region", selection: $region) {
-                ForEach(["US", "FR", "GB"], id: \.self) {
-                    Text($0)
-                }
-            }
-            .pickerStyle(.segmented)
-            
-            Spacer()
-            
-            HStack {
-                Spacer()
-                
-                Button("Show") {
-                    var params: [KetchUI.ExperienceOption?] = [
-                        .region(region),
-                        .language(langId: lang),
-                        .forceExperience(selectedExperienceToShow),
-                        .jurisdiction(code: jurisdiction)
-                    ]
                     
                     if !selectedTabs.isEmpty {
-                        let selectedTabsNames = selectedTabs.compactMap { $0.rawValue }
-                        params.append(.preferencesTabs(selectedTabsNames.joined(separator: ",")))
-                        
-                        if let selectedTab, selectedTabs.contains(selectedTab) {
-                            params.append(.preferencesTab(selectedTab))
+                        HStack {
+                            Text("Active tab:")
+                            
+                            Picker("Active tab:", selection: $selectedTab) {
+                                Text("none").tag(nil as KetchUI.ExperienceOption.PreferencesTab?)
+                                
+                                ForEach(selectedTabs, id: \.self) { tab in
+                                    Text(tab.rawValue.replacingOccurrences(of: "Tab", with: "")).tag(tab as KetchUI.ExperienceOption.PreferencesTab?)
+                                }
+                            }
+                            .pickerStyle(.menu)
                         }
                     }
-                    
-                    ketchUI.overridePresentationConfig = nil
-                    ketchUI.reload(with: params.compactMap{$0})
                 }
-                .font(.system(.title))
                 
-                Spacer()
-            }
-            
-            Spacer()
-            
-            HStack {
-                Spacer()
-                
-                Text("Animate Consent")
-                VStack(spacing: 40) {
-                    
-                    HStack {
-                        Button {
-                            ketchUI.overridePresentationConfig = KetchUI.PresentationConfig(vpos: .top, hpos: .center, style: .banner)
-                            ketchUI.showConsent()
-                        } label: { Image(systemName: "arrow.down.square") }
-                    }
-                    
-                    HStack {
-                        Button {
-                            ketchUI.overridePresentationConfig = KetchUI.PresentationConfig(vpos: .center, hpos: .left, style: .modal)
-                            ketchUI.showConsent()
-                        } label: { Image(systemName: "arrow.right.square") }
-                        Button {
-                            ketchUI.overridePresentationConfig = KetchUI.PresentationConfig(vpos: .center, hpos: .center, style: .modal)
-                            ketchUI.showConsent()
-                        } label: { Image(systemName: "square.on.square") }
-                        Button {
-                            ketchUI.overridePresentationConfig = KetchUI.PresentationConfig(vpos: .center, hpos: .center, style: .banner)
-                            ketchUI.showConsent()
-                        } label: { Image(systemName: "square") }
-                        Button {
-                            ketchUI.overridePresentationConfig = KetchUI.PresentationConfig(vpos: .center, hpos: .right, style: .modal)
-                            ketchUI.showConsent()
-                        } label: { Image(systemName: "arrow.left.square") }
-                    }
-                    
-                    HStack(spacing: 10) {
-                        Button {
-                            ketchUI.overridePresentationConfig = KetchUI.PresentationConfig(vpos: .bottom, hpos: .left, style: .banner)
-                            ketchUI.showConsent()
-                        } label: { Image(systemName: "arrow.up.right.square") }
-                        Button {
-                            ketchUI.overridePresentationConfig = KetchUI.PresentationConfig(vpos: .bottom, hpos: .center, style: .banner)
-                            ketchUI.showConsent()
-                        } label: { Image(systemName: "arrow.up.square") }
-                        Button {
-                            ketchUI.overridePresentationConfig = KetchUI.PresentationConfig(vpos: .bottom, hpos: .right, style: .banner)
-                            ketchUI.showConsent()
-                        } label: { Image(systemName: "arrow.up.left.square") }
+                Text("Language:")
+                Picker("Language", selection: $lang) {
+                    ForEach(["EN", "FR"], id: \.self) {
+                        Text($0)
                     }
                 }
-                .padding()
-                .border(.black)
+                .pickerStyle(.segmented)
+                
+                Text("Jurisdiction:")
+                Picker("Jurisdiction", selection: $jurisdiction) {
+                    ForEach(["default", "gdpr"], id: \.self) {
+                        Text($0)
+                    }
+                }
+                .pickerStyle(.segmented)
+                
+                
+                Text("Region:")
+                Picker("Region", selection: $region) {
+                    ForEach(["US", "FR", "GB"], id: \.self) {
+                        Text($0)
+                    }
+                }
+                .pickerStyle(.segmented)
+                
+                Spacer()
+                
+                HStack {
+                    Spacer()
+                    
+                    Button("Show") {
+                        var params: [KetchUI.ExperienceOption?] = [
+                            .region(region),
+                            .language(langId: lang),
+                            .forceExperience(selectedExperienceToShow),
+                            .jurisdiction(code: jurisdiction)
+                        ]
+                        
+                        if !selectedTabs.isEmpty {
+                            let selectedTabsNames = selectedTabs.compactMap { $0.rawValue }
+                            params.append(.preferencesTabs(selectedTabsNames.joined(separator: ",")))
+                            
+                            if let selectedTab, selectedTabs.contains(selectedTab) {
+                                params.append(.preferencesTab(selectedTab))
+                            }
+                        }
+                        
+                        ketchUI.reload(with: params.compactMap{$0})
+                    }
+                    .font(.system(.title))
+                    
+                    Spacer()
+                }
+                
+                Spacer()
+                
+                Button("Log local privacy strings") {
+                    showPrivacyStrings()
+                }
             }
+            .padding()
             
-            Button("Log local privacy strings") {
-                showPrivacyStrings()
-            }
+            
         }
-        .padding()
         .background(.white)
         .ketchView(model: $ketchUI.webPresentationItem)
     }
