@@ -20,12 +20,12 @@ struct ContentView: View {
         ketchUI = KetchUI(
             ketch: ketch,
             experienceOptions: [
-                .forceExperience(.cd)
+                .forceExperience(.consent)
             ]
         )
     }
     
-    @State var selectedExperienceToShow: KetchUI.ExperienceOption.ExperienceToShow = .cd
+    @State var selectedExperienceToShow: KetchUI.ExperienceOption.ExperienceToShow = .consent
     @State var selectedTab: KetchUI.ExperienceOption.PreferencesTab?
     @State var lang = "EN"
     @State var jurisdiction = "default"
@@ -47,7 +47,7 @@ struct ContentView: View {
             VStack(alignment: .leading) {
                 Text("Experience:")
                 Picker("Experience", selection: $selectedExperienceToShow) {
-                    ForEach([KetchUI.ExperienceOption.ExperienceToShow.cd, .preferences], id: \.self) {
+                    ForEach([KetchUI.ExperienceOption.ExperienceToShow.consent, .preferences], id: \.self) {
                         Text($0.name)
                     }
                 }
@@ -206,7 +206,7 @@ struct ContentView: View {
 extension KetchUI.ExperienceOption.ExperienceToShow {
     var name: String {
         switch self {
-        case .cd:
+        case .consent:
             return "Consent"
         case .preferences:
             return "Preferences"
