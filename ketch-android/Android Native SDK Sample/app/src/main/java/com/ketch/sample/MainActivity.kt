@@ -43,6 +43,10 @@ class MainActivity : BaseActivity() {
             Log.d(TAG, "onRegionInfoUpdated: regionInfo = $regionInfo")
         }
 
+        override fun onShow() {
+            Log.e(TAG, "onShow")
+        }
+
         override fun onJurisdictionUpdated(jurisdiction: String?) {
             Log.d(TAG, "onJurisdictionUpdated: jurisdiction = $jurisdiction")
         }
@@ -54,6 +58,10 @@ class MainActivity : BaseActivity() {
         override fun onConsentUpdated(consent: Consent) {
             val consentJson = Gson().toJson(consent)
             Log.d(TAG, "onConsentUpdated: consent = $consentJson")
+        }
+
+        override fun onDismiss() {
+            Log.e(TAG, "onDismiss")
         }
 
         override fun onError(errMsg: String?) {
@@ -79,9 +87,11 @@ class MainActivity : BaseActivity() {
             supportFragmentManager,
             ORG_CODE,
             PROPERTY,
+            null,
             listener,
-            TEST_URL
-        ).build()
+            TEST_URL,
+            Ketch.LogLevel.DEBUG
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -168,7 +178,7 @@ class MainActivity : BaseActivity() {
             }
 
             buttonShowConsent.setOnClickListener {
-                ketch.forceShowConsent()
+                ketch.showConsent()
             }
 
             buttonShowSharedPreferences.setOnClickListener {
