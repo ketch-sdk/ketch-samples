@@ -113,8 +113,8 @@ struct ContentView: View {
                     
                     Button("Show") {
                         var params: [KetchUI.ExperienceOption?] = [
-                            .region(region),
-                            .language(langId: lang),
+                            .region(code: region),
+                            .language(code: lang),
                             .forceExperience(selectedExperienceToShow),
                             .jurisdiction(code: jurisdiction)
                         ]
