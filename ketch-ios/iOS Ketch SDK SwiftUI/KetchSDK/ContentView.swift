@@ -116,7 +116,8 @@ struct ContentView: View {
                             .region(code: region),
                             .language(code: lang),
                             .forceExperience(selectedExperienceToShow),
-                            .jurisdiction(code: jurisdiction)
+                            .jurisdiction(code: jurisdiction),
+                            .environment("production")
                         ]
                         
                         if !selectedTabs.isEmpty {
