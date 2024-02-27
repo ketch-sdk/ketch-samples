@@ -17,13 +17,17 @@ buildscript {
             'buildTools'   : '34.0.0',
             'kotlin'       : '1.8.21',
             'ktx'          : '1.12.0',
+            'lifecycle'    : '2.7.0',
+            'constraint'   : '2.1.4',
             'appcompat'    : '1.6.1',
             'material'     : '1.11.0',
             'parcelize'    : '1.8.21',
             'dokka'        : '1.7.20',
             'junit'        : '4.13.2',
             'gson'         : '2.10',
-            'webkit'       : '1.10.0'
+            'webkit'       : '1.10.0',
+            'playservices' : '18.3.0',
+            'playservicesadsid': '18.0.1'
     ]
     repositories {
         google()
