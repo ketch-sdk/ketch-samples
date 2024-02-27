@@ -12,7 +12,7 @@
         android:padding="16dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/buttonContainer"
+            android:id="@+id/mainContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -25,6 +25,36 @@
                 android:text="@string/app_name"
                 android:textSize="24sp" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="16dp"
+                android:background="@color/seed" />
+
+            <TextView
+                android:id="@+id/orgcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="OrgCode:" />
+
+            <TextView
+                android:id="@+id/property"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Property:" />
+
+            <TextView
+                android:id="@+id/ketchurl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Url:" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="16dp"
+                android:background="@color/seed" />
+
             <LinearLayout
                 android:id="@+id/llLanguage"
                 android:layout_width="match_parent"
@@ -35,7 +65,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Language" />
+                    android:text="@string/language" />
 
                 <Spinner
                     android:id="@+id/spLanguage"
@@ -55,7 +85,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Jurisdiction" />
+                    android:text="@string/jurisdiction" />
 
                 <Spinner
                     android:id="@+id/spJurisdiction"
@@ -75,7 +105,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Region" />
+                    android:text="@string/region" />
 
                 <Spinner
                     android:id="@+id/spRegion"
@@ -91,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
-                android:text="Set" />
+                android:text="@string/set" />
 
             <View
                 android:layout_width="match_parent"
@@ -104,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Show Preferences" />
+                android:text="@string/show_preferences" />
 
             <View
                 android:layout_width="match_parent"
@@ -122,25 +152,25 @@
                     android:id="@+id/cbOverviewTab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Overview Tab" />
+                    android:text="@string/overview_tab" />
 
                 <CheckBox
                     android:id="@+id/cbRightsTab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rights Tab" />
+                    android:text="@string/rights_tab" />
 
                 <CheckBox
                     android:id="@+id/cbConsentsTab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Consents Tab" />
+                    android:text="@string/consents_tab" />
 
                 <CheckBox
                     android:id="@+id/cbSubscriptionsTab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Subscribtion Tab" />
+                    android:text="@string/subscribtion_tab" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -151,7 +181,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Select" />
+                        android:text="@string/select" />
 
                     <Spinner
                         android:id="@+id/spPreferencesTab"
@@ -168,7 +198,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
-                android:text="Show Preferences Tab" />
+                android:text="@string/show_preferences_tab" />
 
             <View
                 android:layout_width="match_parent"
@@ -182,7 +212,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
-                android:text="Show Consent" />
+                android:text="@string/show_consent" />
 
             <View
                 android:layout_width="match_parent"
@@ -223,7 +253,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
-                android:text="Show" />
+                android:text="@string/show" />
 
             <TextView
                 android:id="@+id/sharedPreferencesString"

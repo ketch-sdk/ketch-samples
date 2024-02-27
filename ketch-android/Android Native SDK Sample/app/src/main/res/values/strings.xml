@@ -1,11 +1,27 @@
 <resources>
     <string name="app_name">Ketch SDK Sample</string>
+
+    <string name="org_code">OrgCode: %s</string>
+    <string name="property">Property: %s</string>
+    <string name="ketch_url">Url: %s</string>
+
+    <string name="language">Language</string>
+    <string name="jurisdiction">Jurisdiction</string>
+    <string name="region">Region</string>
+    <string name="set">Set</string>
+    <string name="show_preferences">Show Preferences</string>
+
+    <string name="overview_tab">Overview Tab</string>
+    <string name="rights_tab">Rights Tab</string>
+    <string name="consents_tab">Consents Tab</string>
+    <string name="subscribtion_tab">Subscribtion Tab</string>
+    <string name="select">Select</string>
+    <string name="show_preferences_tab">Show Preferences Tab</string>
+
+    <string name="show_consent">Show Consent</string>
+    <string name="show">Show</string>
+
     <string name="cannot_get_advertising_id_toast">Cannot get AdvertisingId</string>
     <string name="device_offline">No internet connection</string>
     <string name="server_not_available">Server is not available</string>
-
-    <string name="button_show_banner">Show Banner</string>
-    <string name="button_show_modal">Show Modal</string>
-    <string name="button_show_jit">Show Jit</string>
-    <string name="button_show_preference">Show Preference</string>
 </resources>

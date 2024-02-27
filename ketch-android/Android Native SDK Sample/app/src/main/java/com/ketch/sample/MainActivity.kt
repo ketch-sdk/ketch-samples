@@ -25,7 +25,7 @@ class MainActivity : BaseActivity() {
 
     private val advertisingId = MutableStateFlow<String?>(null)
 
-    private val languages = arrayOf("EN", "FR")
+    private val languages = arrayOf(SYSTEM, "en", "fr")
     private val jurisdictions = arrayOf("default", "gdpr")
     private val regions = arrayOf("US", "FR", "GB")
 
@@ -120,6 +120,10 @@ class MainActivity : BaseActivity() {
 
     private fun setupUI() {
         with(binding) {
+            orgcode.setText(getString(R.string.org_code, ORG_CODE))
+            property.setText(getString(R.string.property, PROPERTY))
+            ketchurl.setText(getString(R.string.ketch_url, TEST_URL))
+
             val languageAdapter: ArrayAdapter<String> =
                 ArrayAdapter<String>(this@MainActivity, android.R.layout.simple_spinner_dropdown_item, languages)
             spLanguage.adapter = languageAdapter
@@ -190,7 +194,13 @@ class MainActivity : BaseActivity() {
     private fun setParameters() {
         with(binding) {
             spLanguage.selectedItemPosition.let {
-                ketch.setLanguage(languages[it])
+                languages[it].apply {
+                    if (this != SYSTEM) {
+                        ketch.setLanguage(this)
+                    } else {
+                        ketch.setLanguage(null)
+                    }
+                }
             }
             spJurisdiction.selectedItemPosition.let {
                 ketch.setJurisdiction(jurisdictions[it])
@@ -251,11 +261,12 @@ class MainActivity : BaseActivity() {
 
     companion object {
         private val TAG = MainActivity::class.java.simpleName
+        private const val SYSTEM = "<SYSTEM>"
 
-        private const val ORG_CODE = "ketch_samples"
-        private const val PROPERTY = "android"
+        private const val ORG_CODE = "experiencev2"
+        private const val PROPERTY = "test_experiencev2"
         private const val ADVERTISING_ID_CODE = "aaid"
 
-        private const val TEST_URL = "https://global.ketchcdn.com/web/v3"
+        private const val TEST_URL = "https://dev.ketchcdn.com/web/v3"
     }
 }
