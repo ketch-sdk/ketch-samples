@@ -14,7 +14,9 @@ struct ContentView: View {
             organizationCode: "ketch_samples",
             propertyCode: "ios",
             environmentCode: "production",
-            identities: [.idfa("00000000-0000-0000-0000-000000000000")] // or advertisingIdentifier.uuidString
+            identities: [
+                Ketch.Identity(key: "idfa", value: "00000000-0000-0000-0000-000000000000")
+            ]
         )
         
         ketchUI = KetchUI(
@@ -116,11 +118,10 @@ struct ContentView: View {
                             .region(code: region),
                             .language(code: lang),
                             .forceExperience(selectedExperienceToShow),
-                            .jurisdiction(code: jurisdiction),
-                            .environment("production")
+                            .jurisdiction(code: jurisdiction)
                         ]
                         
-                        if !selectedTabs.isEmpty {
+                        if !selectedTabs.isEmpty && selectedExperienceToShow == .preferences {
                             let selectedTabsNames = selectedTabs.compactMap { $0.rawValue }
                             params.append(.preferencesTabs(selectedTabsNames.joined(separator: ",")))
                             
