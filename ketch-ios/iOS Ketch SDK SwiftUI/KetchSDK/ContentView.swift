@@ -9,10 +9,10 @@ import KetchSDK
 struct ContentView: View {
     @ObservedObject var ketchUI: KetchUI
     
-    let organizationCode = "experiencev2"
-    let propertyCode = "test_experiencev2"
+    let organizationCode = "ketch_samples"
+    let propertyCode = "ios"
     /// When url is empty string the default url will be https://global.ketchcdn.com/web/v3
-    let url = "https://dev.ketchcdn.com/web/v3"
+    let url = ""
     
     init() {
         let ketch = KetchSDK.create(
