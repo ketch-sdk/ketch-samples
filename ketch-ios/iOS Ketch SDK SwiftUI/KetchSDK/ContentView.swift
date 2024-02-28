@@ -9,10 +9,15 @@ import KetchSDK
 struct ContentView: View {
     @ObservedObject var ketchUI: KetchUI
     
+    let organizationCode = "experiencev2"
+    let propertyCode = "test_experiencev2"
+    /// When url is empty string the default url will be https://global.ketchcdn.com/web/v3
+    let url = "https://dev.ketchcdn.com/web/v3"
+    
     init() {
         let ketch = KetchSDK.create(
-            organizationCode: "ketch_samples",
-            propertyCode: "ios",
+            organizationCode: organizationCode,
+            propertyCode: propertyCode,
             environmentCode: "production",
             identities: [
                 Ketch.Identity(key: "idfa", value: "00000000-0000-0000-0000-000000000000")
@@ -130,6 +135,10 @@ struct ContentView: View {
                             }
                         }
                         
+                        if !url.isEmpty {
+                            params.append(.ketchURL(url))
+                        }
+                        
                         ketchUI.reload(with: params.compactMap{$0})
                     }
                     .font(.system(.title))
@@ -142,10 +151,13 @@ struct ContentView: View {
                 Button("Log local privacy strings") {
                     showPrivacyStrings()
                 }
+                .padding(.bottom, 8)
+                
+                Text("OrgCode: \(organizationCode)")
+                Text("PropertyCode: \(propertyCode)")
+                Text("URL: \(url.isEmpty ? "https://global.ketchcdn.com/web/v3" : url)")
             }
             .padding()
-            
-            
         }
         .background(.white)
         .ketchView(model: $ketchUI.webPresentationItem)
