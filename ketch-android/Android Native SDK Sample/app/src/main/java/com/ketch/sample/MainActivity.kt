@@ -44,7 +44,7 @@ class MainActivity : BaseActivity() {
         }
 
         override fun onShow() {
-            Log.e(TAG, "onShow")
+            Log.d(TAG, "onShow")
         }
 
         override fun onJurisdictionUpdated(jurisdiction: String?) {
@@ -61,7 +61,7 @@ class MainActivity : BaseActivity() {
         }
 
         override fun onDismiss() {
-            Log.e(TAG, "onDismiss")
+            Log.d(TAG, "onDismiss")
         }
 
         override fun onError(errMsg: String?) {
