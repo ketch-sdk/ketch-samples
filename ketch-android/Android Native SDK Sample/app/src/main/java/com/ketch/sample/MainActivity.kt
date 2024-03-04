@@ -7,10 +7,8 @@ import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
-import com.google.gson.Gson
 import com.ketch.android.Ketch
 import com.ketch.android.KetchSdk
-import com.ketch.android.data.Consent
 import com.ketch.sample.databinding.ActivityMainBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -30,10 +28,6 @@ class MainActivity : BaseActivity() {
     private val regions = arrayOf("US", "FR", "GB")
 
     private val listener = object : Ketch.Listener {
-
-        override fun onLoad() {
-            Log.d(TAG, "onLoad()")
-        }
 
         override fun onEnvironmentUpdated(environment: String?) {
             Log.d(TAG, "onEnvironmentUpdated: environment = $environment")
@@ -55,9 +49,8 @@ class MainActivity : BaseActivity() {
             Log.d(TAG, "onIdentitiesUpdated: identities = $identities")
         }
 
-        override fun onConsentUpdated(consent: Consent) {
-            val consentJson = Gson().toJson(consent)
-            Log.d(TAG, "onConsentUpdated: consent = $consentJson")
+        override fun onConsentUpdated(json: String?) {
+            Log.d(TAG, "onConsentUpdated: consent = $json")
         }
 
         override fun onDismiss() {
@@ -125,15 +118,27 @@ class MainActivity : BaseActivity() {
             ketchurl.setText(getString(R.string.ketch_url, TEST_URL))
 
             val languageAdapter: ArrayAdapter<String> =
-                ArrayAdapter<String>(this@MainActivity, android.R.layout.simple_spinner_dropdown_item, languages)
+                ArrayAdapter<String>(
+                    this@MainActivity,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    languages
+                )
             spLanguage.adapter = languageAdapter
 
             val jurisdictionAdapter: ArrayAdapter<String> =
-                ArrayAdapter<String>(this@MainActivity, android.R.layout.simple_spinner_dropdown_item, jurisdictions)
+                ArrayAdapter<String>(
+                    this@MainActivity,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    jurisdictions
+                )
             spJurisdiction.adapter = jurisdictionAdapter
 
             val regionAdapter: ArrayAdapter<String> =
-                ArrayAdapter<String>(this@MainActivity, android.R.layout.simple_spinner_dropdown_item, regions)
+                ArrayAdapter<String>(
+                    this@MainActivity,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    regions
+                )
             spRegion.adapter = regionAdapter
 
             buttonSetParameters.setOnClickListener {
@@ -146,7 +151,10 @@ class MainActivity : BaseActivity() {
             }
 
             val preferenceTabAdapter: ArrayAdapter<Ketch.PreferencesTab> =
-                ArrayAdapter<Ketch.PreferencesTab>(this@MainActivity, android.R.layout.simple_spinner_dropdown_item)
+                ArrayAdapter<Ketch.PreferencesTab>(
+                    this@MainActivity,
+                    android.R.layout.simple_spinner_dropdown_item
+                )
             spPreferencesTab.adapter = preferenceTabAdapter
 
             val cbListener = CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
@@ -228,12 +236,13 @@ class MainActivity : BaseActivity() {
         return tabs
     }
 
-    private fun getSharedPreferencesString(): String? = when (binding.rgSharedPreferences.checkedRadioButtonId) {
-        R.id.rbTCF -> ketch.getTCFTCString()
-        R.id.rbUSPrivacy -> ketch.getUSPrivacyString()
-        R.id.rbGPP -> ketch.getGPPHDRGppString()
-        else -> null
-    }
+    private fun getSharedPreferencesString(): String? =
+        when (binding.rgSharedPreferences.checkedRadioButtonId) {
+            R.id.rbTCF -> ketch.getTCFTCString()
+            R.id.rbUSPrivacy -> ketch.getUSPrivacyString()
+            R.id.rbGPP -> ketch.getGPPHDRGppString()
+            else -> null
+        }
 
     @OptIn(DelicateCoroutinesApi::class)
     private fun loadAdvertisingId(binding: ActivityMainBinding) {
