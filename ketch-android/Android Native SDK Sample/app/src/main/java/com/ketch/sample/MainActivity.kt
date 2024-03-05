@@ -7,10 +7,8 @@ import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
-import com.google.gson.Gson
 import com.ketch.android.Ketch
 import com.ketch.android.KetchSdk
-import com.ketch.android.data.Consent
 import com.ketch.sample.databinding.ActivityMainBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -51,9 +49,8 @@ class MainActivity : BaseActivity() {
             Log.d(TAG, "onIdentitiesUpdated: identities = $identities")
         }
 
-        override fun onConsentUpdated(consent: Consent) {
-            val consentJson = Gson().toJson(consent)
-            Log.d(TAG, "onConsentUpdated: consent = $consentJson")
+        override fun onConsentUpdated(json: String?) {
+            Log.d(TAG, "onConsentUpdated: consent = $json")
         }
 
         override fun onDismiss() {
