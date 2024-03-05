@@ -83,9 +83,9 @@ function loadTagsOnPage(purposes, purposesKeys) {
 
 // Add event listener to be called anytime permit values are loaded 
 //  or when an end-user updates their consent.
-window.semaphore.push(['onConsent', function(c) { 
+window.ketch('on', 'consent', function(c) { 
     console.log(c);
     console.log(c.purposes);
     var puporsesKeys = Object.keys(c.purposes);
     loadTagsOnPage(c.purposes, puporsesKeys);
-}])
+})

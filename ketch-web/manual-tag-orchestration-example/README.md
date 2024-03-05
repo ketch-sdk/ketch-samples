@@ -58,10 +58,10 @@ Inside `manual_orchestration.js`, add an an event listener to the `onConsent` ev
 Additionally, we get all the keys on the `purposes` object and pass them along with the `purposes` object to the `loadTagsOnPage` function.
 
 ```javascript
-window.semaphore.push(['onConsent', function(c) { 
+window.ketch('on', 'consent', function(c) { 
     var puporsesKeys = Object.keys(c.purposes);
     loadTagsOnPage(c.purposes, puporsesKeys);
-}])
+})
 ```
 
 ### Add logic to load purpose specific tags on page
