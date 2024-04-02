@@ -27,6 +27,7 @@ class KetchWebView(context: Context, attrs: AttributeSet?) : WebView(context, at
     init {
         isVisible = false
         settings.javaScriptEnabled = true
+        settings.domStorageEnabled = true
         val assetLoader = WebViewAssetLoader.Builder()
             .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(context))
             .addPathHandler("/res/", WebViewAssetLoader.ResourcesPathHandler(context))
