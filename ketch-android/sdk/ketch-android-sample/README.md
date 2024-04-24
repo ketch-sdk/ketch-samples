@@ -10,7 +10,7 @@
 
 ```
 git clone git@github.com:ketch-sdk/ketch-samples.git
-cd "ketch-android/sdk/Android Native SDK Sample"
+cd "ketch-android/sdk/ketch-android-sample"
 ```
 
 ### Step 2. Run the app in Android Studio
