@@ -10,12 +10,12 @@
 
 ```
 git clone git@github.com:ketch-sdk/ketch-samples.git
-cd "ketch-ios/sdk/iOS Ketch SDK SwiftUI"
+cd "ketch-ios/sdk/ketch-ios-sample"
 ```
 
 ### Step 2. Run the app in XCode
 
-Open the **project workspace** `KetchSDK.xcworkspace` in the XCode.
+Open the **project workspace** `KetchSDK.xcodeproj` in the XCode.
 
 Click Run to build and run the app on the simulator or a physical device.
 
