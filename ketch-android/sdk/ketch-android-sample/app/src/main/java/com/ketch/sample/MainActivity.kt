@@ -11,6 +11,7 @@ import com.google.gson.Gson
 import com.ketch.android.Ketch
 import com.ketch.android.KetchSdk
 import com.ketch.android.data.Consent
+import com.ketch.android.data.HideExperienceStatus
 import com.ketch.sample.databinding.ActivityMainBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -56,8 +57,8 @@ class MainActivity : BaseActivity() {
             Log.d(TAG, "onConsentUpdated: consent = $consentJson")
         }
 
-        override fun onDismiss() {
-            Log.d(TAG, "onDismiss")
+        override fun onDismiss(status: HideExperienceStatus) {
+            Log.d(TAG, "onDismiss: status = ${status.name}")
         }
 
         override fun onError(errMsg: String?) {
@@ -78,10 +79,13 @@ class MainActivity : BaseActivity() {
     }
 
     private val ketch: Ketch by lazy {
+        // Create the KetchSDK object
         KetchSdk.create(
             this,
             supportFragmentManager,
+            // Replace below with your Ketch organization code
             ORG_CODE,
+            // Replace below with your Ketch property code
             PROPERTY,
             null,
             listener,
@@ -252,8 +256,7 @@ class MainActivity : BaseActivity() {
         binding.progressBar.isVisible = true
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                advertisingId.value =
-                    AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id
+                advertisingId.value = AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id
             } catch (e: Exception) {
                 e.printStackTrace()
                 launch(Dispatchers.Main) {
