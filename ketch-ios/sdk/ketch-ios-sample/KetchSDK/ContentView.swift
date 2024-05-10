@@ -6,7 +6,7 @@
 import SwiftUI
 import KetchSDK
 
-// Example custom listener that simply logs all events
+// Example custom listener that logs all events
 class MyKetchEventListener: KetchEventListener {
     func onLoad() {
         print("UI Loaded")
@@ -16,8 +16,8 @@ class MyKetchEventListener: KetchEventListener {
         print("UI Shown")
     }
 
-    func onDismiss() {
-        print("UI Dismissed")
+    func onDismiss(status: KetchSDK.HideExperienceStatus) {
+        print("UI Dismissed, Status: \(status)")
     }
 
     func onEnvironmentUpdated(environment: String?) {
@@ -66,10 +66,13 @@ struct ContentView: View {
     init() {
         // Create the KetchSDK object
         let ketch = KetchSDK.create(
+            // Replace below with your Ketch organization code
             organizationCode: "ketch_samples",
+            // Repalce below with your Ketch property code
             propertyCode: "ios",
             environmentCode: "production",
             identities: [
+                // Replace below with your Ketch identifier name and value
                 Ketch.Identity(key: "idfa", value: "00000000-0000-0000-0000-000000000000")
             ]
         )
@@ -78,6 +81,10 @@ struct ContentView: View {
         ketchUI = KetchUI(
             ketch: ketch,
             experienceOptions: [
+                // The line below forces the consent experience every time the app loads, NOTE: this is for 
+                // demo purposes and likely not what you want in production environments.
+                // See https://developers.ketch.com/docs/identity-synchronization-detail to understand how Ketch
+                // determines if a consent experience should show when .forceExperience(.consent) is not set.
                 .forceExperience(.consent)
             ]
         )
