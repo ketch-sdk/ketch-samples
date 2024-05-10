@@ -79,14 +79,7 @@ struct ContentView: View {
         
         // Create the KetchUI object
         ketchUI = KetchUI(
-            ketch: ketch,
-            experienceOptions: [
-                // The line below forces the consent experience every time the app loads, NOTE: this is for 
-                // demo purposes and likely not what you want in production environments.
-                // See https://developers.ketch.com/docs/identity-synchronization-detail to understand how Ketch
-                // determines if a consent experience should show when .forceExperience(.consent) is not set.
-                .forceExperience(.consent)
-            ]
+            ketch: ketch
         )
         
         // Add our listener to the ketchUI class
