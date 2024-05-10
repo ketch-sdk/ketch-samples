@@ -6,7 +6,7 @@
 import SwiftUI
 import KetchSDK
 
-// Example custom listener that simply logs all events
+// Example custom listener that logs all events
 class MyKetchEventListener: KetchEventListener {
     func onLoad() {
         print("UI Loaded")
@@ -16,8 +16,8 @@ class MyKetchEventListener: KetchEventListener {
         print("UI Shown")
     }
 
-    func onDismiss() {
-        print("UI Dismissed")
+    func onDismiss(status: KetchSDK.HideExperienceStatus) {
+        print("UI Dismissed, Status: \(status)")
     }
 
     func onEnvironmentUpdated(environment: String?) {
@@ -66,20 +66,20 @@ struct ContentView: View {
     init() {
         // Create the KetchSDK object
         let ketch = KetchSDK.create(
+            // Replace below with your Ketch organization code
             organizationCode: "ketch_samples",
+            // Repalce below with your Ketch property code
             propertyCode: "ios",
             environmentCode: "production",
             identities: [
+                // Replace below with your Ketch identifier name and value
                 Ketch.Identity(key: "idfa", value: "00000000-0000-0000-0000-000000000000")
             ]
         )
         
         // Create the KetchUI object
         ketchUI = KetchUI(
-            ketch: ketch,
-            experienceOptions: [
-                .forceExperience(.consent)
-            ]
+            ketch: ketch
         )
         
         // Add our listener to the ketchUI class
