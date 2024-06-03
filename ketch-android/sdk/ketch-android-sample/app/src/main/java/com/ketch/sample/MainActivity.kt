@@ -111,7 +111,7 @@ class MainActivity : BaseActivity() {
             }
             it?.let {
                 with(ketch) {
-                    setIdentities(mapOf(ADVERTISING_ID_CODE to it))
+                    setIdentities(mapOf(ADVERTISING_ID_CODE to "test@ketch.com"))
                     load()
                 }
             }
@@ -279,8 +279,8 @@ class MainActivity : BaseActivity() {
         private const val SYSTEM = "<SYSTEM>"
 
         private const val ORG_CODE = "ketch_samples"
-        private const val PROPERTY = "android"
-        private const val ADVERTISING_ID_CODE = "aaid"
+        private const val PROPERTY = "react_native_sample_app"
+        private const val ADVERTISING_ID_CODE = "email"
         private const val ENVIRONMENT = "staging";
 
         private const val TEST_URL = "https://global.ketchcdn.com/web/v3"
