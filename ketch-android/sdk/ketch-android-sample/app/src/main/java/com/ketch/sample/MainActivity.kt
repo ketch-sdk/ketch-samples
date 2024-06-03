@@ -28,7 +28,7 @@ class MainActivity : BaseActivity() {
 
     private val languages = arrayOf(SYSTEM, "en", "fr")
     private val jurisdictions = arrayOf("default", "gdpr")
-    private val regions = arrayOf("US", "FR", "GB")
+    private val regions = arrayOf("US", "FR", "GB", "JM")
 
     private val listener = object : Ketch.Listener {
 
@@ -87,7 +87,7 @@ class MainActivity : BaseActivity() {
             ORG_CODE,
             // Replace below with your Ketch property code
             PROPERTY,
-            null,
+            ENVIRONMENT,
             listener,
             TEST_URL,
             Ketch.LogLevel.DEBUG
@@ -281,6 +281,7 @@ class MainActivity : BaseActivity() {
         private const val ORG_CODE = "ketch_samples"
         private const val PROPERTY = "android"
         private const val ADVERTISING_ID_CODE = "aaid"
+        private const val ENVIRONMENT = "staging";
 
         private const val TEST_URL = "https://global.ketchcdn.com/web/v3"
     }
