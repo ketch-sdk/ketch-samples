@@ -9,6 +9,7 @@
     <string name="jurisdiction">Jurisdiction</string>
     <string name="region">Region</string>
     <string name="set">Set</string>
+    <string name="clear">Clear</string>
     <string name="show_preferences">Show Preferences</string>
 
     <string name="overview_tab">Overview Tab</string>

@@ -115,13 +115,26 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/buttonSetParameters"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:text="@string/set" />
+                android:layout_gravity="center_horizontal">
+
+                <Button
+                    android:id="@+id/buttonSetParameters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/set" />
+
+                <Button
+                    android:id="@+id/buttonClearParameters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/clear" />
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"

@@ -26,7 +26,7 @@ class MainActivity : BaseActivity() {
 
     private val advertisingId = MutableStateFlow<String?>(null)
 
-    private val languages = arrayOf(SYSTEM, "en", "fr")
+    private val languages = arrayOf("en", "fr")
     private val jurisdictions = arrayOf("default", "gdpr")
     private val regions = arrayOf("US", "FR", "GB")
 
@@ -101,8 +101,6 @@ class MainActivity : BaseActivity() {
 
         setupUI()
 
-        setParameters()
-
         loadAdvertisingId(binding)
 
         collectState(advertisingId) {
@@ -150,6 +148,11 @@ class MainActivity : BaseActivity() {
 
             buttonSetParameters.setOnClickListener {
                 setParameters()
+                ketch.load()
+            }
+
+            buttonClearParameters.setOnClickListener {
+                clearParameters()
                 ketch.load()
             }
 
@@ -209,13 +212,7 @@ class MainActivity : BaseActivity() {
     private fun setParameters() {
         with(binding) {
             spLanguage.selectedItemPosition.let {
-                languages[it].apply {
-                    if (this != SYSTEM) {
-                        ketch.setLanguage(this)
-                    } else {
-                        ketch.setLanguage(null)
-                    }
-                }
+                ketch.setLanguage(languages[it])
             }
             spJurisdiction.selectedItemPosition.let {
                 ketch.setJurisdiction(jurisdictions[it])
@@ -224,6 +221,12 @@ class MainActivity : BaseActivity() {
                 ketch.setRegion(regions[it])
             }
         }
+    }
+
+    private fun clearParameters() {
+        ketch.setLanguage(null)
+        ketch.setJurisdiction(null)
+        ketch.setRegion(null)
     }
 
     private fun getMultiselectedPreferencesTab(): List<Ketch.PreferencesTab> {
@@ -256,7 +259,8 @@ class MainActivity : BaseActivity() {
         binding.progressBar.isVisible = true
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                advertisingId.value = AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id
+                advertisingId.value =
+                    AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id
             } catch (e: Exception) {
                 e.printStackTrace()
                 launch(Dispatchers.Main) {
@@ -276,7 +280,6 @@ class MainActivity : BaseActivity() {
 
     companion object {
         private val TAG = MainActivity::class.java.simpleName
-        private const val SYSTEM = "<SYSTEM>"
 
         private const val ORG_CODE = "ketch_samples"
         private const val PROPERTY = "android"
