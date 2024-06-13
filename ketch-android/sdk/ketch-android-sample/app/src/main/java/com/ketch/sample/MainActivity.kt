@@ -29,7 +29,7 @@ class MainActivity : BaseActivity() {
 
     private val languages = arrayOf(SYSTEM, "en", "fr")
     private val jurisdictions = arrayOf("default", "gdpr")
-    private val regions = arrayOf("US", "FR", "GB")
+    private val regions = arrayOf("US", "FR", "GB", "JM")
 
     private val listener = object : Ketch.Listener {
 
