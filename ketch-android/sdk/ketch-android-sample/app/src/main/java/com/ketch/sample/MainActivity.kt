@@ -12,6 +12,7 @@ import com.ketch.android.Ketch
 import com.ketch.android.KetchSdk
 import com.ketch.android.data.Consent
 import com.ketch.android.data.HideExperienceStatus
+import com.ketch.android.data.KetchConfig
 import com.ketch.sample.databinding.ActivityMainBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +29,7 @@ class MainActivity : BaseActivity() {
 
     private val languages = arrayOf(SYSTEM, "en", "fr")
     private val jurisdictions = arrayOf("default", "gdpr")
-    private val regions = arrayOf("US", "FR", "GB")
+    private val regions = arrayOf("US", "FR", "GB", "JM")
 
     private val listener = object : Ketch.Listener {
 
@@ -50,6 +51,11 @@ class MainActivity : BaseActivity() {
 
         override fun onIdentitiesUpdated(identities: String?) {
             Log.d(TAG, "onIdentitiesUpdated: identities = $identities")
+        }
+
+        override fun onConfigUpdated(config: KetchConfig?) {
+            val configJson = Gson().toJson(config)
+            Log.d(TAG, "onConfigUpdated: config = $configJson")
         }
 
         override fun onConsentUpdated(consent: Consent) {
