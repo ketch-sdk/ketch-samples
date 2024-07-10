@@ -39,7 +39,7 @@ companion object {
 }
 ```
 
-## Updating the Sample App to the latest version of SDK
+### Updating the Sample App to the latest version of Ketch Android SDK
 
 1. Clean the project by "Build" => "Clean Project"
 
@@ -50,3 +50,16 @@ companion object {
 3. Refresh Gradle Dependencies
 
 ![refresh-graddle-deps.png](docs/refresh-graddle-deps.png)
+
+### Updating the Sample App to the development branch of Ketch Android SDK
+
+0. Make sure you have the development branch of the Ketch Android SDK built on https://jitpack.io/. If you don't have it, please push the branch and make sure the build is triggered for **ketch-com/ketch-android** repository.
+1. Open the `ketch-android-sampe/app/build.gradle` file.
+2. Change the dependency to the development branch of the Ketch Android SDK.
+
+```gradle
+-    implementation 'com.github.ketch-com:ketch-android:main-SNAPSHOT'
++    implementation 'com.github.ketch-com:ketch-android:your-development-branch-name'
+```
+
+3. Sync the Gradle project and make sure the dependency was successfully loaded.
