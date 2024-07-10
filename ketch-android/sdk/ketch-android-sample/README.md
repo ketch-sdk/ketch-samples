@@ -38,3 +38,15 @@ companion object {
     // ...
 }
 ```
+
+## Updating the Sample App to the latest version of SDK
+
+1. Clean the project by "Build" => "Clean Project"
+
+2. (optional) Sync project from Gradle build files.
+
+![sync-with-gradle.png](docs/sync-with-gradle.png)
+
+3. Refresh Gradle Dependencies
+
+![refresh-graddle-deps.png](docs/refresh-graddle-deps.png)
