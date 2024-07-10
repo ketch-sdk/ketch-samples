@@ -62,4 +62,4 @@ companion object {
 +    implementation 'com.github.ketch-com:ketch-android:your-development-branch-name'
 ```
 
-3. Sync the Gradle project and make sure the dependency was successfully loaded.
+3. Sync the Gradle project and [make sure the dependency was successfully loaded](#updating-the-sample-app-to-the-latest-version-of-ketch-android-sdk).
