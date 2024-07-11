@@ -11,19 +11,16 @@ as per standards requirements for the in-app support:
 - Registered [Ketch organization account](https://app.ketch.com/settings/organization) 
 - Configured [application property](https://app.ketch.com/deployment/applications) record
 - [Custom identity space](https://docs.ketch.com/hc/en-us/articles/360063594173-Managing-Properties#configuring-data-layer-setup-0-9)
-- [index.html](./index.html) Ketch Smart Tag integration bridge
+- A web URL with the Ketch smart tag for the above property
 
 ## Quick Start
 
 Before we start, take a look at the fully functional sample iOS app in current repo,
 where the following steps implement the Ketch Smart Tag into your SwiftUI based iOS project.
 
-### Step 1. Copy the integration bridge into the app
+### Step 1. Add your URL
 
-Add [index.html](./../index.html) file with privacy web form wrapper to your project.
-
-The `index.html` file makes use of WebKit `WKWebView` and `JavascriptInterface` to 
-communicate back and forth with the native runtime of the iOS application.
+This tells the webview which URL to display. It is assumed that on the webpage there is a Ketch smart tag.
 
 ### Step 2. Add Info.plist privacy tracking request
 
