@@ -111,13 +111,18 @@ class MainActivity : BaseActivity() {
 
         loadAdvertisingId(binding)
 
+//        with(ketch) {
+//            setIdentities(mapOf(ADVERTISING_ID_CODE to "test_1234"))
+//            load()
+//        }
+
         collectState(advertisingId) {
             with(binding) {
                 progressBar.isVisible = false
             }
             it?.let {
                 with(ketch) {
-                    setIdentities(mapOf(ADVERTISING_ID_CODE to it))
+                    setIdentities(mapOf(ADVERTISING_ID_CODE to "test_1234"))
                     load()
                 }
             }

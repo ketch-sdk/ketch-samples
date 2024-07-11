@@ -6,6 +6,9 @@
 import Foundation
 import WebKit
 
+// Replace url here with your own
+let consentURLRequest = URLRequest(url: URL(string: "YOUR-URL")!)
+
 struct ConsentConfig {
     let orgCode: String
     let propertyName: String
@@ -80,9 +83,8 @@ struct ConsentConfig {
 
         let webView = WKWebView(frame: .zero, configuration: configuration)
 
-        if let fileUrl = fileUrl {
-            webView.load(URLRequest(url: fileUrl))
-        }
+        // Load web URL
+        webView.load(consentURLRequest)
 
         return webView
     }

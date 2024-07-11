@@ -67,19 +67,24 @@ struct ContentView: View {
         // Create the KetchSDK object
         let ketch = KetchSDK.create(
             // Replace below with your Ketch organization code
-            organizationCode: "ketch_samples",
+            organizationCode: "sonnet",
             // Repalce below with your Ketch property code
-            propertyCode: "ios",
+            propertyCode: "sonnet_ios",
             environmentCode: "production",
             identities: [
                 // Replace below with your Ketch identifier name and value
-                Ketch.Identity(key: "idfa", value: "00000000-0000-0000-0000-000000000000")
+                Ketch.Identity(key: "user_id", value: "000000001-abc")
             ]
         )
         
         // Create the KetchUI object
         ketchUI = KetchUI(
-            ketch: ketch
+            ketch: ketch,
+            experienceOptions: [
+                .jurisdiction(code: "law25"),
+                .logLevel(.debug),
+                .ketchURL("https://dev.ketchcdn.com/web/v3"),
+            ]
         )
         
         // Add our listener to the ketchUI class
@@ -89,8 +94,8 @@ struct ContentView: View {
     @State var selectedExperienceToShow: KetchUI.ExperienceOption.ExperienceToShow = .consent
     @State var selectedTab: KetchUI.ExperienceOption.PreferencesTab?
     @State var lang = "EN"
-    @State var jurisdiction = "default"
-    @State var region = "US"
+    @State var jurisdiction = "law25"
+    @State var region = "CA-QC"
     @State var tabsExpanded = false
     @State var selectedTabs = KetchUI.ExperienceOption.PreferencesTab.allCases
     
@@ -178,7 +183,8 @@ struct ContentView: View {
                                 .region(code: region),
                                 .language(code: lang),
                                 .forceExperience(selectedExperienceToShow),
-                                .jurisdiction(code: jurisdiction)
+                                .jurisdiction(code: jurisdiction),
+                                .ketchURL("https://dev.ketchcdn.com/web/v3"),
                             ]
                             
                             if !selectedTabs.isEmpty && selectedExperienceToShow == .preferences {

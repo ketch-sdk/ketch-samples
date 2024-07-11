@@ -27,8 +27,8 @@ struct ContentView: View {
                         let advertisingId = ASIdentifierManager.shared().advertisingIdentifier
 
                         config = ConsentConfig.configure(
-                            orgCode: "ketch_samples",
-                            propertyName: "ios",
+                            orgCode: "test",
+                            propertyName: "test",
                             advertisingIdentifier: advertisingId
                         )
                     } else if case .denied = authorizationStatus {
