@@ -52,14 +52,6 @@ struct ConsentConfig {
         return config
     }
 
-    private var fileUrl: URL? {
-        let url = Bundle.main.url(forResource: htmlFileName, withExtension: "html")!
-        var urlComponents = URLComponents(string: url.absoluteString)
-        urlComponents?.queryItems = queryItems
-
-        return urlComponents?.url
-    }
-
     private var queryItems: [URLQueryItem] {
         [
             URLQueryItem(name: "propertyName", value: propertyName),
