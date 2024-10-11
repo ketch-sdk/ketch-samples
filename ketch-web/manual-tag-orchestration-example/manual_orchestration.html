@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Ketch tag -->
+    <script>
+      !(function () {
+        (window.semaphore = window.semaphore || []),
+          (window.ketch = function () {
+            window.semaphore.push(arguments);
+          });
+        var e = new URLSearchParams(document.location.search),
+          o = e.has("property") ? e.get("property") : "website_smart_tag",
+          n = document.createElement("script");
+        (n.type = "text/javascript"),
+          (n.src =
+            "https://global.ketchcdn.com/web/v3/config/ketch_samples/".concat(
+              o,
+              "/boot.js"
+            )),
+          (n.defer = n.async = !0),
+          document.getElementsByTagName("head")[0].appendChild(n);
+      })();
+    </script>
+
+    <!-- A src script tag with purposes mapped -->
+    <script
+      src="scripts/my-script.js"
+      type="text/plain"
+      data-purposes="analytics_900"
+    ></script>
+
+    <!-- An inline script tag with purposes mapped -->
+    <script type="text/plain" data-purposes="marketing">
+      alert('An inline script tag!')
+    </script>
+
+    <!-- An iframe element with purposes mapped -->
+    <iframe
+      data-src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=zbJZhTvwNkR_6qMw"
+      data-purposes="data_broking"
+      width="560"
+      height="315"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen
+    ></iframe>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manual Orchestration Demo</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f8f8f8;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      button {
+        font-size: 18px;
+        padding: 10px 20px;
+        margin: 10px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        transition: background-color 0.3s ease;
+      }
+
+      .consent-button {
+        background-color: lightblue;
+      }
+
+      .consent-button:hover {
+        background-color: #87cefa; /* Lighter blue on hover */
+      }
+
+      .preferences-button {
+        background-color: lightgrey;
+      }
+
+      .preferences-button:hover {
+        background-color: #d3d3d3; /* Lighter grey on hover */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Script Blocking Demo</h1>
+    <p>
+      You may view allowed and blocked scripts by running
+      <code>KetchLog.getWrappedTags()</code> in the console!
+    </p>
+    <button class="consent-button" onclick="window.ketch('showConsent')">
+      Show Consent
+    </button>
+    <button
+      class="preferences-button"
+      onclick="window.ketch('showPreferences')"
+    >
+      Show Preferences
+    </button>
+  </body>
+</html>
