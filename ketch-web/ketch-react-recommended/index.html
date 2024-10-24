@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React + TS</title>
+
+    <!-- Ketch smart tag code copied from the properties screen of the Ketch dashboard -->
+    <script>
+      !(function () {
+        (window.semaphore = window.semaphore || []),
+          (window.ketch = function () {
+            window.semaphore.push(arguments);
+          });
+        var e = new URLSearchParams(document.location.search),
+          o = e.has("property") ? e.get("property") : "website_smart_tag",
+          n = document.createElement("script");
+        (n.type = "text/javascript"),
+          (n.src =
+            "https://global.ketchcdn.com/web/v3/config/ketch_samples/".concat(
+              o,
+              "/boot.js"
+            )),
+          (n.defer = n.async = !0),
+          document.getElementsByTagName("head")[0].appendChild(n);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
