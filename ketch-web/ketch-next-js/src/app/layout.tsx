@@ -29,13 +29,14 @@ export default function RootLayout({
         {/* Ketch script tag */}
         <Script
           dangerouslySetInnerHTML={{
-            __html: `Inline content of your Ketch script tag here`,
+            __html: `!function(){window.semaphore=window.semaphore||[],window.ketch=function(){window.semaphore.push(arguments)};var e=document.createElement("script");e.type="text/javascript",e.src="https://global.ketchcdn.com/web/v3/config/ketch_samples/website_smart_tag/boot.js",e.defer=e.async=!0,document.getElementsByTagName("head")[0].appendChild(e)}();`,
           }}
         ></Script>
+        {/* Optional: TCF stub */}
         <Script
-          strategy="beforeInteractive" // TODO:SA - Thinking we want to use beforeInteractive here? See https://nextjs.org/docs/pages/building-your-application/optimizing/scripts#strategy
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
-            __html: `<script>
+            __html: `
         ;(function () {
             const makeStub = () => {
                 const TCF_LOCATOR_NAME = '__tcfapiLocator'
@@ -169,8 +170,7 @@ export default function RootLayout({
             } else {
                 makeStub()
             }
-        })()
-    </script>`,
+        })()`,
           }}
         ></Script>
       </head>
