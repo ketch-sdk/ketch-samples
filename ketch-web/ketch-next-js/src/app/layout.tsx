@@ -32,12 +32,145 @@ export default function RootLayout({
             __html: `Inline content of your Ketch script tag here`,
           }}
         ></Script>
-
-        {/* Optional: TCF Stub - TODO:SA - Add here */}
         <Script
           strategy="beforeInteractive" // TODO:SA - Thinking we want to use beforeInteractive here? See https://nextjs.org/docs/pages/building-your-application/optimizing/scripts#strategy
           dangerouslySetInnerHTML={{
-            __html: `Inline content of your Ketch script tag here`,
+            __html: `<script>
+        ;(function () {
+            const makeStub = () => {
+                const TCF_LOCATOR_NAME = '__tcfapiLocator'
+                const queue = []
+                const currentWindow = window
+                let frameLocator = currentWindow
+                let cmpFrame
+
+                function addFrame() {
+                    const doc = currentWindow.document
+                    const otherCMP = !!currentWindow.frames[TCF_LOCATOR_NAME]
+
+                    if (!otherCMP) {
+                        if (doc.body) {
+                            const iframe = doc.createElement('iframe')
+
+                            iframe.style.cssText = 'display:none'
+                            iframe.name = TCF_LOCATOR_NAME
+                            doc.body.appendChild(iframe)
+                        } else {
+                            setTimeout(addFrame, 5)
+                        }
+                    }
+
+                    return !otherCMP
+                }
+
+                function tcfAPIHandler(...args) {
+                    if (!args.length) {
+                        return queue
+                    } else if (args[0] === 'setGdprApplies') {
+                        if (args.length > 3 && parseInt(args[1], 10) === 2 && typeof args[3] === 'boolean') {
+                            gdprApplies = args[3]
+                            if (typeof args[2] === 'function') {
+                                args[2]('set', true)
+                            }
+                        }
+                    } else if (args[0] === 'ping') {
+                        const encodedPing = localStorage.getItem('_ketch_tcf_ping_v1_')
+                        if (encodedPing) {
+                            if (typeof args[2] === 'function') {
+                                args[2](JSON.parse(window.atob(encodedPing)))
+                            }
+                        } else {
+                            if (typeof args[2] === 'function') {
+                                args[2]({
+                                    gdprApplies: gdprApplies,
+                                    cmpLoaded: false,
+                                    cmpStatus: 'stub',
+                                })
+                            }
+                        }
+                    } else if (args[0] === 'addEventListener') {
+                        const encodedTCData = localStorage.getItem('_ketch_tcf_tcdata_v1_')
+                        if (encodedTCData) {
+                            if (typeof args[2] === 'function') {
+                                if (args[2].length >= 2) {
+                                    args[2](JSON.parse(window.atob(encodedTCData)), true)
+                                } else {
+                                    args[2](JSON.parse(window.atob(encodedTCData)))
+                                }
+                            }
+                        } else {
+                            queue.push(args)
+                        }
+                    } else {
+                        queue.push(args)
+                    }
+                }
+
+                function postMessageEventHandler(event) {
+                    const msgIsString = typeof event.data === 'string'
+                    let json = {}
+
+                    if (msgIsString) {
+                        try {
+                            json = JSON.parse(event.data)
+                        } catch (ignore) {}
+                    } else {
+                        json = event.data
+                    }
+
+                    const payload = typeof json === 'object' && json !== null ? json.__tcfapiCall : null
+
+                    if (payload) {
+                        window.__tcfapi(
+                            payload.command,
+                            payload.version,
+                            function (retValue, success) {
+                                let returnMsg = {
+                                    __tcfapiReturn: {
+                                        returnValue: retValue,
+                                        success: success,
+                                        callId: payload.callId,
+                                    },
+                                }
+
+                                if (event && event.source && event.source.postMessage) {
+                                    event.source.postMessage(msgIsString ? JSON.stringify(returnMsg) : returnMsg, '*')
+                                }
+                            },
+                            payload.parameter,
+                        )
+                    }
+                }
+
+                while (frameLocator) {
+                    try {
+                        if (frameLocator.frames[TCF_LOCATOR_NAME]) {
+                            cmpFrame = frameLocator
+                            break
+                        }
+                    } catch (ignore) {}
+
+                    if (frameLocator === currentWindow.top) {
+                        break
+                    }
+
+                    frameLocator = frameLocator.parent
+                }
+
+                if (!cmpFrame) {
+                    addFrame()
+                    currentWindow.__tcfapi = tcfAPIHandler
+                    currentWindow.addEventListener('message', postMessageEventHandler, false)
+                }
+            }
+
+            if (typeof module !== 'undefined') {
+                module.exports = makeStub
+            } else {
+                makeStub()
+            }
+        })()
+    </script>`,
           }}
         ></Script>
       </head>
