@@ -19,12 +19,12 @@ extension ViewController: KetchEventListener {
         
         viewController.modalPresentationStyle = .overCurrentContext
         viewController.modalTransitionStyle = .crossDissolve
-        present(viewController, animated: false)
+        present(viewController, animated: true)
     }
 
     public func onDismiss(status: KetchSDK.HideExperienceStatus) {
         print("UI Dismissed")
-        dismiss(animated: false)
+        dismiss(animated: true)
     }
 
     public func onEnvironmentUpdated(environment: String?) {
