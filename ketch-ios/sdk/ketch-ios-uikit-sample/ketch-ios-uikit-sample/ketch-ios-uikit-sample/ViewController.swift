@@ -7,53 +7,59 @@
 import UIKit
 import KetchSDK
 
-// MARK: - MyKetchUIKitEventListener
-class MyKetchUIKitEventListener: KetchEventListener {
-    func onLoad() {
-        print("UI Loaded")
-    }
+// MARK: - KetchEventListener
 
-    func onShow() {
+extension ViewController: KetchEventListener {
+    public func onShow() {
         print("UI Shown")
+        
+        guard let viewController = ketchUI.webPresentationItem?.viewController else {
+            return
+        }
+        
+        viewController.modalPresentationStyle = .overCurrentContext
+        viewController.modalTransitionStyle = .crossDissolve
+        present(viewController, animated: false)
     }
 
-    func onDismiss(status: KetchSDK.HideExperienceStatus) {
+    public func onDismiss(status: KetchSDK.HideExperienceStatus) {
         print("UI Dismissed")
+        dismiss(animated: false)
     }
 
-    func onEnvironmentUpdated(environment: String?) {
+    public func onEnvironmentUpdated(environment: String?) {
         print("Environment Updated: \(String(describing: environment))")
     }
 
-    func onRegionInfoUpdated(regionInfo: String?) {
+    public func onRegionInfoUpdated(regionInfo: String?) {
         print("Region Info Updated: \(String(describing: regionInfo))")
     }
 
-    func onJurisdictionUpdated(jurisdiction: String?) {
+    public func onJurisdictionUpdated(jurisdiction: String?) {
         print("Jurisdiction Updated: \(String(describing: jurisdiction))")
     }
 
-    func onIdentitiesUpdated(identities: String?) {
+    public func onIdentitiesUpdated(identities: String?) {
         print("Identities Updated: \(String(describing: identities))")
     }
 
-    func onConsentUpdated(consent: KetchSDK.ConsentStatus) {
+    public func onConsentUpdated(consent: KetchSDK.ConsentStatus) {
         print("Consent Updated: \(consent)")
     }
 
-    func onError(description: String) {
+    public func onError(description: String) {
         print("Error: \(description)")
     }
 
-    func onCCPAUpdated(ccpaString: String?) {
+    public func onCCPAUpdated(ccpaString: String?) {
         print("CCPA String Updated: \(String(describing: ccpaString))")
     }
 
-    func onTCFUpdated(tcfString: String?) {
+    public func onTCFUpdated(tcfString: String?) {
         print("TCF String Updated: \(String(describing: tcfString))")
     }
 
-    func onGPPUpdated(gppString: String?) {
+    public func onGPPUpdated(gppString: String?) {
         print("GPP String Updated: \(String(describing: gppString))")
     }
 }
@@ -61,7 +67,6 @@ class MyKetchUIKitEventListener: KetchEventListener {
 // MARK: - MyKetchViewController
 public class ViewController: UIViewController {
     private var ketchUI: KetchUI
-    private let listener = MyKetchUIKitEventListener()
     private var selectedExperienceToShow: KetchUI.ExperienceOption.ExperienceToShow = .consent
     private var selectedTab: KetchUI.ExperienceOption.PreferencesTab?
     private var lang = "HI"
@@ -95,7 +100,7 @@ public class ViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         // Set listener
-        ketchUI.eventListener = listener
+        ketchUI.eventListener = self
     }
     
     public override func viewDidLoad() {
@@ -253,17 +258,6 @@ public class ViewController: UIViewController {
         
         // Reload the KetchUI with the updated params
         ketchUI.reload(with: params.compactMap { $0 })
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Delay of 2 seconds
-            guard let presentationItem = self.ketchUI.webPresentationItem else {
-              return
-            }
-            print("Presenting view controller: \(presentationItem.viewController)")
-            self.present(presentationItem.viewController, animated: false) {
-                print("Presentation complete")
-            }
-        }
-
     }
     
 }
