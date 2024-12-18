@@ -69,21 +69,23 @@ public class ViewController: UIViewController {
     private var ketchUI: KetchUI
     private var selectedExperienceToShow: KetchUI.ExperienceOption.ExperienceToShow = .consent
     private var selectedTab: KetchUI.ExperienceOption.PreferencesTab?
-    private var lang = "HI"
-    private var jurisdiction = "australia"
-    private var region = "AUS"
+    private var lang = "en"
+    private var jurisdiction = "default"
+    private var region = "US-CA"
     private var selectedTabs = KetchUI.ExperienceOption.PreferencesTab.allCases
     
     required public init(coder: NSCoder) {
         
         let orgCode = "ketch_samples"
-        let idfa = "idfa"
+        let propertyCode = "ios"
+        let environmentCode = "production"
+        let idfa = "test-idfa-value"
         
         // Initialize KetchSDK
         let ketch = KetchSDK.create(
             organizationCode: orgCode,
-            propertyCode: "ios",
-            environmentCode: "production",
+            propertyCode: propertyCode,
+            environmentCode: environmentCode,
             identities: [
                 Ketch.Identity(key: "idfa", value: idfa)
             ]
