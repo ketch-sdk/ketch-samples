@@ -1,0 +1,15 @@
+{
+  "originHash" : "ecc86ed604aa80193e9d4ab4d9d2672f0167aa68fbe0ead4ba46e49ff9795afc",
+  "pins" : [
+    {
+      "identity" : "ketch-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ketch-com/ketch-ios.git",
+      "state" : {
+        "revision" : "540fa166c98aa0a0f338975ce77c4f86f41ddcf1",
+        "version" : "4.0.7"
+      }
+    }
+  ],
+  "version" : 3
+}
