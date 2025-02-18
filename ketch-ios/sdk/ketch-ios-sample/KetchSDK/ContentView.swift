@@ -90,6 +90,8 @@ struct ContentView: View {
                             }
                             
                             identities.append(Ketch.Identity(key: idName, value: idValue))
+                            idName = ""
+                            idValue = ""
                         }
                         .padding(.trailing, 4)
                         .disabled(idName.isEmpty || idValue.isEmpty)
@@ -147,7 +149,9 @@ struct ContentView: View {
             
             HStack {
                 Button("Consent") {
-                    ketchUI.reload(with: makeParameters)
+                    var parameters = makeParameters
+                    parameters.append(.forceExperience(.consent))
+                    ketchUI.reload(with: parameters)
                 }
                 
                 Spacer()
@@ -164,6 +168,7 @@ struct ContentView: View {
                         }
                     }
                     
+                    parameters.append(.forceExperience(.preferences))
                     ketchUI.reload(with: parameters)
                 }
                 
