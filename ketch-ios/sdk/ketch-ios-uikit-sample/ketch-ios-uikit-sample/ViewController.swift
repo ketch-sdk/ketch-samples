@@ -1,15 +1,286 @@
 //
-//  MyKetchViewUIKit.swift
+//  ViewController.swift
+//  ketch-ios-uikit-sample
 //
-//  Created by Justin Boileau on 10/12/24.
+//  Created by Roman Simenok on 19.02.2025.
 //
 
 import UIKit
 import KetchSDK
 
+class ViewController: UIViewController {
+    private var ketchUI: KetchUI!
+    
+    @IBOutlet weak var organizationText: UITextField!
+    @IBOutlet weak var propertyText: UITextField!
+    @IBOutlet weak var environmentText: UITextField!
+    @IBOutlet weak var languageText: UITextField!
+    @IBOutlet weak var jurisdictionText: UITextField!
+    @IBOutlet weak var regionText: UITextField!
+    @IBOutlet weak var idKeyText: UITextField!
+    @IBOutlet weak var idValueText: UITextField!
+    @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet weak var addButton: UIButton!
+    
+    // API Region
+    @IBOutlet weak var prodUS: UIButton!
+    @IBOutlet weak var prodEU: UIButton!
+    @IBOutlet weak var uat: UIButton!
+    
+    // Allowed Tabs
+    @IBOutlet weak var overviewAllowed: UIButton!
+    @IBOutlet weak var consentsAllowed: UIButton!
+    @IBOutlet weak var subscriptionsAllowed: UIButton!
+    @IBOutlet weak var rightsAllowed: UIButton!
+    
+    // Initial Tabs
+    @IBOutlet weak var overviewInitial: UIButton!
+    @IBOutlet weak var consentInitial: UIButton!
+    @IBOutlet weak var subscriptionsInitial: UIButton!
+    @IBOutlet weak var rightsInitial: UIButton!
+    
+    private var identities = [Ketch.Identity]()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let ketch = KetchSDK.create(
+            // Replace below with your Ketch organization code
+            organizationCode: "ketch_samples",
+            // Repalce below with your Ketch property code
+            propertyCode: "ios",
+            environmentCode: "production",
+            identities: [
+                // Replace below with your Ketch identifier name and value
+                Ketch.Identity(key: "idfa", value: "00000000-0000-0000-0000-000000000000")
+            ]
+        )
+        
+        // Create the KetchUI object
+        ketchUI = KetchUI(ketch: ketch)
+        
+        // Add our listener to the ketchUI class
+        ketchUI.eventListener = self
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func didTapReset(_ sender: UIButton) {
+        identities.removeAll()
+        resetButton.isEnabled = false
+    }
+    
+    @IBAction func didTapAdd(_ sender: UIButton) {
+        resetButton.isEnabled = true
+        addButton.isEnabled = false
+        identities.append(Ketch.Identity(key: idKeyText.text!, value: idValueText.text!))
+        
+        idKeyText.text = ""
+        idValueText.text = ""
+    }
+    
+    @IBAction func textFieldDidChange(_ sender: UITextField) {
+        let active = !(idKeyText.text ?? "").isEmpty && !(idValueText.text ?? "").isEmpty
+        addButton.isEnabled = active
+    }
+    
+    @IBAction func didChangeApiRegion(_ sender: UIButton) {
+        [prodUS, prodEU, uat].forEach { $0?.isSelected = false }
+        
+        sender.isSelected = true
+    }
+    
+    @IBAction func didSelectAllowedTab(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+    }
+    
+    @IBAction func didChangeInitialTab(_ sender: UIButton) {
+        [overviewInitial, consentInitial, subscriptionsInitial, rightsInitial].forEach { $0?.isSelected = false }
+        
+        sender.isSelected = true
+    }
+    
+    @IBAction func showConsent(_ sender: UIButton) {
+        var parameters = makeParameters
+        parameters.append(.forceExperience(.consent))
+        ketchUI.reload(with: parameters)
+    }
+    
+    @IBAction func showPreferences(_ sender: UIButton) {
+        var parameters = makeParameters
+        
+        let selectedTabs = selectedTabsNames
+        let initialTab = initialTab
+        if !selectedTabs.isEmpty {
+            parameters.append(.preferencesTabs(selectedTabs.joined(separator: ",")))
+            
+            if selectedTabs.contains(initialTab),
+               let prefTab = KetchUI.ExperienceOption.PreferencesTab(rawValue: initialTab) {
+                parameters.append(.preferencesTab(prefTab))
+            }
+        }
+        
+        parameters.append(.forceExperience(.preferences))
+        ketchUI.reload(with: parameters)
+    }
+    
+    @IBAction func showPrivacyStrings(_ sender: UIButton) {
+        let keys = ["IABTCF_CmpSdkID",
+                    "IABTCF_CmpSdkVersion",
+                    "IABTCF_PolicyVersion",
+                    "IABTCF_gdprApplies",
+                    "IABTCF_PublisherCC",
+                    "IABTCF_PurposeOneTreatment",
+                    "IABTCF_UseNonStandardTexts",
+                    "IABTCF_TCString",
+                    "IABTCF_VendorConsents"]
+        
+        let keys2 = ["IABTCF_VendorLegitimateInterests",
+                     "IABTCF_PurposeConsents",
+                     "IABTCF_PurposeLegitimateInterests",
+                     "IABTCF_SpecialFeaturesOptIns",
+                     "IABTCF_PublisherConsent",
+                     "IABTCF_PublisherLegitimateInterests",
+                     "IABTCF_PublisherCustomPurposesConsents",
+                     "IABTCF_PublisherCustomPurposesLegitimateInterests",
+                     "IABUSPrivacy_String"]
+        
+        let keys3 = ["IABGPP_HDR_Version",
+                     "IABGPP_HDR_Sections",
+                     "IABGPP_HDR_GppString",
+                     "IABGPP_GppSID",
+                     "IABGPP_tcfeuv2_GppSID"]
+        
+        print("\n* ----- Begin privacy strings ---- *")
+        (keys + keys2 + keys3).forEach {
+            print("\($0): \(UserDefaults.standard.value(forKey: $0) ?? "")")
+        }
+        print("* ----- End privacy strings ---- *\n")
+    }
+    
+    private var makeParameters: [KetchUI.ExperienceOption] {
+        var parameters = [KetchUI.ExperienceOption]()
+        if let org = organizationText.text, !org.isEmpty {
+            parameters.append(.organizationCode(org))
+        }
+        
+        if let property = propertyText.text, !property.isEmpty {
+            parameters.append(.propertyCode(property))
+        }
+        
+        if let env = environmentText.text, !env.isEmpty {
+            parameters.append(.environment(env))
+        }
+        
+        if let lang = languageText.text, !lang.isEmpty {
+            parameters.append(.language(code: lang))
+        }
+        
+        if let jurisdiction = jurisdictionText.text, !jurisdiction.isEmpty {
+            parameters.append(.jurisdiction(code: jurisdiction))
+        }
+        
+        if let region = regionText.text, !region.isEmpty {
+            parameters.append(.region(code: region))
+        }
+        
+        parameters.append(.ketchURL(apiRegion.urlString))
+        
+        identities.forEach { identity in
+            parameters.append(.identity(identity))
+        }
+        
+        return parameters
+    }
+    
+    private var apiRegion: APIRegion {
+        if prodUS.isSelected {
+            return APIRegion.us
+        } else if prodEU.isSelected {
+            return APIRegion.eu
+        } else if uat.isSelected {
+            return APIRegion.uat
+        } else {
+            return APIRegion.us // default
+        }
+    }
+    
+    private var selectedTabsNames: [String] {
+        var tabNames = [String]()
+        
+        if overviewAllowed.isSelected {
+            tabNames.append("overviewTab")
+        }
+        
+        if consentsAllowed.isSelected {
+            tabNames.append("consentsTab")
+        }
+        
+        if subscriptionsAllowed.isSelected {
+            tabNames.append("subscriptionsTab")
+        }
+        
+        if rightsAllowed.isSelected {
+            tabNames.append("rightsTab")
+        }
+        
+        return tabNames
+    }
+    
+    private var initialTab: String {
+        if overviewInitial.isSelected {
+            return "overviewTab"
+        } else if consentInitial.isSelected {
+            return "consentsTab"
+        } else if subscriptionsInitial.isSelected {
+            return "subscriptionsTab"
+        } else if rightsInitial.isSelected {
+            return "rightsTab"
+        } else {
+            return "overviewTab" // default
+        }
+    }
+}
+
+extension ViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
+}
+ 
+enum APIRegion {
+    case us, eu, uat
+    
+    var name: String {
+        switch self {
+        case .us:
+            return "Prod US"
+        case .eu:
+            return "Prod EU"
+        case .uat:
+            return "UAT"
+        }
+    }
+    
+    var urlString: String {
+        switch self {
+        case .us:
+            return "https://global.ketchcdn.com/web/v3"
+        case .eu:
+            return "https://eu.ketchcdn.com/web/v3"
+        case .uat:
+            return "https://dev.ketchcdn.com/web/v3"
+        }
+    }
+}
+
 // MARK: - KetchEventListener
 
 extension ViewController: KetchEventListener {
+    public func onWillShowExperience(type: KetchSDK.WillShowExperienceType) {
+        print("Will show experience")
+    }
+    
     public func onShow() {
         print("UI Shown")
         
@@ -62,204 +333,4 @@ extension ViewController: KetchEventListener {
     public func onGPPUpdated(gppString: String?) {
         print("GPP String Updated: \(String(describing: gppString))")
     }
-}
-
-// MARK: - MyKetchViewController
-public class ViewController: UIViewController {
-    private var ketchUI: KetchUI
-    private var selectedExperienceToShow: KetchUI.ExperienceOption.ExperienceToShow = .consent
-    private var selectedTab: KetchUI.ExperienceOption.PreferencesTab?
-    private var lang = "en"
-    private var jurisdiction = "default"
-    private var region = "US-CA"
-    private var selectedTabs = KetchUI.ExperienceOption.PreferencesTab.allCases
-    
-    required public init(coder: NSCoder) {
-        
-        let orgCode = "ketch_samples"
-        let propertyCode = "ios"
-        let environmentCode = "production"
-        let idfa = "test-idfa-value"
-        
-        // Initialize KetchSDK
-        let ketch = KetchSDK.create(
-            organizationCode: orgCode,
-            propertyCode: propertyCode,
-            environmentCode: environmentCode,
-            identities: [
-                Ketch.Identity(key: "idfa", value: idfa)
-            ]
-        )
-        
-        // Initialize KetchUI
-        self.ketchUI = KetchUI(
-            ketch: ketch,
-            experienceOptions: [
-                .forceExperience(.consent)
-            ]
-        )
-        
-        super.init(nibName: nil, bundle: nil)
-        
-        // Set listener
-        ketchUI.eventListener = self
-    }
-    
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
-    }
-    
-    private func setupUI() {
-        view.backgroundColor = .white
-        
-        let experienceLabel = UILabel()
-        experienceLabel.text = "Experience:"
-        experienceLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(experienceLabel)
-        
-        // Picker for Experience
-        let experiencePicker = UISegmentedControl(items: ["Consent", "Preferences"])
-        experiencePicker.selectedSegmentIndex = 0
-        experiencePicker.translatesAutoresizingMaskIntoConstraints = false
-        experiencePicker.addTarget(self, action: #selector(experiencePickerChanged), for: .valueChanged)
-        view.addSubview(experiencePicker)
-        
-        // Language Input
-        let langLabel = UILabel()
-        langLabel.text = "Language:"
-        langLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(langLabel)
-        
-        let langTextField = UITextField()
-        langTextField.borderStyle = .roundedRect
-        langTextField.text = lang
-        langTextField.translatesAutoresizingMaskIntoConstraints = false
-        langTextField.addTarget(self, action: #selector(languageChanged(_:)), for: .editingChanged)
-        view.addSubview(langTextField)
-       
-        // Jurisdiction Input
-        let jurisLabel = UILabel()
-        jurisLabel.text = "Jurisdiction:"
-        jurisLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(jurisLabel)
-        
-        let jurisTextField = UITextField()
-        jurisTextField.borderStyle = .roundedRect
-        jurisTextField.text = jurisdiction
-        jurisTextField.translatesAutoresizingMaskIntoConstraints = false
-        jurisTextField.addTarget(self, action: #selector(jurisdictionChanged(_:)), for: .editingChanged)
-        view.addSubview(jurisTextField)
-        
-        // Jurisdiction Input
-        let regionLabel = UILabel()
-        regionLabel.text = "Region:"
-        regionLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(regionLabel)
-        
-        let regionTextField = UITextField()
-        regionTextField.borderStyle = .roundedRect
-        regionTextField.text = region
-        regionTextField.translatesAutoresizingMaskIntoConstraints = false
-        regionTextField.addTarget(self, action: #selector(regionChanged(_:)), for: .editingChanged)
-        view.addSubview(regionTextField)
-        
-        // Create the "Show" button
-        let showButton = createShowButton()
-        
-        // Add the button to the view
-        view.addSubview(showButton)
-        showButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        // Add Constraints
-        NSLayoutConstraint.activate([
-            experienceLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            experienceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            
-            experiencePicker.topAnchor.constraint(equalTo: experienceLabel.bottomAnchor, constant: 8),
-            experiencePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            experiencePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-
-            langLabel.topAnchor.constraint(equalTo: experiencePicker.bottomAnchor, constant: 16),
-            langLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            
-            langTextField.topAnchor.constraint(equalTo: langLabel.bottomAnchor, constant: 8),
-            langTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            langTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
-            jurisLabel.topAnchor.constraint(equalTo: langTextField.bottomAnchor, constant: 16),
-            jurisLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            
-            jurisTextField.topAnchor.constraint(equalTo: jurisLabel.bottomAnchor, constant: 8),
-            jurisTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            jurisTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
-            regionLabel.topAnchor.constraint(equalTo: jurisTextField.bottomAnchor, constant: 16),
-            regionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            
-            regionTextField.topAnchor.constraint(equalTo: regionLabel.bottomAnchor, constant: 8),
-            regionTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            regionTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
-            showButton.topAnchor.constraint(equalTo: regionTextField.bottomAnchor, constant: 8),
-            showButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            showButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        ])
-    }
-    
-    @objc private func experiencePickerChanged(_ sender: UISegmentedControl) {
-        selectedExperienceToShow = sender.selectedSegmentIndex == 0 ? .consent : .preferences
-        print("Selected Experience: \(selectedExperienceToShow.rawValue)")
-    }
-    
-    @objc private func languageChanged(_ sender: UITextField) {
-        lang = sender.text ?? "HI"
-        print("Language changed to: \(lang)")
-    }
-    
-    @objc private func jurisdictionChanged(_ sender: UITextField) {
-        jurisdiction = sender.text ?? "default"
-        print("Jurisdiction changed to: \(jurisdiction)")
-    }
-    
-    @objc private func regionChanged(_ sender: UITextField) {
-        region = sender.text ?? "default"
-        print("Region changed to: \(region)")
-    }
-    
-    private func createShowButton() -> UIButton {
-        // Create a UIButton instance
-        let showButton = UIButton(type: .system)
-        showButton.setTitle("Show", for: .normal)
-        showButton.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold) // Mimic `.font(.system(.title))`
-        
-        // Add the target-action for the button
-        showButton.addTarget(self, action: #selector(showButtonTapped), for: .touchUpInside)
-        
-        return showButton
-    }
-
-    @objc private func showButtonTapped() {
-        // Create the params array
-        var params: [KetchUI.ExperienceOption?] = [
-            .region(code: region),
-            .language(code: lang),
-            .forceExperience(selectedExperienceToShow),
-            .jurisdiction(code: jurisdiction)
-        ]
-        
-        // Add preferences-related parameters if applicable
-        if !selectedTabs.isEmpty && selectedExperienceToShow == .preferences {
-            let selectedTabsNames = selectedTabs.compactMap { $0.rawValue }
-            params.append(.preferencesTabs(selectedTabsNames.joined(separator: ",")))
-            
-            if let selectedTab, selectedTabs.contains(selectedTab) {
-                params.append(.preferencesTab(selectedTab))
-            }
-        }
-        
-        // Reload the KetchUI with the updated params
-        ketchUI.reload(with: params.compactMap { $0 })
-    }
-    
 }

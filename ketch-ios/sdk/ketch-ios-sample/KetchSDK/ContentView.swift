@@ -10,7 +10,7 @@ struct ContentView: View {
     @StateObject var ketchUI: KetchUI
     
     // Define listener as a property of ContentView
-    let listener = SampleEventListener()
+    private let listener = SampleEventListener()
     
     init() {
         // Create the KetchSDK object
@@ -27,10 +27,12 @@ struct ContentView: View {
         )
         
         // Create the KetchUI object
-        _ketchUI = StateObject(wrappedValue: KetchUI(ketch: ketch))
+        let ketchUI = KetchUI(ketch: ketch)
         
         // Add our listener to the ketchUI class
         ketchUI.eventListener = listener
+        
+        _ketchUI = StateObject(wrappedValue: ketchUI)
     }
     
     @State private var selectedTabs: Set<KetchUI.ExperienceOption.PreferencesTab> = Set([.overviewTab, .consentsTab, .subscriptionsTab, .rightsTab])
@@ -223,7 +225,7 @@ struct ContentView: View {
     }
     
     private func showPrivacyStrings() {
-        // fir some reson preview is not working when this strings are all in one array
+        // for some reson preview is not working when this strings are all in one array
         let keys = ["IABTCF_CmpSdkID",
                     "IABTCF_CmpSdkVersion",
                     "IABTCF_PolicyVersion",
@@ -267,6 +269,7 @@ fileprivate extension ContentView {
                 .font(.subheadline)
             
             TextField("", text: value, prompt: prompt == nil ? nil : Text(prompt!))
+                .autocorrectionDisabled()
                 .padding(4)
                 .overlay {
                     RoundedRectangle(cornerRadius: 5)
@@ -287,6 +290,7 @@ fileprivate extension ContentView {
             } label: {
                 Image(systemName: selectedTabs.contains(tab) ? "checkmark.square.fill" : "square")
             }
+            .tint(.black)
             
             Text(title)
                 .font(.footnote)
@@ -300,6 +304,7 @@ fileprivate extension ContentView {
             } label: {
                 Image(systemName: selectedTab == tab ? "circle.fill" : "circle")
             }
+            .tint(.black)
             
             Text(title)
                 .font(.footnote)
@@ -313,6 +318,7 @@ fileprivate extension ContentView {
             } label: {
                 Image(systemName: apiRegion == api ? "circle.fill" : "circle")
             }
+            .tint(.black)
             
             Text(api.name)
                 .font(.footnote)
