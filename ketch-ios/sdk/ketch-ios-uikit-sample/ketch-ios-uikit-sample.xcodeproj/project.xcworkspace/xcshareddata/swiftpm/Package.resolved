@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ketch-com/ketch-ios.git",
       "state" : {
-        "revision" : "540fa166c98aa0a0f338975ce77c4f86f41ddcf1",
-        "version" : "4.0.7"
+        "branch" : "main",
+        "revision" : "2c74b9b3db82f78b60080a99124759f25cbbda92"
       }
     }
   ],

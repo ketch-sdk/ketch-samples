@@ -1,4 +1,5 @@
 {
+  "originHash" : "ecc86ed604aa80193e9d4ab4d9d2672f0167aa68fbe0ead4ba46e49ff9795afc",
   "pins" : [
     {
       "identity" : "ketch-ios",
@@ -6,9 +7,9 @@
       "location" : "https://github.com/ketch-com/ketch-ios.git",
       "state" : {
         "branch" : "main",
-        "revision" : "f08e7ec7b41f27c44bcbf7d2ee2718b5d4e8621e"
+        "revision" : "2c74b9b3db82f78b60080a99124759f25cbbda92"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

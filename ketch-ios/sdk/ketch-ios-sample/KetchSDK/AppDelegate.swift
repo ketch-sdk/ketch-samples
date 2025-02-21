@@ -8,9 +8,9 @@ import KetchSDK
 
 @main
 struct MyApplication: App {
-  var body: some Scene {
-    WindowGroup {
-        ContentView()
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
     }
-  }
 }

@@ -9,22 +9,22 @@
 /* Begin PBXBuildFile section */
 		D043EC1B2D125BD000993F05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D043EC1A2D125BD000993F05 /* AppDelegate.swift */; };
 		D043EC1D2D125BD000993F05 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D043EC1C2D125BD000993F05 /* SceneDelegate.swift */; };
-		D043EC1F2D125BD000993F05 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D043EC1E2D125BD000993F05 /* ViewController.swift */; };
 		D043EC222D125BD000993F05 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = D043EC212D125BD000993F05 /* Base */; };
 		D043EC242D125BD200993F05 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D043EC232D125BD200993F05 /* Assets.xcassets */; };
 		D043EC272D125BD200993F05 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = D043EC262D125BD200993F05 /* Base */; };
-		D043EC302D125CBD00993F05 /* KetchSDK in Frameworks */ = {isa = PBXBuildFile; productRef = D043EC2F2D125CBD00993F05 /* KetchSDK */; };
+		FCAEA9AB2D650559003FA5CA /* KetchSDK in Frameworks */ = {isa = PBXBuildFile; productRef = FCAEA9AA2D650559003FA5CA /* KetchSDK */; };
+		FCAEA9B52D660D81003FA5CA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAEA9B42D660D7D003FA5CA /* ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D043EC172D125BD000993F05 /* ketch-ios-uikit-sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ketch-ios-uikit-sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D043EC1A2D125BD000993F05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D043EC1C2D125BD000993F05 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D043EC1E2D125BD000993F05 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D043EC212D125BD000993F05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D043EC232D125BD200993F05 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D043EC262D125BD200993F05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D043EC282D125BD200993F05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FCAEA9B42D660D7D003FA5CA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,7 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D043EC302D125CBD00993F05 /* KetchSDK in Frameworks */,
+				FCAEA9AB2D650559003FA5CA /* KetchSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,9 +58,9 @@
 		D043EC192D125BD000993F05 /* ketch-ios-uikit-sample */ = {
 			isa = PBXGroup;
 			children = (
+				FCAEA9B42D660D7D003FA5CA /* ViewController.swift */,
 				D043EC1A2D125BD000993F05 /* AppDelegate.swift */,
 				D043EC1C2D125BD000993F05 /* SceneDelegate.swift */,
-				D043EC1E2D125BD000993F05 /* ViewController.swift */,
 				D043EC202D125BD000993F05 /* Main.storyboard */,
 				D043EC232D125BD200993F05 /* Assets.xcassets */,
 				D043EC252D125BD200993F05 /* LaunchScreen.storyboard */,
@@ -86,7 +86,7 @@
 			);
 			name = "ketch-ios-uikit-sample";
 			packageProductDependencies = (
-				D043EC2F2D125CBD00993F05 /* KetchSDK */,
+				FCAEA9AA2D650559003FA5CA /* KetchSDK */,
 			);
 			productName = "ketch-ios-uikit-sample";
 			productReference = D043EC172D125BD000993F05 /* ketch-ios-uikit-sample.app */;
@@ -117,7 +117,7 @@
 			);
 			mainGroup = D043EC0E2D125BD000993F05;
 			packageReferences = (
-				D043EC2E2D125CBD00993F05 /* XCRemoteSwiftPackageReference "ketch-ios" */,
+				FCAEA9A92D650559003FA5CA /* XCRemoteSwiftPackageReference "ketch-ios" */,
 			);
 			productRefGroup = D043EC182D125BD000993F05 /* Products */;
 			projectDirPath = "";
@@ -146,7 +146,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D043EC1F2D125BD000993F05 /* ViewController.swift in Sources */,
+				FCAEA9B52D660D81003FA5CA /* ViewController.swift in Sources */,
 				D043EC1B2D125BD000993F05 /* AppDelegate.swift in Sources */,
 				D043EC1D2D125BD000993F05 /* SceneDelegate.swift in Sources */,
 			);
@@ -373,20 +373,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		D043EC2E2D125CBD00993F05 /* XCRemoteSwiftPackageReference "ketch-ios" */ = {
+		FCAEA9A92D650559003FA5CA /* XCRemoteSwiftPackageReference "ketch-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ketch-com/ketch-ios.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.7;
+				branch = main;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D043EC2F2D125CBD00993F05 /* KetchSDK */ = {
+		FCAEA9AA2D650559003FA5CA /* KetchSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D043EC2E2D125CBD00993F05 /* XCRemoteSwiftPackageReference "ketch-ios" */;
+			package = FCAEA9A92D650559003FA5CA /* XCRemoteSwiftPackageReference "ketch-ios" */;
 			productName = KetchSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
