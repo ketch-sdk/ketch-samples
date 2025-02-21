@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ketch-com/ketch-ios.git",
       "state" : {
-        "branch" : "rsimenok/cocopos-and-new-samples-support",
-        "revision" : "c03bcc1ad7d567af1de491defea96544704e943d"
+        "branch" : "main",
+        "revision" : "2c74b9b3db82f78b60080a99124759f25cbbda92"
       }
     }
   ],

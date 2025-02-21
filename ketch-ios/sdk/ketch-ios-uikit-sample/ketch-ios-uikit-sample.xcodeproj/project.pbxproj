@@ -377,7 +377,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ketch-com/ketch-ios.git";
 			requirement = {
-				branch = "rsimenok/cocopos-and-new-samples-support";
+				branch = main;
 				kind = branch;
 			};
 		};
