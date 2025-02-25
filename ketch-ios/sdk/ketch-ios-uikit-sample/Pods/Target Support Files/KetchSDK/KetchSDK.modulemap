@@ -1,0 +1,6 @@
+framework module KetchSDK {
+  umbrella header "KetchSDK-umbrella.h"
+
+  export *
+  module * { export * }
+}

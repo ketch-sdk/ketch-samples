@@ -1,0 +1,6 @@
+framework module Pods_ketch_ios_uikit_sample {
+  umbrella header "Pods-ketch-ios-uikit-sample-umbrella.h"
+
+  export *
+  module * { export * }
+}

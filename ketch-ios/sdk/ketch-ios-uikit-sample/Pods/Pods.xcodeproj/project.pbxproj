@@ -1,0 +1,724 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0B00A62AAF1A3A365CB9CAE93AC0B138 /* KetchApiRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707E55C051D5624FF632CFBA57A5B445 /* KetchApiRequest.swift */; };
+		15CC892DA0412E48AD1D92A1911A9D6A /* ApiRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95889D3F4AFD499CB75C863F18051BA1 /* ApiRequest.swift */; };
+		19944EDA64E6022D333EC835BD0EE30B /* KetchSDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 84BFD81200038D0C8BCF9442E3B09F88 /* KetchSDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C15D056FD8FB8FEAF603CB27D7AA69F /* String+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5109320AD16EA92C98F383DF5033C682 /* String+Validation.swift */; };
+		31A2C344351AD30F14D0381A9A332E23 /* Ketch.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6DC137DFCD99FDCD512D929345E3B1 /* Ketch.swift */; };
+		58026D5367C0321583946420C161255D /* WebConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0AD8176D5E810387C250984AB4CE00 /* WebConfig.swift */; };
+		5D24ABA3ADC48FC379C672F875E236FD /* PresentationItem+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECD3E43458176B327626D5C69467543 /* PresentationItem+View.swift */; };
+		5EB11F8D3B67C3436C561F97BEA20168 /* KetchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A4247D8D862BCAA5915205BCA28EA7 /* KetchError.swift */; };
+		6C19649A3D4BC666ABDC567C51EBBA8D /* PresentationItem+ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCB0D720763006227D2238FD0CB52A1 /* PresentationItem+ViewController.swift */; };
+		6C1DC8C2700330DF00AC5F77EA0F3E45 /* PolicyProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D7F5D6D6A003736D0EEFD6F5BE29A7 /* PolicyProtocol.swift */; };
+		727B5FC2B2A069D926885553E45C806B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
+		73D118E427CABE221C726B6EF30A2272 /* PresentationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A07868542F109578B4F18D2B902308 /* PresentationItem.swift */; };
+		783B086D56534A48F1D8593B293392A5 /* KetchLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8929EEBDCF58133FEACC8901DED97F /* KetchLogger.swift */; };
+		84640647B8639416EADB8FC5098B44D8 /* KetchSDK-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFA9E74B69871432BA6E1BF12F0B124 /* KetchSDK-dummy.m */; };
+		8C675DF181CBFA674EF7E733CF5D32E0 /* KetchUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B8EC494BD7F264F9A7C83ACA3BE044 /* KetchUI.swift */; };
+		9498A494A6604ABE6D0B77D7421FC136 /* KetchSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB25725406B8D9B1707CFFC126C436F5 /* KetchSDK.swift */; };
+		A22A61B0CCFF3F2F6A4BDA1ED71B245C /* Bundle+KetchUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6467E1F16DCE2DEB7F3744FB48D73B76 /* Bundle+KetchUI.swift */; };
+		A3610B62B42A962E364BF5AF0B0AE44A /* KeyboardResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1899152EE5E87837382CF0B29E285A96 /* KeyboardResponder.swift */; };
+		A63175D1F9F3D549FFFFA32E543C92DD /* Vendors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12859969BC49FEF7B635AA1A8613A607 /* Vendors.swift */; };
+		A771814ED9AB9EADAA2D83247214479E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
+		A7C377AE563F807ECF40740A639A4799 /* View+ResponsiveSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635ED40DCFE05E509CB921CB59559677 /* View+ResponsiveSheet.swift */; };
+		AA45F361BFA019269B22E0F6F6AC4B0B /* Consent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E7AC6A8E3A4618180BD90BA98925DE /* Consent.swift */; };
+		B921EFAE232D003DB67092445AD03D08 /* View+KetchViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC354A0C64D3F6D08D7A209C2CA0A63A /* View+KetchViewModifier.swift */; };
+		C33A3F854EBC8BC51A818EF31E20EA68 /* RandomAccessCollection+IdentifiableIndices.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3F84C8BB623693E762ECE61DFC168A /* RandomAccessCollection+IdentifiableIndices.swift */; };
+		C76768C76951D6B37196FD6154315A5E /* Pods-ketch-ios-uikit-sample-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = AFB89360968D5D48D5556D9862B8B935 /* Pods-ketch-ios-uikit-sample-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CC4BDA5B3A7106CD40664FE4FCFB6409 /* index.html in Sources */ = {isa = PBXBuildFile; fileRef = BBEAEE18AF054311F98FA3F21CB43984 /* index.html */; };
+		D724EDE30A16E701AA22C7BB7D315650 /* InvokeRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663D96D7A5F6866FD7B3D9A702391A4 /* InvokeRight.swift */; };
+		D9553E7E39B1C2A337E4DE55CD7ECEC3 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = BBEAEE18AF054311F98FA3F21CB43984 /* index.html */; };
+		DFB2A88912F3D212EFD1C82E9A93F667 /* Pods-ketch-ios-uikit-sample-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B47E9E9F93F1FE6FF4CC2956B948067 /* Pods-ketch-ios-uikit-sample-dummy.m */; };
+		E5D2A82C96D5D73DAE89E4A06EE3C606 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1675B8440A9E746FA9E5530543B412A9 /* Strings.swift */; };
+		F3C5D9B7A4E3AC0DB7A2CA9BEE56C506 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5CB2766B8BF5A79EB74E46829012DA7 /* Configuration.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1207BC00D62255A3EC3FE11133713355 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 688F94C8A781975312A010D6D4AD1805;
+			remoteInfo = KetchSDK;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0663D96D7A5F6866FD7B3D9A702391A4 /* InvokeRight.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = InvokeRight.swift; path = Sources/KetchSDK/Core/Entities/InvokeRight.swift; sourceTree = "<group>"; };
+		0ECD3E43458176B327626D5C69467543 /* PresentationItem+View.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "PresentationItem+View.swift"; path = "Sources/KetchSDK/UI/PresentationItem/PresentationItem+View.swift"; sourceTree = "<group>"; };
+		12859969BC49FEF7B635AA1A8613A607 /* Vendors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Vendors.swift; path = Sources/KetchSDK/Core/Entities/Vendors.swift; sourceTree = "<group>"; };
+		14A4247D8D862BCAA5915205BCA28EA7 /* KetchError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KetchError.swift; path = Sources/KetchSDK/Core/KetchError.swift; sourceTree = "<group>"; };
+		1675B8440A9E746FA9E5530543B412A9 /* Strings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Strings.swift; path = Sources/KetchSDK/Core/Entities/Strings.swift; sourceTree = "<group>"; };
+		1899152EE5E87837382CF0B29E285A96 /* KeyboardResponder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardResponder.swift; path = Sources/KetchSDK/UI/Extensions/KeyboardResponder.swift; sourceTree = "<group>"; };
+		1B47E9E9F93F1FE6FF4CC2956B948067 /* Pods-ketch-ios-uikit-sample-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-ketch-ios-uikit-sample-dummy.m"; sourceTree = "<group>"; };
+		384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		48E42B1BB8D2280C643E2B1708B81D88 /* KetchSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KetchSDK.debug.xcconfig; sourceTree = "<group>"; };
+		5109320AD16EA92C98F383DF5033C682 /* String+Validation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+Validation.swift"; path = "Sources/KetchSDK/UI/Extensions/String+Validation.swift"; sourceTree = "<group>"; };
+		6089B77D5ECD177D480CAE7AC87F0BB8 /* Pods-ketch-ios-uikit-sample-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-ketch-ios-uikit-sample-acknowledgements.markdown"; sourceTree = "<group>"; };
+		635ED40DCFE05E509CB921CB59559677 /* View+ResponsiveSheet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "View+ResponsiveSheet.swift"; path = "Sources/KetchSDK/UI/Extensions/View+ResponsiveSheet.swift"; sourceTree = "<group>"; };
+		6467E1F16DCE2DEB7F3744FB48D73B76 /* Bundle+KetchUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Bundle+KetchUI.swift"; path = "Sources/KetchSDK/UI/Extensions/Bundle+KetchUI.swift"; sourceTree = "<group>"; };
+		707E55C051D5624FF632CFBA57A5B445 /* KetchApiRequest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KetchApiRequest.swift; path = Sources/KetchSDK/Core/KetchApiRequest.swift; sourceTree = "<group>"; };
+		79D7F5D6D6A003736D0EEFD6F5BE29A7 /* PolicyProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PolicyProtocol.swift; path = Sources/KetchSDK/Core/PolicyProtocol.swift; sourceTree = "<group>"; };
+		84BFD81200038D0C8BCF9442E3B09F88 /* KetchSDK-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KetchSDK-umbrella.h"; sourceTree = "<group>"; };
+		89A07868542F109578B4F18D2B902308 /* PresentationItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PresentationItem.swift; path = Sources/KetchSDK/UI/PresentationItem/PresentationItem.swift; sourceTree = "<group>"; };
+		8A587F66731F5F5EE6248233B59B5471 /* KetchSDK */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = KetchSDK; path = KetchSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F51DEC28EBF5B8CC1C2A5BD06CC73A5 /* Pods-ketch-ios-uikit-sample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ketch-ios-uikit-sample.release.xcconfig"; sourceTree = "<group>"; };
+		8FCB0D720763006227D2238FD0CB52A1 /* PresentationItem+ViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "PresentationItem+ViewController.swift"; path = "Sources/KetchSDK/UI/PresentationItem/PresentationItem+ViewController.swift"; sourceTree = "<group>"; };
+		935CE2CBD2AF23759AFA75749C6ED452 /* Pods-ketch-ios-uikit-sample-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-ketch-ios-uikit-sample-acknowledgements.plist"; sourceTree = "<group>"; };
+		95889D3F4AFD499CB75C863F18051BA1 /* ApiRequest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ApiRequest.swift; path = Sources/KetchSDK/Core/ApiRequest.swift; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A8EF90350981639118B4BA5673E76976 /* Pods-ketch-ios-uikit-sample */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-ketch-ios-uikit-sample"; path = Pods_ketch_ios_uikit_sample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD6DC137DFCD99FDCD512D929345E3B1 /* Ketch.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Ketch.swift; path = Sources/KetchSDK/Core/Ketch.swift; sourceTree = "<group>"; };
+		AE8929EEBDCF58133FEACC8901DED97F /* KetchLogger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KetchLogger.swift; path = Sources/KetchSDK/Core/KetchLogger.swift; sourceTree = "<group>"; };
+		AFB89360968D5D48D5556D9862B8B935 /* Pods-ketch-ios-uikit-sample-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-ketch-ios-uikit-sample-umbrella.h"; sourceTree = "<group>"; };
+		B2A0F9163D0B3E98AB3589D4E3C37C03 /* KetchSDK.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = KetchSDK.modulemap; sourceTree = "<group>"; };
+		BBEAEE18AF054311F98FA3F21CB43984 /* index.html */ = {isa = PBXFileReference; includeInIndex = 1; name = index.html; path = Sources/KetchSDK/index.html; sourceTree = "<group>"; };
+		C6B8EC494BD7F264F9A7C83ACA3BE044 /* KetchUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KetchUI.swift; path = Sources/KetchSDK/UI/KetchUI.swift; sourceTree = "<group>"; };
+		CC0AD8176D5E810387C250984AB4CE00 /* WebConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WebConfig.swift; path = Sources/KetchSDK/UI/PresentationItem/WebConfig.swift; sourceTree = "<group>"; };
+		CF3F84C8BB623693E762ECE61DFC168A /* RandomAccessCollection+IdentifiableIndices.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "RandomAccessCollection+IdentifiableIndices.swift"; path = "Sources/KetchSDK/UI/Extensions/RandomAccessCollection+IdentifiableIndices.swift"; sourceTree = "<group>"; };
+		D5CB2766B8BF5A79EB74E46829012DA7 /* Configuration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Configuration.swift; path = Sources/KetchSDK/Core/Entities/Configuration.swift; sourceTree = "<group>"; };
+		D9E7AC6A8E3A4618180BD90BA98925DE /* Consent.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Consent.swift; path = Sources/KetchSDK/Core/Entities/Consent.swift; sourceTree = "<group>"; };
+		E13A95F25C556F800C3DB36F814F6035 /* Pods-ketch-ios-uikit-sample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ketch-ios-uikit-sample.debug.xcconfig"; sourceTree = "<group>"; };
+		E2079C36555005CB13B8E63811DC06DF /* Pods-ketch-ios-uikit-sample-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ketch-ios-uikit-sample-frameworks.sh"; sourceTree = "<group>"; };
+		E2C58A890B4B8BF66837E4CB2ACF868A /* KetchSDK-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "KetchSDK-Info.plist"; sourceTree = "<group>"; };
+		E8BC6FE004858E73981D41CB725BE19C /* Pods-ketch-ios-uikit-sample.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-ketch-ios-uikit-sample.modulemap"; sourceTree = "<group>"; };
+		EB25725406B8D9B1707CFFC126C436F5 /* KetchSDK.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KetchSDK.swift; path = Sources/KetchSDK/Core/KetchSDK.swift; sourceTree = "<group>"; };
+		EC354A0C64D3F6D08D7A209C2CA0A63A /* View+KetchViewModifier.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "View+KetchViewModifier.swift"; path = "Sources/KetchSDK/UI/Extensions/View+KetchViewModifier.swift"; sourceTree = "<group>"; };
+		EFFA9E74B69871432BA6E1BF12F0B124 /* KetchSDK-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "KetchSDK-dummy.m"; sourceTree = "<group>"; };
+		F1D3B556DDEAE4DD38FDBCEDB8CA7FED /* KetchSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KetchSDK.release.xcconfig; sourceTree = "<group>"; };
+		F530DAE3DA146F3E7E2400C316EAE191 /* KetchSDK-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KetchSDK-prefix.pch"; sourceTree = "<group>"; };
+		FF51587D602FDF76F0ED11E4145FABF4 /* Pods-ketch-ios-uikit-sample-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-ketch-ios-uikit-sample-Info.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2403079848FCA1956070044F5CEF2875 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A771814ED9AB9EADAA2D83247214479E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A76FB10CE2914B498A024D60FE9D9AA4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				727B5FC2B2A069D926885553E45C806B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0A9C02D0A40E03DBA4FA0ACF5DE1A2DC /* Pods-ketch-ios-uikit-sample */ = {
+			isa = PBXGroup;
+			children = (
+				E8BC6FE004858E73981D41CB725BE19C /* Pods-ketch-ios-uikit-sample.modulemap */,
+				6089B77D5ECD177D480CAE7AC87F0BB8 /* Pods-ketch-ios-uikit-sample-acknowledgements.markdown */,
+				935CE2CBD2AF23759AFA75749C6ED452 /* Pods-ketch-ios-uikit-sample-acknowledgements.plist */,
+				1B47E9E9F93F1FE6FF4CC2956B948067 /* Pods-ketch-ios-uikit-sample-dummy.m */,
+				E2079C36555005CB13B8E63811DC06DF /* Pods-ketch-ios-uikit-sample-frameworks.sh */,
+				FF51587D602FDF76F0ED11E4145FABF4 /* Pods-ketch-ios-uikit-sample-Info.plist */,
+				AFB89360968D5D48D5556D9862B8B935 /* Pods-ketch-ios-uikit-sample-umbrella.h */,
+				E13A95F25C556F800C3DB36F814F6035 /* Pods-ketch-ios-uikit-sample.debug.xcconfig */,
+				8F51DEC28EBF5B8CC1C2A5BD06CC73A5 /* Pods-ketch-ios-uikit-sample.release.xcconfig */,
+			);
+			name = "Pods-ketch-ios-uikit-sample";
+			path = "Target Support Files/Pods-ketch-ios-uikit-sample";
+			sourceTree = "<group>";
+		};
+		257689BDD1A36756F01FB9A5F7751496 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		47CD86026C634703969A04D8DD195962 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				B2A0F9163D0B3E98AB3589D4E3C37C03 /* KetchSDK.modulemap */,
+				EFFA9E74B69871432BA6E1BF12F0B124 /* KetchSDK-dummy.m */,
+				E2C58A890B4B8BF66837E4CB2ACF868A /* KetchSDK-Info.plist */,
+				F530DAE3DA146F3E7E2400C316EAE191 /* KetchSDK-prefix.pch */,
+				84BFD81200038D0C8BCF9442E3B09F88 /* KetchSDK-umbrella.h */,
+				48E42B1BB8D2280C643E2B1708B81D88 /* KetchSDK.debug.xcconfig */,
+				F1D3B556DDEAE4DD38FDBCEDB8CA7FED /* KetchSDK.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/KetchSDK";
+			sourceTree = "<group>";
+		};
+		4A294248437579F5942FB55247D06991 /* KetchSDK */ = {
+			isa = PBXGroup;
+			children = (
+				95889D3F4AFD499CB75C863F18051BA1 /* ApiRequest.swift */,
+				6467E1F16DCE2DEB7F3744FB48D73B76 /* Bundle+KetchUI.swift */,
+				D5CB2766B8BF5A79EB74E46829012DA7 /* Configuration.swift */,
+				D9E7AC6A8E3A4618180BD90BA98925DE /* Consent.swift */,
+				BBEAEE18AF054311F98FA3F21CB43984 /* index.html */,
+				0663D96D7A5F6866FD7B3D9A702391A4 /* InvokeRight.swift */,
+				AD6DC137DFCD99FDCD512D929345E3B1 /* Ketch.swift */,
+				707E55C051D5624FF632CFBA57A5B445 /* KetchApiRequest.swift */,
+				14A4247D8D862BCAA5915205BCA28EA7 /* KetchError.swift */,
+				AE8929EEBDCF58133FEACC8901DED97F /* KetchLogger.swift */,
+				EB25725406B8D9B1707CFFC126C436F5 /* KetchSDK.swift */,
+				C6B8EC494BD7F264F9A7C83ACA3BE044 /* KetchUI.swift */,
+				1899152EE5E87837382CF0B29E285A96 /* KeyboardResponder.swift */,
+				79D7F5D6D6A003736D0EEFD6F5BE29A7 /* PolicyProtocol.swift */,
+				89A07868542F109578B4F18D2B902308 /* PresentationItem.swift */,
+				0ECD3E43458176B327626D5C69467543 /* PresentationItem+View.swift */,
+				8FCB0D720763006227D2238FD0CB52A1 /* PresentationItem+ViewController.swift */,
+				CF3F84C8BB623693E762ECE61DFC168A /* RandomAccessCollection+IdentifiableIndices.swift */,
+				5109320AD16EA92C98F383DF5033C682 /* String+Validation.swift */,
+				1675B8440A9E746FA9E5530543B412A9 /* Strings.swift */,
+				12859969BC49FEF7B635AA1A8613A607 /* Vendors.swift */,
+				EC354A0C64D3F6D08D7A209C2CA0A63A /* View+KetchViewModifier.swift */,
+				635ED40DCFE05E509CB921CB59559677 /* View+ResponsiveSheet.swift */,
+				CC0AD8176D5E810387C250984AB4CE00 /* WebConfig.swift */,
+				257689BDD1A36756F01FB9A5F7751496 /* Resources */,
+				47CD86026C634703969A04D8DD195962 /* Support Files */,
+			);
+			name = KetchSDK;
+			path = KetchSDK;
+			sourceTree = "<group>";
+		};
+		81224F9F642132EC146D780C2A096FE3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4A294248437579F5942FB55247D06991 /* KetchSDK */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		9C9D543B2CC62C7FB122081D35674E0A /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				0A9C02D0A40E03DBA4FA0ACF5DE1A2DC /* Pods-ketch-ios-uikit-sample */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		CF1408CF629C7361332E53B88F7BD30C = {
+			isa = PBXGroup;
+			children = (
+				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
+				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
+				81224F9F642132EC146D780C2A096FE3 /* Pods */,
+				F5BE667107B15870482D0F1DF8CFB6C7 /* Products */,
+				9C9D543B2CC62C7FB122081D35674E0A /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E4801F62A6B08CD9B5410329F1A18FDE /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E4801F62A6B08CD9B5410329F1A18FDE /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		F5BE667107B15870482D0F1DF8CFB6C7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8A587F66731F5F5EE6248233B59B5471 /* KetchSDK */,
+				A8EF90350981639118B4BA5673E76976 /* Pods-ketch-ios-uikit-sample */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		365863385D3DB4236BEC7E25A9A1397A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19944EDA64E6022D333EC835BD0EE30B /* KetchSDK-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8FC66362274EB495EBCA34FE81DC50FC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C76768C76951D6B37196FD6154315A5E /* Pods-ketch-ios-uikit-sample-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		688F94C8A781975312A010D6D4AD1805 /* KetchSDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 64681643D52B8A8096359D1E529AF1F7 /* Build configuration list for PBXNativeTarget "KetchSDK" */;
+			buildPhases = (
+				365863385D3DB4236BEC7E25A9A1397A /* Headers */,
+				7C42A3CFE47FEB7A56315166807CDFF1 /* Sources */,
+				2403079848FCA1956070044F5CEF2875 /* Frameworks */,
+				D5D3590B5E0092BCDFE32E32F4433FDF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KetchSDK;
+			productName = KetchSDK;
+			productReference = 8A587F66731F5F5EE6248233B59B5471 /* KetchSDK */;
+			productType = "com.apple.product-type.framework";
+		};
+		DD152E64B3E70E6E770519509239B091 /* Pods-ketch-ios-uikit-sample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 32596951E585BB189FF00450132808A4 /* Build configuration list for PBXNativeTarget "Pods-ketch-ios-uikit-sample" */;
+			buildPhases = (
+				8FC66362274EB495EBCA34FE81DC50FC /* Headers */,
+				281B32307C578E893DBAE389B033DAFA /* Sources */,
+				A76FB10CE2914B498A024D60FE9D9AA4 /* Frameworks */,
+				CE367F61A1408770B16957868EE67A00 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				62DB44C862274446F2F7EB05723B774C /* PBXTargetDependency */,
+			);
+			name = "Pods-ketch-ios-uikit-sample";
+			productName = Pods_ketch_ios_uikit_sample;
+			productReference = A8EF90350981639118B4BA5673E76976 /* Pods-ketch-ios-uikit-sample */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+			};
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			minimizedProjectReferenceProxies = 0;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = F5BE667107B15870482D0F1DF8CFB6C7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				688F94C8A781975312A010D6D4AD1805 /* KetchSDK */,
+				DD152E64B3E70E6E770519509239B091 /* Pods-ketch-ios-uikit-sample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CE367F61A1408770B16957868EE67A00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5D3590B5E0092BCDFE32E32F4433FDF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D9553E7E39B1C2A337E4DE55CD7ECEC3 /* index.html in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		281B32307C578E893DBAE389B033DAFA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DFB2A88912F3D212EFD1C82E9A93F667 /* Pods-ketch-ios-uikit-sample-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7C42A3CFE47FEB7A56315166807CDFF1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				15CC892DA0412E48AD1D92A1911A9D6A /* ApiRequest.swift in Sources */,
+				A22A61B0CCFF3F2F6A4BDA1ED71B245C /* Bundle+KetchUI.swift in Sources */,
+				F3C5D9B7A4E3AC0DB7A2CA9BEE56C506 /* Configuration.swift in Sources */,
+				AA45F361BFA019269B22E0F6F6AC4B0B /* Consent.swift in Sources */,
+				CC4BDA5B3A7106CD40664FE4FCFB6409 /* index.html in Sources */,
+				D724EDE30A16E701AA22C7BB7D315650 /* InvokeRight.swift in Sources */,
+				31A2C344351AD30F14D0381A9A332E23 /* Ketch.swift in Sources */,
+				0B00A62AAF1A3A365CB9CAE93AC0B138 /* KetchApiRequest.swift in Sources */,
+				5EB11F8D3B67C3436C561F97BEA20168 /* KetchError.swift in Sources */,
+				783B086D56534A48F1D8593B293392A5 /* KetchLogger.swift in Sources */,
+				9498A494A6604ABE6D0B77D7421FC136 /* KetchSDK.swift in Sources */,
+				84640647B8639416EADB8FC5098B44D8 /* KetchSDK-dummy.m in Sources */,
+				8C675DF181CBFA674EF7E733CF5D32E0 /* KetchUI.swift in Sources */,
+				A3610B62B42A962E364BF5AF0B0AE44A /* KeyboardResponder.swift in Sources */,
+				6C1DC8C2700330DF00AC5F77EA0F3E45 /* PolicyProtocol.swift in Sources */,
+				73D118E427CABE221C726B6EF30A2272 /* PresentationItem.swift in Sources */,
+				5D24ABA3ADC48FC379C672F875E236FD /* PresentationItem+View.swift in Sources */,
+				6C19649A3D4BC666ABDC567C51EBBA8D /* PresentationItem+ViewController.swift in Sources */,
+				C33A3F854EBC8BC51A818EF31E20EA68 /* RandomAccessCollection+IdentifiableIndices.swift in Sources */,
+				1C15D056FD8FB8FEAF603CB27D7AA69F /* String+Validation.swift in Sources */,
+				E5D2A82C96D5D73DAE89E4A06EE3C606 /* Strings.swift in Sources */,
+				A63175D1F9F3D549FFFFA32E543C92DD /* Vendors.swift in Sources */,
+				B921EFAE232D003DB67092445AD03D08 /* View+KetchViewModifier.swift in Sources */,
+				A7C377AE563F807ECF40740A639A4799 /* View+ResponsiveSheet.swift in Sources */,
+				58026D5367C0321583946420C161255D /* WebConfig.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		62DB44C862274446F2F7EB05723B774C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KetchSDK;
+			target = 688F94C8A781975312A010D6D4AD1805 /* KetchSDK */;
+			targetProxy = 1207BC00D62255A3EC3FE11133713355 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0438B7030E90D25F6DA2E75D3C079A8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F51DEC28EBF5B8CC1C2A5BD06CC73A5 /* Pods-ketch-ios-uikit-sample.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				INFOPLIST_FILE = "Target Support Files/Pods-ketch-ios-uikit-sample/Pods-ketch-ios-uikit-sample-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-ketch-ios-uikit-sample/Pods-ketch-ios-uikit-sample.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		461B4509A707A3A01D67B8DD3067B06F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 48E42B1BB8D2280C643E2B1708B81D88 /* KetchSDK.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_PREFIX_HEADER = "Target Support Files/KetchSDK/KetchSDK-prefix.pch";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Target Support Files/KetchSDK/KetchSDK-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/KetchSDK/KetchSDK.modulemap";
+				PRODUCT_MODULE_NAME = KetchSDK;
+				PRODUCT_NAME = KetchSDK;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_VERSION = 5.7;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		4B94C57CC9BAE0158B9B112A1F3B2575 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F1D3B556DDEAE4DD38FDBCEDB8CA7FED /* KetchSDK.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_PREFIX_HEADER = "Target Support Files/KetchSDK/KetchSDK-prefix.pch";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Target Support Files/KetchSDK/KetchSDK-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/KetchSDK/KetchSDK.modulemap";
+				PRODUCT_MODULE_NAME = KetchSDK;
+				PRODUCT_NAME = KetchSDK;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_VERSION = 5.7;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		7DEAD92830F9AB5B2D2B21CB57FCB4B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E13A95F25C556F800C3DB36F814F6035 /* Pods-ketch-ios-uikit-sample.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				INFOPLIST_FILE = "Target Support Files/Pods-ketch-ios-uikit-sample/Pods-ketch-ios-uikit-sample-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-ketch-ios-uikit-sample/Pods-ketch-ios-uikit-sample.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		90D4D09BCB6A4660E43ACBE9ECB6FE9A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		9553C89E183877A5CB2F3C6801BEC129 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		32596951E585BB189FF00450132808A4 /* Build configuration list for PBXNativeTarget "Pods-ketch-ios-uikit-sample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7DEAD92830F9AB5B2D2B21CB57FCB4B6 /* Debug */,
+				0438B7030E90D25F6DA2E75D3C079A8A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				90D4D09BCB6A4660E43ACBE9ECB6FE9A /* Debug */,
+				9553C89E183877A5CB2F3C6801BEC129 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		64681643D52B8A8096359D1E529AF1F7 /* Build configuration list for PBXNativeTarget "KetchSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				461B4509A707A3A01D67B8DD3067B06F /* Debug */,
+				4B94C57CC9BAE0158B9B112A1F3B2575 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+}

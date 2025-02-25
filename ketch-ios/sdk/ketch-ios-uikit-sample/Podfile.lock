@@ -1,0 +1,21 @@
+PODS:
+  - KetchSDK (4.3.0)
+
+DEPENDENCIES:
+  - KetchSDK (from `https://github.com/ketch-com/ketch-ios.git`)
+
+EXTERNAL SOURCES:
+  KetchSDK:
+    :git: https://github.com/ketch-com/ketch-ios.git
+
+CHECKOUT OPTIONS:
+  KetchSDK:
+    :commit: 9b8898796e0863cf940bc29abfe64839784e2279
+    :git: https://github.com/ketch-com/ketch-ios.git
+
+SPEC CHECKSUMS:
+  KetchSDK: 4c8a06f8236e9a6abae0ebd76717a8412b077ad1
+
+PODFILE CHECKSUM: 3f5cf85a6993aa8b8d11fb7a6a8ecbf64ee0be8b
+
+COCOAPODS: 1.16.2
