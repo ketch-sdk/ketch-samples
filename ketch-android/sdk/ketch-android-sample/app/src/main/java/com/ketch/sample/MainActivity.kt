@@ -1,22 +1,18 @@
 package com.ketch.sample
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
-import com.google.gson.Gson
 import com.ketch.android.Ketch
-import com.ketch.android.KetchSdk
-import com.ketch.android.data.Consent
-import com.ketch.android.data.HideExperienceStatus
-import com.ketch.android.data.KetchConfig
+import com.ketch.sample.KetchApplication.Companion.ORG_CODE
+import com.ketch.sample.KetchApplication.Companion.PROPERTY
+import com.ketch.sample.KetchApplication.Companion.TEST_URL
 import com.ketch.sample.databinding.ActivityMainBinding
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
@@ -31,73 +27,8 @@ class MainActivity : BaseActivity() {
     private val jurisdictions = arrayOf("default", "gdpr")
     private val regions = arrayOf("US", "FR", "GB", "JM")
 
-    private val listener = object : Ketch.Listener {
-
-        override fun onEnvironmentUpdated(environment: String?) {
-            Log.d(TAG, "onEnvironmentUpdated: environment = $environment")
-        }
-
-        override fun onRegionInfoUpdated(regionInfo: String?) {
-            Log.d(TAG, "onRegionInfoUpdated: regionInfo = $regionInfo")
-        }
-
-        override fun onShow() {
-            Log.d(TAG, "onShow")
-        }
-
-        override fun onJurisdictionUpdated(jurisdiction: String?) {
-            Log.d(TAG, "onJurisdictionUpdated: jurisdiction = $jurisdiction")
-        }
-
-        override fun onIdentitiesUpdated(identities: String?) {
-            Log.d(TAG, "onIdentitiesUpdated: identities = $identities")
-        }
-
-        override fun onConfigUpdated(config: KetchConfig?) {
-            val configJson = Gson().toJson(config)
-            Log.d(TAG, "onConfigUpdated: config = $configJson")
-        }
-
-        override fun onConsentUpdated(consent: Consent) {
-            val consentJson = Gson().toJson(consent)
-            Log.d(TAG, "onConsentUpdated: consent = $consentJson")
-        }
-
-        override fun onDismiss(status: HideExperienceStatus) {
-            Log.d(TAG, "onDismiss: status = ${status.name}")
-        }
-
-        override fun onError(errMsg: String?) {
-            Log.e(TAG, "onError: errMsg = $errMsg")
-        }
-
-        override fun onUSPrivacyUpdated(values: Map<String, Any?>) {
-            Log.d(TAG, "onUSPrivacyUpdated: $values")
-        }
-
-        override fun onTCFUpdated(values: Map<String, Any?>) {
-            Log.d(TAG, "onTCFUpdated: $values")
-        }
-
-        override fun onGPPUpdated(values: Map<String, Any?>) {
-            Log.d(TAG, "onGPPUpdated: $values")
-        }
-    }
-
     private val ketch: Ketch by lazy {
-        // Create the KetchSDK object
-        KetchSdk.create(
-            this,
-            supportFragmentManager,
-            // Replace below with your Ketch organization code
-            ORG_CODE,
-            // Replace below with your Ketch property code
-            PROPERTY,
-            null,
-            listener,
-            TEST_URL,
-            Ketch.LogLevel.DEBUG
-        )
+        (applicationContext as KetchApplication).ketch
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,15 +38,13 @@ class MainActivity : BaseActivity() {
 
         setupUI()
 
-        setParameters()
-
         loadAdvertisingId(binding)
 
-        collectState(advertisingId) {
+        collectState(advertisingId) { aaid ->
             with(binding) {
                 progressBar.isVisible = false
             }
-            it?.let {
+            aaid?.let {
                 with(ketch) {
                     setIdentities(mapOf(ADVERTISING_ID_CODE to it))
                     load()
@@ -124,11 +53,21 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        ketch.setFragmentManager(supportFragmentManager)
+    }
+
+    override fun onStop() {
+        ketch.stop()
+        super.onStop()
+    }
+
     private fun setupUI() {
         with(binding) {
-            orgcode.setText(getString(R.string.org_code, ORG_CODE))
-            property.setText(getString(R.string.property, PROPERTY))
-            ketchurl.setText(getString(R.string.ketch_url, TEST_URL))
+            orgcode.text = getString(R.string.org_code, ORG_CODE)
+            property.text = getString(R.string.property, PROPERTY)
+            ketchurl.text = getString(R.string.ketch_url, TEST_URL)
 
             val languageAdapter: ArrayAdapter<String> =
                 ArrayAdapter<String>(
@@ -257,12 +196,12 @@ class MainActivity : BaseActivity() {
             else -> null
         }
 
-    @OptIn(DelicateCoroutinesApi::class)
     private fun loadAdvertisingId(binding: ActivityMainBinding) {
         binding.progressBar.isVisible = true
-        GlobalScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.IO) {
             try {
-                advertisingId.value = AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id
+                advertisingId.value =
+                    AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id
             } catch (e: Exception) {
                 e.printStackTrace()
                 launch(Dispatchers.Main) {
@@ -281,13 +220,7 @@ class MainActivity : BaseActivity() {
     }
 
     companion object {
-        private val TAG = MainActivity::class.java.simpleName
-        private const val SYSTEM = "<SYSTEM>"
-
-        private const val ORG_CODE = "ketch_samples"
-        private const val PROPERTY = "android"
         private const val ADVERTISING_ID_CODE = "aaid"
-
-        private const val TEST_URL = "https://global.ketchcdn.com/web/v3"
+        private const val SYSTEM = "<SYSTEM>"
     }
 }

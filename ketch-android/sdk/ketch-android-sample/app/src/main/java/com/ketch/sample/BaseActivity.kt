@@ -11,12 +11,12 @@ import kotlinx.coroutines.launch
 abstract class BaseActivity : AppCompatActivity() {
     protected fun <A> collectState(
         state: StateFlow<A>,
-        minState: Lifecycle.State = Lifecycle.State.STARTED,
+        minState: Lifecycle.State = Lifecycle.State.RESUMED,
         collector: suspend (A) -> Unit
     ) = state.collectLifecycle(minState, collector)
 
-    protected fun <T> Flow<T>.collectLifecycle(
-        minState: Lifecycle.State = Lifecycle.State.STARTED,
+    private fun <T> Flow<T>.collectLifecycle(
+        minState: Lifecycle.State = Lifecycle.State.RESUMED,
         collector: suspend (T) -> Unit
     ) {
         lifecycleScope.launch {
