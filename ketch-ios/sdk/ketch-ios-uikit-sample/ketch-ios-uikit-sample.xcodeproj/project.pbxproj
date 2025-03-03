@@ -12,11 +12,14 @@
 		D043EC222D125BD000993F05 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = D043EC212D125BD000993F05 /* Base */; };
 		D043EC242D125BD200993F05 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D043EC232D125BD200993F05 /* Assets.xcassets */; };
 		D043EC272D125BD200993F05 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = D043EC262D125BD200993F05 /* Base */; };
-		FCAEA9AB2D650559003FA5CA /* KetchSDK in Frameworks */ = {isa = PBXBuildFile; productRef = FCAEA9AA2D650559003FA5CA /* KetchSDK */; };
+		F420CC68223DA9A99FBCD0E1 /* Pods_ketch_ios_uikit_sample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 280E5D5E5B4709CB4DF7465F /* Pods_ketch_ios_uikit_sample.framework */; };
 		FCAEA9B52D660D81003FA5CA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAEA9B42D660D7D003FA5CA /* ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		280E5D5E5B4709CB4DF7465F /* Pods_ketch_ios_uikit_sample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ketch_ios_uikit_sample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5947CBA13BFAC71A2FCEBFB4 /* Pods-ketch-ios-uikit-sample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ketch-ios-uikit-sample.release.xcconfig"; path = "Target Support Files/Pods-ketch-ios-uikit-sample/Pods-ketch-ios-uikit-sample.release.xcconfig"; sourceTree = "<group>"; };
+		668DC677E80E91DB6C51A98C /* Pods-ketch-ios-uikit-sample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ketch-ios-uikit-sample.debug.xcconfig"; path = "Target Support Files/Pods-ketch-ios-uikit-sample/Pods-ketch-ios-uikit-sample.debug.xcconfig"; sourceTree = "<group>"; };
 		D043EC172D125BD000993F05 /* ketch-ios-uikit-sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ketch-ios-uikit-sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D043EC1A2D125BD000993F05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D043EC1C2D125BD000993F05 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -32,18 +35,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FCAEA9AB2D650559003FA5CA /* KetchSDK in Frameworks */,
+				F420CC68223DA9A99FBCD0E1 /* Pods_ketch_ios_uikit_sample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0176B46789C0FD89E2E45158 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				668DC677E80E91DB6C51A98C /* Pods-ketch-ios-uikit-sample.debug.xcconfig */,
+				5947CBA13BFAC71A2FCEBFB4 /* Pods-ketch-ios-uikit-sample.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		8AF597375EF6E98CE10443AF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				280E5D5E5B4709CB4DF7465F /* Pods_ketch_ios_uikit_sample.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D043EC0E2D125BD000993F05 = {
 			isa = PBXGroup;
 			children = (
 				D043EC192D125BD000993F05 /* ketch-ios-uikit-sample */,
 				D043EC182D125BD000993F05 /* Products */,
+				0176B46789C0FD89E2E45158 /* Pods */,
+				8AF597375EF6E98CE10443AF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -76,18 +98,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D043EC2B2D125BD200993F05 /* Build configuration list for PBXNativeTarget "ketch-ios-uikit-sample" */;
 			buildPhases = (
+				E0AEF977729E09D3C2906F26 /* [CP] Check Pods Manifest.lock */,
 				D043EC132D125BD000993F05 /* Sources */,
 				D043EC142D125BD000993F05 /* Frameworks */,
 				D043EC152D125BD000993F05 /* Resources */,
+				D50735DF85209D8378D1A494 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "ketch-ios-uikit-sample";
-			packageProductDependencies = (
-				FCAEA9AA2D650559003FA5CA /* KetchSDK */,
-			);
 			productName = "ketch-ios-uikit-sample";
 			productReference = D043EC172D125BD000993F05 /* ketch-ios-uikit-sample.app */;
 			productType = "com.apple.product-type.application";
@@ -116,9 +137,6 @@
 				Base,
 			);
 			mainGroup = D043EC0E2D125BD000993F05;
-			packageReferences = (
-				FCAEA9A92D650559003FA5CA /* XCRemoteSwiftPackageReference "ketch-ios" */,
-			);
 			productRefGroup = D043EC182D125BD000993F05 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -140,6 +158,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D50735DF85209D8378D1A494 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ketch-ios-uikit-sample/Pods-ketch-ios-uikit-sample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ketch-ios-uikit-sample/Pods-ketch-ios-uikit-sample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ketch-ios-uikit-sample/Pods-ketch-ios-uikit-sample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E0AEF977729E09D3C2906F26 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ketch-ios-uikit-sample-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D043EC132D125BD000993F05 /* Sources */ = {
@@ -295,12 +355,14 @@
 		};
 		D043EC2C2D125BD200993F05 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 668DC677E80E91DB6C51A98C /* Pods-ketch-ios-uikit-sample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N945F77897;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ketch-ios-uikit-sample/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -323,12 +385,14 @@
 		};
 		D043EC2D2D125BD200993F05 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5947CBA13BFAC71A2FCEBFB4 /* Pods-ketch-ios-uikit-sample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N945F77897;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ketch-ios-uikit-sample/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -371,25 +435,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		FCAEA9A92D650559003FA5CA /* XCRemoteSwiftPackageReference "ketch-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ketch-com/ketch-ios.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		FCAEA9AA2D650559003FA5CA /* KetchSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FCAEA9A92D650559003FA5CA /* XCRemoteSwiftPackageReference "ketch-ios" */;
-			productName = KetchSDK;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D043EC0F2D125BD000993F05 /* Project object */;
 }
