@@ -8,8 +8,9 @@ import com.ketch.android.KetchSdk
 import com.ketch.android.data.Consent
 import com.ketch.android.data.HideExperienceStatus
 import com.ketch.android.data.KetchConfig
+import com.ketch.android.data.WillShowExperienceType
 
-class KetchApplication : Application() {
+class SampleApplication : Application() {
 
     private val ketchListener = object : Ketch.Listener {
 
@@ -62,6 +63,10 @@ class KetchApplication : Application() {
         override fun onGPPUpdated(values: Map<String, Any?>) {
             Log.d(TAG, "onGPPUpdated: $values")
         }
+
+        override fun onWillShowExperience(type: WillShowExperienceType) {
+            Log.d(TAG, "onWillShowExperience: $type")
+        }
     }
 
     val ketch: Ketch by lazy {
@@ -80,7 +85,7 @@ class KetchApplication : Application() {
     }
 
     companion object {
-        private val TAG = KetchApplication::class.java.simpleName
+        private val TAG = SampleApplication::class.java.simpleName
 
         const val TEST_URL = "https://global.ketchcdn.com/web/v3"
 

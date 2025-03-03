@@ -8,9 +8,9 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
 import com.ketch.android.Ketch
-import com.ketch.sample.KetchApplication.Companion.ORG_CODE
-import com.ketch.sample.KetchApplication.Companion.PROPERTY
-import com.ketch.sample.KetchApplication.Companion.TEST_URL
+import com.ketch.sample.SampleApplication.Companion.ORG_CODE
+import com.ketch.sample.SampleApplication.Companion.PROPERTY
+import com.ketch.sample.SampleApplication.Companion.TEST_URL
 import com.ketch.sample.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +28,7 @@ class MainActivity : BaseActivity() {
     private val regions = arrayOf("US", "FR", "GB", "JM")
 
     private val ketch: Ketch by lazy {
-        (applicationContext as KetchApplication).ketch
+        (applicationContext as SampleApplication).ketch
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
