@@ -13,6 +13,7 @@ import com.ketch.android.KetchSdk
 import com.ketch.android.data.Consent
 import com.ketch.android.data.HideExperienceStatus
 import com.ketch.android.data.KetchConfig
+import com.ketch.android.data.WillShowExperienceType
 import com.ketch.sample.databinding.ActivityMainBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -81,6 +82,10 @@ class MainActivity : BaseActivity() {
 
         override fun onGPPUpdated(values: Map<String, Any?>) {
             Log.d(TAG, "onGPPUpdated: $values")
+        }
+
+        override fun onWillShowExperience(type: WillShowExperienceType) {
+            Log.d(TAG, "onWillShowExperience: type = ${type.name}")
         }
     }
 
