@@ -1,7 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-kapt'
+    // Temporarily disabling KAPT to fix the Java module system issue
+    // id 'kotlin-kapt'
 }
 
 android {
