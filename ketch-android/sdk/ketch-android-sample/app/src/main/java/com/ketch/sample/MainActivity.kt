@@ -88,6 +88,10 @@ class MainActivity : BaseActivity() {
         override fun onWillShowExperience(type: WillShowExperienceType) {
             Log.d(TAG, "onWillShowExperience: type = ${type.name}")
         }
+
+        override fun onHasShownExperience() {
+            Log.d(TAG, "onHasShownExperience")
+        }
     }
 
     private val ketch: Ketch by lazy {
