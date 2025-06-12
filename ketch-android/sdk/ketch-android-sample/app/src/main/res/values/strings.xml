@@ -8,6 +8,7 @@
     <string name="language">Language</string>
     <string name="jurisdiction">Jurisdiction</string>
     <string name="region">Region</string>
+    <string name="css_style">CSS Style</string>
     <string name="set">Set</string>
     <string name="show_preferences">Show Preferences</string>
 

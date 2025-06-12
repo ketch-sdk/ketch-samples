@@ -115,6 +115,26 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/llCssStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/css_style" />
+
+                <EditText
+                    android:id="@+id/etCssStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" />
+
+            </LinearLayout>
+
             <Button
                 android:id="@+id/buttonSetParameters"
                 android:layout_width="wrap_content"

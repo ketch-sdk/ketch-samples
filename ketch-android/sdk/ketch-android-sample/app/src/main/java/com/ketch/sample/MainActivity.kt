@@ -31,6 +31,7 @@ class MainActivity : BaseActivity() {
     private val languages = arrayOf(SYSTEM, "en", "fr")
     private val jurisdictions = arrayOf("default", "gdpr")
     private val regions = arrayOf("US", "FR", "GB", "JM")
+    private val cssStyle = "#ketch-banner-button-primary { display: none !important; }"
 
     private val listener = object : Ketch.Listener {
 
@@ -159,6 +160,8 @@ class MainActivity : BaseActivity() {
                 )
             spRegion.adapter = regionAdapter
 
+            etCssStyle.setText(cssStyle)
+
             buttonSetParameters.setOnClickListener {
                 setParameters()
                 ketch.load()
@@ -234,6 +237,7 @@ class MainActivity : BaseActivity() {
             spRegion.selectedItemPosition.let {
                 ketch.setRegion(regions[it])
             }
+            ketch.setCssStyle(etCssStyle.text.toString())
         }
     }
 
