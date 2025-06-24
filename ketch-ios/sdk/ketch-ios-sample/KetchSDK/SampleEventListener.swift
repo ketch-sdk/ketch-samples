@@ -7,8 +7,13 @@ import Foundation
 import KetchSDK
 
 class SampleEventListener: KetchEventListener {
+    
     func onWillShowExperience(type: KetchSDK.WillShowExperienceType) {
         print("willShowExperience")
+    }
+    
+    func onHasShownExperience() {
+        print("hasShownExperience")
     }
     
     func onLoad() {

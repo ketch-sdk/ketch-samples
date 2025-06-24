@@ -543,7 +543,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ketch-com/ketch-ios.git";
 			requirement = {
-				branch = feature/cssInject;
+				branch = main;
 				kind = branch;
 			};
 		};

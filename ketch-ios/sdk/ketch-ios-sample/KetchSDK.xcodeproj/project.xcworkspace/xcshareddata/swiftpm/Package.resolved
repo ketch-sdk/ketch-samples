@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ketch-com/ketch-ios.git",
       "state" : {
-        "branch" : "feature/cssInject",
-        "revision" : "c87faf1a882102aad41b169616799867bae923f7"
+        "branch" : "main",
+        "revision" : "bf26028ab8522fcaee15eec4759e3e1b40a1f257"
       }
     }
   ],

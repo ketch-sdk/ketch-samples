@@ -87,6 +87,9 @@ public final class KetchUI: ObservableObject {
         case .willShowExperience(let type):
             eventListener?.onWillShowExperience(type: type)
             
+        case .hasShownExperience:
+            eventListener?.onHasShownExperience()
+            
         case .tapOutside:
             didCloseExperience(status: KetchSDK.HideExperienceStatus.None)
             
@@ -229,6 +232,9 @@ extension KetchUI {
         /// Overrides identities passed on init
         case identity(Ketch.Identity)
         
+        /// Inject CSS into the Ketch UI
+        case css(String)
+        
         public enum ExperienceToShow: String {
             case consent, preferences
         }
@@ -288,6 +294,7 @@ extension KetchUI {
 public protocol KetchEventListener: AnyObject {
     func onShow()
     func onWillShowExperience(type: KetchSDK.WillShowExperienceType)
+    func onHasShownExperience()
     func onDismiss(status: KetchSDK.HideExperienceStatus)
     func onEnvironmentUpdated(environment: String?)
     func onRegionInfoUpdated(regionInfo: String?)

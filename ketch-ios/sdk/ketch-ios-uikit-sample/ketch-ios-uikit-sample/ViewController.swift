@@ -158,6 +158,13 @@ class ViewController: UIViewController {
         print("* ----- End privacy strings ---- *\n")
     }
     
+    @IBAction private func applyCSS(_ sender: UIButton) {
+        var parameters = makeParameters
+        parameters.append(.css("#ketch-banner-button-primary { display: none !important; }"))
+        parameters.append(.forceExperience(.consent))
+        ketchUI.reload(with: parameters)
+    }
+    
     private var makeParameters: [KetchUI.ExperienceOption] {
         var parameters = [KetchUI.ExperienceOption]()
         if let org = organizationText.text, !org.isEmpty {
@@ -279,6 +286,10 @@ enum APIRegion {
 extension ViewController: KetchEventListener {
     public func onWillShowExperience(type: KetchSDK.WillShowExperienceType) {
         print("Will show experience")
+    }
+    
+    func onHasShownExperience() {
+        print("has shown experience")
     }
     
     public func onShow() {
