@@ -31,6 +31,7 @@ class MainActivity : BaseActivity() {
     private val languages = arrayOf(SYSTEM, "en", "fr")
     private val jurisdictions = arrayOf("default", "gdpr")
     private val regions = arrayOf("US", "FR", "GB", "JM")
+    private val cssStyle = "#ketch-banner-button-primary { display: none !important; }"
 
     private val listener = object : Ketch.Listener {
 
@@ -86,6 +87,10 @@ class MainActivity : BaseActivity() {
 
         override fun onWillShowExperience(type: WillShowExperienceType) {
             Log.d(TAG, "onWillShowExperience: type = ${type.name}")
+        }
+
+        override fun onHasShownExperience() {
+            Log.d(TAG, "onHasShownExperience")
         }
     }
 
@@ -158,6 +163,8 @@ class MainActivity : BaseActivity() {
                     regions
                 )
             spRegion.adapter = regionAdapter
+
+            etCssStyle.setText(cssStyle)
 
             buttonSetParameters.setOnClickListener {
                 setParameters()
@@ -234,6 +241,7 @@ class MainActivity : BaseActivity() {
             spRegion.selectedItemPosition.let {
                 ketch.setRegion(regions[it])
             }
+            ketch.setCssStyle(etCssStyle.text.toString())
         }
     }
 
