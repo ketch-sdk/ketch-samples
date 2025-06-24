@@ -1,5 +1,5 @@
 PODS:
-  - KetchSDK (4.3.0)
+  - KetchSDK (4.4.4)
 
 DEPENDENCIES:
   - KetchSDK (from `https://github.com/ketch-com/ketch-ios.git`)
@@ -10,11 +10,11 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   KetchSDK:
-    :commit: 9b8898796e0863cf940bc29abfe64839784e2279
+    :commit: bf26028ab8522fcaee15eec4759e3e1b40a1f257
     :git: https://github.com/ketch-com/ketch-ios.git
 
 SPEC CHECKSUMS:
-  KetchSDK: 4c8a06f8236e9a6abae0ebd76717a8412b077ad1
+  KetchSDK: 65281c6784b6be0dd71615e06e1b05e60e38cdbe
 
 PODFILE CHECKSUM: 3f5cf85a6993aa8b8d11fb7a6a8ecbf64ee0be8b
 

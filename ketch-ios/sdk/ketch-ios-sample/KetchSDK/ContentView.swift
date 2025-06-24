@@ -179,6 +179,12 @@ struct ContentView: View {
                 Button("Privacy Strings") {
                     showPrivacyStrings()
                 }
+                
+                Spacer()
+                
+                Button("Apply CSS") {
+                    applyCSS()
+                }
             }
             .padding(.vertical)
             
@@ -258,6 +264,13 @@ struct ContentView: View {
         }
         print("* ----- End privacy strings ---- *\n")
     }
+    
+    private func applyCSS() {
+        var parameters = makeParameters
+        parameters.append(.css("#ketch-banner-button-primary { display: none !important; }"))
+        parameters.append(.forceExperience(.consent))
+        ketchUI.reload(with: parameters)
+    }
 }
 
 // MARK: - UI
@@ -270,6 +283,7 @@ fileprivate extension ContentView {
             
             TextField("", text: value, prompt: prompt == nil ? nil : Text(prompt!))
                 .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
                 .padding(4)
                 .overlay {
                     RoundedRectangle(cornerRadius: 5)
