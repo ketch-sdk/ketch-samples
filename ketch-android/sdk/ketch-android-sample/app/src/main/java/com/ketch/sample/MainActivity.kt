@@ -2,10 +2,15 @@ package com.ketch.sample
 
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.CompoundButton
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
 import com.google.gson.Gson
 import com.ketch.android.Ketch
@@ -113,6 +118,17 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.scrollView) { container, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            container.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                topMargin = insets.top
+                bottomMargin = insets.bottom
+            }
+
+            WindowInsetsCompat.CONSUMED
+        }
 
         setupUI()
 
