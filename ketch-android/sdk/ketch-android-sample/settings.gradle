@@ -1,6 +1,6 @@
 rootProject.name = "Ketch SDK Sample"
 include ':app'
-includeBuild('../../../../ketch-android') {
+includeBuild('../../../../../ketch-com/ketch-android') {
     dependencySubstitution {
         substitute module('com.github.ketch-com:ketch-android') using project(':ketchsdk')
     }
