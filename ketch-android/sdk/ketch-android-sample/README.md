@@ -101,7 +101,7 @@ adb shell am force-stop com.ketch.sample
 
 ### (Optional) Step 3. Use your own Ketch organization and property
 
-By default, this sample application is connected to an existing Ketch organization with preconfigured settings.
+By default, this sample application is connected to a sample Ketch organization with preconfigured settings.
 
 To use your own organization and property, modify the `init()` function within
 [`MainActivity.kt`](./app/src/main/java/com/ketch/sample/MainActivity.kt#L274-283) as follows:
