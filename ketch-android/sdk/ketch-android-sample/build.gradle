@@ -15,10 +15,10 @@ buildscript {
     ext.versions = [
             'javaVersion'       :  17,
             'kotlin'            : '2.1.20',
-            'ktx'               : '1.16.0',
+            'ktx'               : '1.17.0',
             'lifecycle'         : '2.9.1',
             'appcompat'         : '1.7.1',
-            'material'          : '1.12.0',
+            'material'          : '1.13.0',
             'parcelize'         : '2.1.20',
             'dokka'             : '2.0.0',
             'junit'             : '4.13.2',
@@ -34,13 +34,13 @@ buildscript {
         maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.11.1'
+        classpath 'com.android.tools.build:gradle:8.13.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath "org.jetbrains.kotlin:kotlin-serialization:${versions.kotlin}"
-        classpath "de.mannodermaus.gradle.plugins:android-junit5:1.13.1.0"
-        classpath "com.github.ben-manes:gradle-versions-plugin:0.44.0"
-        classpath "org.jlleitschuh.gradle:ktlint-gradle:11.6.0"
-        classpath("org.jfrog.buildinfo:build-info-extractor-gradle:5.2.5") {
+        classpath "de.mannodermaus.gradle.plugins:android-junit5:1.13.4.0"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.52.0"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:13.0.0"
+        classpath("org.jfrog.buildinfo:build-info-extractor-gradle:6.0.1") {
             exclude group: 'org.codehaus.groovy'
         }
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
